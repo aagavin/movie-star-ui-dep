@@ -1,0 +1,7 @@
+{
+  "appId": "ca.aagavin.moviestar",
+  "appName": "Movie Star",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "build"
+}

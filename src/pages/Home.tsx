@@ -1,26 +1,12 @@
-import {
-  IonCard,
-  IonCardHeader,
-  IonContent,
-  IonHeader,
-  IonImg,
-  IonTitle,
-  IonToolbar,
-  IonCardSubtitle,
-  IonCardTitle,
-  IonCardContent,
-  IonList,
-  IonLabel,
-  IonListHeader,
-  IonItem,
-  IonIcon,
-  IonButtons,
-  IonMenuButton
-} from '@ionic/react';
-import React from 'react';
+import { IonButtons, IonCardContent, IonContent, IonHeader, IonLabel, IonMenuButton, IonSegment, IonSegmentButton, IonTitle, IonToolbar } from '@ionic/react';
+import React, { useState } from 'react';
+import HomeList from "../components/HomeList";
 import './Home.css';
 
-const HomePage: React.SFC<any> = () => {
+const HomePage: React.FC<any> = () => {
+
+  const [catogery, setCatogery] = useState('movie');
+
   return (
     <>
       <IonHeader>
@@ -32,41 +18,17 @@ const HomePage: React.SFC<any> = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <IonCard class="welcome-card">
-          <IonImg src="/assets/shapes.svg" />
-          <IonCardHeader>
-            <IonCardSubtitle>Get Started</IonCardSubtitle>
-            <IonCardTitle>Welcome to Ionic</IonCardTitle>
-          </IonCardHeader>
-          <IonCardContent>
-            <p>
-              Now that your app has been created, you'll want to start building out features and
-              components. Check out some of the resources below for next steps.
-            </p>
-          </IonCardContent>
-        </IonCard>
-
-        <IonList lines="none">
-          <IonListHeader>
-            <IonLabel>Resources</IonLabel>
-          </IonListHeader>
-          <IonItem href="https://ionicframework.com/docs/">
-            <IonIcon slot="start" color="medium" name="book" />
-            <IonLabel>Ionic Documentation</IonLabel>
-          </IonItem>
-          <IonItem href="https://ionicframework.com/docs/building/scaffolding">
-            <IonIcon slot="start" color="medium" name="build" />
-            <IonLabel>Scaffold Out Your App</IonLabel>
-          </IonItem>
-          <IonItem href="https://ionicframework.com/docs/layout/structure">
-            <IonIcon slot="start" color="medium" name="grid" />
-            <IonLabel>Change Your App Layout</IonLabel>
-          </IonItem>
-          <IonItem href="https://ionicframework.com/docs/theming/basics">
-            <IonIcon slot="start" color="medium" name="color-fill" />
-            <IonLabel>Theme Your App</IonLabel>
-          </IonItem>
-        </IonList>
+        <IonSegment color="primary" onIonChange={e => setCatogery(`${e.detail.value}`)}>
+          <IonSegmentButton value="movie">
+            <IonLabel>Movie</IonLabel>
+          </IonSegmentButton>
+          <IonSegmentButton value="tv">
+            <IonLabel>TV</IonLabel>
+          </IonSegmentButton>
+        </IonSegment>
+        <IonCardContent>
+          <HomeList catogery={catogery} />
+        </IonCardContent>
       </IonContent>
     </>
   );

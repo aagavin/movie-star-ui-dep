@@ -1,5 +1,8 @@
 {
   "name": "movie-star",
-  "integrations": {},
+  "integrations": {
+    "cordova": {},
+    "capacitor": {}
+  },
   "type": "react"
 }
