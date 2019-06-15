@@ -42,9 +42,9 @@ const appPages: AppPage[] = [
     icon: 'log-in'
   }
 ];
+// componentProps={{user: props.user, signInWithEmailAndPassword: props.signInWithEmailAndPassword}}
 
-
-const App: React.SFC = () => (
+const App: React.FC = props => (
   <Router>
     <Route exact path="/" render={() => <Redirect to="/home" />} />
     <div className="App">
@@ -56,7 +56,7 @@ const App: React.SFC = () => (
               <Route path="/:tab(home)" component={Home} exact={true} />
               <Route path="/:tab(home)/list" component={List} exact={true} />
               <Route path="/:tab(home)/media/:catogery/:mediaId" component={Media} />
-              <Route path="/login" component={Login} exact={true} />
+              <Route path="/login" render={(props:any) => <Login {...props} user={props.user} signInWithEmailAndPassword={props.signInWithEmailAndPassword} />} exact={true} />
             </IonRouterOutlet>
           </IonPage>
         </IonSplitPane>
