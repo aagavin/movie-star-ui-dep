@@ -1,4 +1,4 @@
-import { IonBackButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonHeader, IonImg, IonTitle, IonToolbar } from '@ionic/react';
+import { IonBackButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonHeader, IonImg, IonTitle, IonToolbar, IonButton, IonBadge, IonGrid, IonRow, IonCol, IonToast } from '@ionic/react';
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { BASE_IMG, BASE_URL } from "../declarations";
@@ -10,26 +10,40 @@ class MidiaDetails extends React.Component<any, any> {
     super(props);
     this.state = {
       catogery: this.props.match.params.catogery,
-      results: {}
+      result: {},
+      showToast: false
     }
   }
 
   async componentDidMount() {
     const url = `${BASE_URL}/${this.state.catogery}/${this.props.match.params.mediaId}`;
     const response = await fetch(url);
-    this.setState({ results: await response.json() })
+    this.setState({ result: await response.json() })
+  }
+
+  async addToFavourite() {
+    this.setState({showToast: true});
   }
 
   render() {
 
     const catogery = this.state.catogery;
-    const results = {
-      ...this.state.results,
-      title: this.state.results.name
+    const result = {
+      ...this.state.result,
+      title: this.state.result.title ? this.state.result.title : this.state.result.name
     };
+
+    console.log(result);
 
     return (
       <>
+        <IonToast
+          isOpen={this.state.showToast}
+          onDidDismiss={() => this.setState(() => ({ showToast: false }))}
+          message='Your settings have been saved.'
+          duration={200}
+        >
+        </IonToast>
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
@@ -42,12 +56,30 @@ class MidiaDetails extends React.Component<any, any> {
           <IonCard>
             <IonCardHeader>
               <IonCardSubtitle>
-                <IonImg src={`${BASE_IMG}/w500${results.poster_path}`} />
+                <IonImg src={`${BASE_IMG}/w500${result.poster_path}`} />
               </IonCardSubtitle>
-              <IonCardTitle>{results.title}</IonCardTitle>
+              <IonCardTitle>{result.title}</IonCardTitle>
             </IonCardHeader>
 
-            <IonCardContent>{results.overview}</IonCardContent>
+            <IonCardContent>{result.overview}</IonCardContent>
+            <IonCardContent>
+              <IonGrid align-items-start>
+                <IonRow>
+                  <IonCol size="auto">
+                    <IonBadge color="light">raiting: {result.vote_average}</IonBadge>
+                  </IonCol>
+                  <IonCol size="auto">
+                    <IonBadge color="light">runtime: {result.runtime}</IonBadge>
+                  </IonCol>
+                  <IonCol size="auto">
+                    <IonBadge color="light">{result.release_date}</IonBadge>
+                  </IonCol>
+                </IonRow>
+              </IonGrid>
+            </IonCardContent>
+            <IonCardContent>
+              <IonButton expand="block" color="primary" onClick={e => this.addToFavourite()}>Add to favourite</IonButton>
+            </IonCardContent>
           </IonCard>
         </IonContent>
       </>
