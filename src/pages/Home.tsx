@@ -1,4 +1,4 @@
-import { IonButtons, IonCardContent, IonContent, IonHeader, IonLabel, IonMenuButton, IonSegment, IonSegmentButton, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButtons, IonCardContent ,IonContent, IonHeader, IonLabel, IonMenuButton, IonSegment, IonSegmentButton, IonTitle, IonToolbar } from '@ionic/react';
 import React, { useState } from 'react';
 import HomeList from "../components/HomeList";
 import './Home.css';
@@ -19,10 +19,10 @@ const HomePage: React.FC<any> = () => {
       </IonHeader>
       <IonContent>
         <IonSegment color="primary" onIonChange={e => setCatogery(`${e.detail.value}`)}>
-          <IonSegmentButton value="movie">
+          <IonSegmentButton checked={catogery === 'movie'} value="movie">
             <IonLabel>Movie</IonLabel>
           </IonSegmentButton>
-          <IonSegmentButton value="tv">
+          <IonSegmentButton checked={catogery === 'tv'} value="tv">
             <IonLabel>TV</IonLabel>
           </IonSegmentButton>
         </IonSegment>

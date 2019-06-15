@@ -1,5 +1,7 @@
 import { IonItem, IonLabel, IonList, IonThumbnail } from "@ionic/react";
+import { BASE_URL, BASE_IMG } from "../declarations";
 import React from 'react';
+import { withRouter } from "react-router";
 
 
 class HomeList extends React.Component<any, any> {
@@ -13,7 +15,7 @@ class HomeList extends React.Component<any, any> {
   }
 
   getResults(catogery: string) {
-    fetch(`https://watch-tv-list.herokuapp.com/${catogery}/upcoming`)
+    fetch(`${BASE_URL}/${catogery}/upcoming`)
       .then(res => res.json())
       .then(res => {
         const newState: any = {};
@@ -30,14 +32,13 @@ class HomeList extends React.Component<any, any> {
   }
 
   render() {
-
     const results = this.state[`${this.props.catogery}Results`];
     return (
       <IonList>
         {results.map((result: any) => (
-          <IonItem key={result.id}>
+          <IonItem button key={result.id} onClick={e => {e.preventDefault(); this.props.history.push(`/home/media/${this.props.catogery}/${result.id}`)}}>
             <IonThumbnail slot="start">
-              <img src={`https://image.tmdb.org/t/p/w45${result.poster_path}`} />
+              <img src={`${BASE_IMG}/w45${result.poster_path}`} />
             </IonThumbnail>
             <IonLabel>{this.props.catogery === 'movie' ? result.original_title : result.name}</IonLabel>
           </IonItem>
@@ -47,4 +48,4 @@ class HomeList extends React.Component<any, any> {
   }
 }
 
-export default HomeList;
+export default withRouter(HomeList);

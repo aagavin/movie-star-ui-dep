@@ -7,6 +7,7 @@ import Menu from './components/Menu';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import List from './pages/List';
+import Media from "./pages/MediaDetails";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/core/css/core.css";
@@ -54,6 +55,7 @@ const App: React.SFC = () => (
             <IonRouterOutlet>
               <Route path="/:tab(home)" component={Home} exact={true} />
               <Route path="/:tab(home)/list" component={List} exact={true} />
+              <Route path="/:tab(home)/media/:catogery/:mediaId" component={Media} />
               <Route path="/login" component={Login} exact={true} />
             </IonRouterOutlet>
           </IonPage>
