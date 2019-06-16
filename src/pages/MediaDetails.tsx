@@ -1,4 +1,4 @@
-import { IonBackButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonHeader, IonImg, IonTitle, IonToolbar, IonButton, IonBadge, IonGrid, IonRow, IonCol, IonToast } from '@ionic/react';
+import { IonBackButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonHeader, IonImg, IonTitle, IonToolbar, IonButton, IonBadge, IonGrid, IonRow, IonCol, IonToast, IonIcon } from '@ionic/react';
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { BASE_IMG, BASE_URL } from "../declarations";
@@ -33,8 +33,6 @@ class MidiaDetails extends React.Component<any, any> {
       title: this.state.result.title ? this.state.result.title : this.state.result.name
     };
 
-    console.log(result);
-
     return (
       <>
         <IonToast
@@ -45,9 +43,11 @@ class MidiaDetails extends React.Component<any, any> {
         >
         </IonToast>
         <IonHeader>
-          <IonToolbar>
+          <IonToolbar color="primary">
             <IonButtons slot="start">
-              <IonBackButton goBack={() => { }} defaultHref="/" />
+              <IonButton routerDirection="back" onClick={this.props.history.goBack}>
+                <IonIcon name="arrow-back"></IonIcon>
+              </IonButton>
             </IonButtons>
             <IonTitle>{catogery}</IonTitle>
           </IonToolbar>
