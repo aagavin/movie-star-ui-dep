@@ -54,7 +54,6 @@ const LoginPage: React.FC<any> = props => {
   );
 }
 
-// const a:React.FunctionComponent<any> =  withRouter(LoginPage)
 export default withFirebaseAuth({
   providers,
   firebaseAppAuth,

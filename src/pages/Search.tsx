@@ -16,8 +16,6 @@ const SearchPage: React.FC<any> = () => {
     }
   }
 
-  console.log(history);
-
   return (
     <>
       <IonHeader>
