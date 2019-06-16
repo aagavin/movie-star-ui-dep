@@ -7,11 +7,11 @@ import { BASE_IMG, BASE_URL } from "../declarations";
 const SearchPage: React.FC<any> = () => {
 
   const [results, setResults] = useState([]);
-  const { history, location, match } = useReactRouter();
+  const { history } = useReactRouter();
 
   const handleSearch = async (query: string) => {
-    if (query !== '') {
-      const response = await fetch(`${BASE_URL}/search?q=${query}`).then(r => r.json())
+    if (query !== '' && query.length > 3) {
+      const response = await fetch(`${BASE_URL}/search/?q=${query}`).then(r => r.json())
       setResults(response);
     }
   }
