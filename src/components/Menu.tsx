@@ -21,7 +21,7 @@ type Props = RouteComponentProps<{}> & {
 const Menu: React.SFC<Props> = ({ history, appPages }) => (
   <IonMenu contentId="main">
     <IonHeader>
-      <IonToolbar>
+      <IonToolbar color="primary">
         <IonTitle>Menu</IonTitle>
       </IonToolbar>
     </IonHeader>

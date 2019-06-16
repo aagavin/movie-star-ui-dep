@@ -10,7 +10,7 @@ const HomePage: React.FC<any> = () => {
   return (
     <>
       <IonHeader>
-        <IonToolbar>
+        <IonToolbar color="primary">
           <IonButtons slot="start">
             <IonMenuButton />
           </IonButtons>

@@ -15,7 +15,7 @@ const ListPage: React.SFC<any> = () => {
   return (
     <>
       <IonHeader>
-        <IonToolbar>
+        <IonToolbar color="primary">
           <IonButtons slot="start">
             <IonMenuButton />
           </IonButtons>
