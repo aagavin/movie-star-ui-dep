@@ -5,6 +5,7 @@ import { AppPage } from './declarations';
 
 import Menu from './components/Menu';
 import Home from './pages/Home';
+import Search from "./pages/Search";
 import Login from './pages/Login';
 import List from './pages/List';
 import Media from "./pages/MediaDetails";
@@ -32,6 +33,11 @@ const appPages: AppPage[] = [
     icon: 'home'
   },
   {
+    title: 'Search',
+    url: '/search',
+    icon: 'search'
+  },
+  {
     title: 'List',
     url: '/home/list',
     icon: 'list'
@@ -56,7 +62,8 @@ const App: React.FC = props => (
               <Route path="/:tab(home)" component={Home} exact={true} />
               <Route path="/:tab(home)/list" component={List} exact={true} />
               <Route path="/:tab(home)/media/:catogery/:mediaId" component={Media} />
-              <Route path="/login" render={(props:any) => <Login {...props} user={props.user} signInWithEmailAndPassword={props.signInWithEmailAndPassword} />} exact={true} />
+              <Route path="/search" component={Search} exact={true} />
+              <Route path="/login" component={Login} exact={true} />
             </IonRouterOutlet>
           </IonPage>
         </IonSplitPane>
