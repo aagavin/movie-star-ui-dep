@@ -1,4 +1,4 @@
-import { IonBackButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonHeader, IonImg, IonTitle, IonToolbar, IonButton, IonBadge, IonGrid, IonRow, IonCol, IonToast, IonIcon } from '@ionic/react';
+import { IonBackButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonHeader, IonImg, IonTitle, IonToolbar, IonButton, IonBadge, IonGrid, IonRow, IonCol, IonToast, IonIcon, IonItem, IonLabel } from '@ionic/react';
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { BASE_IMG, BASE_URL } from "../declarations";
@@ -11,7 +11,8 @@ class MidiaDetails extends React.Component<any, any> {
     this.state = {
       catogery: this.props.match.params.catogery,
       result: {},
-      showToast: false
+      showToast: false,
+      showSeasons: false
     }
   }
 
@@ -22,7 +23,30 @@ class MidiaDetails extends React.Component<any, any> {
   }
 
   async addToFavourite() {
-    this.setState({showToast: true});
+    this.setState({ showToast: true });
+  }
+
+  getSeaons() {
+    return this.state.result.seasons.map((season: any) => (
+      <IonCard key={season.id}>
+        <IonCardHeader>
+          <IonCardSubtitle><IonImg src={`${BASE_IMG}/w500${season.poster_path}`} /></IonCardSubtitle>
+          <IonCardTitle>{season.name}</IonCardTitle>
+        </IonCardHeader>
+
+        <IonCardContent>
+          {season.overview}
+          <br />
+          <IonBadge color="light">{season.episode_count} episodes</IonBadge>
+
+          <IonItem button detail>
+            <IonLabel>
+              View Episodes
+            </IonLabel>
+          </IonItem>
+        </IonCardContent>
+      </IonCard>
+    ));
   }
 
   render() {
@@ -30,8 +54,18 @@ class MidiaDetails extends React.Component<any, any> {
     const catogery = this.state.catogery;
     const result = {
       ...this.state.result,
-      title: this.state.result.title ? this.state.result.title : this.state.result.name
+      title: this.state.result.title ? this.state.result.title : this.state.result.name,
+      badge1: `raiting: ${this.state.result.vote_average}`
     };
+
+    if (this.state.catogery === 'movie') {
+      result['badge2'] = `runtime: ${result.runtime}`;
+      result['badge3'] = result.release_date;
+    }
+    else {
+      result['badge2'] = result.next_episode_to_air ? `next episode: ${result.next_episode_to_air.air_date}` : '';
+      result['badge3'] = '';
+    }
 
     return (
       <>
@@ -56,9 +90,9 @@ class MidiaDetails extends React.Component<any, any> {
           <IonCard>
             <IonCardHeader>
               <IonCardSubtitle>
-                <IonImg src={`${BASE_IMG}/w500${result.poster_path}`} />
+                <img src={`${BASE_IMG}/w500${result.poster_path}`} />
               </IonCardSubtitle>
-              <IonCardTitle>{result.title}</IonCardTitle>
+              <IonCardTitle><b>{result.title}</b></IonCardTitle>
             </IonCardHeader>
 
             <IonCardContent>{result.overview}</IonCardContent>
@@ -66,21 +100,27 @@ class MidiaDetails extends React.Component<any, any> {
               <IonGrid align-items-start>
                 <IonRow>
                   <IonCol size="auto">
-                    <IonBadge color="light">raiting: {result.vote_average}</IonBadge>
+                    <IonBadge color="light">{result.badge1}</IonBadge>
                   </IonCol>
                   <IonCol size="auto">
-                    <IonBadge color="light">runtime: {result.runtime}</IonBadge>
+                    <IonBadge color="light">{result.badge2}</IonBadge>
                   </IonCol>
                   <IonCol size="auto">
-                    <IonBadge color="light">{result.release_date}</IonBadge>
+                    <IonBadge color="light">{result.badge3}</IonBadge>
                   </IonCol>
                 </IonRow>
+                <IonButton expand="block" color="primary" onClick={e => this.addToFavourite()}>Add to favourite</IonButton>
               </IonGrid>
+
             </IonCardContent>
             <IonCardContent>
-              <IonButton expand="block" color="primary" onClick={e => this.addToFavourite()}>Add to favourite</IonButton>
+              {catogery === 'tv' ? (
+                <IonButton expand="full" fill="clear" onClick={e => this.setState({ showSeasons: !this.state.showSeasons })}>Show Seasons</IonButton>
+              ) : ''}
             </IonCardContent>
           </IonCard>
+
+          {this.state.showSeasons ? this.getSeaons() : ''}
         </IonContent>
       </>
     );
