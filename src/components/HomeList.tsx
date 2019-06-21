@@ -1,4 +1,4 @@
-import { IonItem, IonLabel, IonList, IonThumbnail, IonImg } from "@ionic/react";
+import { IonItem, IonLabel, IonList, IonThumbnail, IonImg, IonProgressBar } from "@ionic/react";
 import { BASE_URL, BASE_IMG } from "../declarations";
 import React from 'react';
 import { withRouter } from "react-router";
@@ -33,6 +33,11 @@ class HomeList extends React.Component<any, any> {
 
   render() {
     const results = this.state[`${this.props.catogery}Results`];
+
+    if (results.length === 0) {
+      return <IonProgressBar type="indeterminate" />
+    }
+
     return (
       <IonList>
         {results.map((result: any) => (
