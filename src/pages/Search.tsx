@@ -14,6 +14,9 @@ const SearchPage: React.FC<any> = () => {
       const response = await fetch(`${BASE_URL}/search/?q=${query}`).then(r => r.json())
       setResults(response);
     }
+    else if (query === '') {
+      setResults([]);
+    }
   }
 
   return (
