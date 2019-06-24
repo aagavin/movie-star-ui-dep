@@ -9,6 +9,7 @@ import Search from "./pages/Search";
 import Login from './pages/Login';
 import List from './pages/List';
 import Media from "./pages/MediaDetails";
+import Episodes from "./pages/Episodes";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/core/css/core.css";
@@ -62,6 +63,7 @@ const App: React.FC = props => (
               <Route path="/:tab(home)" component={Home} exact={true} />
               <Route path="/:tab(home)/list" component={List} exact={true} />
               <Route path="/:tab(home)/media/:catogery/:mediaId" component={Media} />
+              <Route path="/:tab(home)/media/episodes" component={Episodes} />
               <Route path="/search" component={Search} exact={true} />
               <Route path="/login" component={Login} exact={true} />
             </IonRouterOutlet>

@@ -39,7 +39,7 @@ class MidiaDetails extends React.Component<any, any> {
           <br />
           <IonBadge color="light">{season.episode_count} episodes</IonBadge>
 
-          <IonItem button detail>
+          <IonItem button detail onClick={e => {e.preventDefault(); this.props.history.push({pathname: '/home/media/episodes', state: {id: this.props.match.params.mediaId, seasonNum: season.season_number, numOfEpisodes: season.episode_count} })}}>
             <IonLabel>
               View Episodes
             </IonLabel>
