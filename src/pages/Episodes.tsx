@@ -13,6 +13,7 @@ const EpisodesPage: React.FC<any> = props => {
 
   const [results, setResults] = useState([]);
   const { history } = useReactRouter();
+  
   useEffect(() => {
     getResults(props.location.state)
   }, [props.location.state]);
@@ -24,10 +25,10 @@ const EpisodesPage: React.FC<any> = props => {
       fetchList.push(fetch(url).then(async r => await r.json()));
     }
     const results = await Promise.all(fetchList);
-    console.log(results);
+    setResults(results);
   }
 
-  const getCard = (result: any) => (
+  const getCard = result => (
     <IonCard key={result.id}>
       <IonCardHeader>
         <IonCardSubtitle><IonImg src={`${BASE_IMG}/w300${result.still_path}`} /></IonCardSubtitle>
@@ -37,7 +38,8 @@ const EpisodesPage: React.FC<any> = props => {
       <IonCardContent>
         {result.overview}
       </IonCardContent>
-    </IonCard>);
+    </IonCard>
+  );
 
   return (
     <>
