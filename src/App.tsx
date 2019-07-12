@@ -49,7 +49,6 @@ const appPages: AppPage[] = [
     icon: 'log-in'
   }
 ];
-// componentProps={{user: props.user, signInWithEmailAndPassword: props.signInWithEmailAndPassword}}
 
 const App: React.FC = props => (
   <Router>
