@@ -6,7 +6,7 @@
     "@capacitor/android": "^1.1.0",
     "@capacitor/cli": "^1.1.0",
     "@capacitor/core": "^1.1.0",
-    "@ionic-native/ionic-webview": "^5.8.0",
+    "@ionic-native/ionic-webview": "^5.10.0",
     "@ionic/react": "0.0.5",
     "android": "0.0.8",
     "cordova-plugin-device": "^2.0.2",
