@@ -1,0 +1,7 @@
+{
+  "name": "movie-star-ui",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
