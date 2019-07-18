@@ -8,17 +8,42 @@ import {
   IonToolbar,
   IonSegment,
   IonSegmentButton,
-  IonCardContent
-  } from '@ionic/react';
-import React, { useState } from 'react';
+  IonCardContent,
+  IonProgressBar
+} from '@ionic/react';
+import React, { useState, useEffect } from 'react';
 import './Home.css';
-import HomeList from '../components/HomeList';
+import ResultsList from '../components/ResultsList';
+import { BASE_URL } from "../declarations";
 
 const HomePage: React.FunctionComponent = () => {
 
   const [catogery, setCatogery] = useState('movie');
+  const [movieResults, setMovieResults] = useState([]);
+  const [tvResults, setTvResults] = useState([]);
 
-  
+  useEffect(() => {
+    Promise.all([
+      getResults('movie'),
+      getResults('tv')
+    ]);
+  }, []);
+
+  const getResults = async (catogery: string) => {
+    fetch(`${BASE_URL}/${catogery}/upcoming`)
+      .then(res => res.json())
+      .then(res => {
+        catogery === 'movie' ?
+          setMovieResults(res) :
+          setTvResults(res);
+      });
+  }
+
+  const results = catogery === 'movie' ? movieResults : tvResults;
+  if (results.length === 0) {
+    return <IonProgressBar type="indeterminate" />
+  }
+
   return (
     <>
       <IonHeader>
@@ -30,7 +55,7 @@ const HomePage: React.FunctionComponent = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-      <IonSegment color="primary" onIonChange={e => setCatogery(`${e.detail.value}`)}>
+        <IonSegment color="primary" onIonChange={e => setCatogery(`${e.detail.value}`)}>
           <IonSegmentButton checked={catogery === 'movie'} value="movie">
             <IonLabel>Movie</IonLabel>
           </IonSegmentButton>
@@ -39,7 +64,7 @@ const HomePage: React.FunctionComponent = () => {
           </IonSegmentButton>
         </IonSegment>
         <IonCardContent>
-          <HomeList catogery={catogery} />
+          {results.length === 0 ? <IonProgressBar type="indeterminate" /> : <ResultsList results={results} />}
         </IonCardContent>
       </IonContent>
     </>

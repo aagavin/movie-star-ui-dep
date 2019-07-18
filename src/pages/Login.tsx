@@ -1,5 +1,6 @@
 import { IonButton, IonButtons, IonContent, IonHeader, IonInput, IonItem, IonLabel, IonMenuButton, IonTitle, IonToolbar } from '@ionic/react';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { firestore } from 'firebase';
 import useReactRouter from 'use-react-router';
 
 import withFirebaseAuth from 'react-with-firebase-auth'
@@ -10,16 +11,21 @@ const LoginPage: React.FC<any> = props => {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const { history, location, match } = useReactRouter();
+  const { history } = useReactRouter();
 
-  const handleLogin = async () => {
-    console.log({
-      username,
-      password
-    });
+  useEffect(() => {
+    if (props.user) {
+      firestore().collection('favs').doc(props.user.uid).get().then(doc => {
+        localStorage.setItem('favs', JSON.stringify(doc.data()));
+        history.replace('/');
+      });
+    }
+    else{
+      localStorage.removeItem('favs');
+    }
+  }, [props.user, history]);
 
-    await props.signInWithEmailAndPassword(username, password);
-  };
+  const handleLogin = async () => await props.signInWithEmailAndPassword(username, password);
 
   return (
     <>
@@ -32,7 +38,7 @@ const LoginPage: React.FC<any> = props => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        {!props.user ? (
+        {!props.user && (
           <>
             <IonItem>
               <IonLabel position="floating">Username</IonLabel>
@@ -43,11 +49,11 @@ const LoginPage: React.FC<any> = props => {
               <IonInput type="password" required onIonChange={(e: any) => setPassword(e.target.value)}></IonInput>
             </IonItem>
             <IonButton expand="full" onClick={handleLogin}>Sign In</IonButton>
-          </>) : ''}
-          {(props.error && !props.user) ? <p>{props.error}</p> : ''}
+          </>)}
+        {(props.error && !props.user) && <p>{props.error}</p>}
 
-          {props.user ? (<IonButton expand="full" onClick={props.signOut}>Sign Out</IonButton>) : ''}
-        
+        {props.user && (<IonButton expand="full" onClick={props.signOut}>Sign Out</IonButton>)}
+
       </IonContent>
     </>
   );

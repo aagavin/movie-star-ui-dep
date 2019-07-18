@@ -1,13 +1,11 @@
-import { IonButtons, IonContent, IonHeader, IonItem, IonMenuButton, IonSearchbar, IonTitle, IonToolbar, IonList, IonThumbnail, IonLabel } from "@ionic/react";
+import { IonButtons, IonContent, IonHeader, IonMenuButton, IonSearchbar, IonTitle, IonToolbar } from "@ionic/react";
 import React, { useState } from 'react';
-import useReactRouter from 'use-react-router';
-import { BASE_IMG, BASE_URL } from "../declarations";
-
+import { BASE_URL } from "../declarations";
+import ResultsList from '../components/ResultsList';
 
 const SearchPage: React.FC<any> = () => {
 
   const [results, setResults] = useState([]);
-  const { history } = useReactRouter();
 
   const handleSearch = async (query: string) => {
     if (query !== '' && query.length > 3) {
@@ -31,16 +29,7 @@ const SearchPage: React.FC<any> = () => {
       </IonHeader>
       <IonContent>
         <IonSearchbar onIonChange={(e:any) => handleSearch(e.target.value)}></IonSearchbar>
-        <IonList>
-        {results.map((result: any) => (
-          <IonItem button key={result.id} onClick={e => {e.preventDefault(); history.push(`/home/media/${result.media_type}/${result.id}`)}}>
-            <IonThumbnail slot="start">
-              <img src={`${BASE_IMG}/w45${result.poster_path}`} />
-            </IonThumbnail>
-            <IonLabel>{result.media_type === 'movie' ? result.title : result.name}</IonLabel>
-          </IonItem>
-        ))}
-      </IonList>
+        <ResultsList results={results} />
       </IonContent>
     </>
   );

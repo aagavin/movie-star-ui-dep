@@ -1,6 +1,6 @@
 {
   "name": "movie-star-ui",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "private": true,
   "dependencies": {
     "@capacitor/android": "^1.1.0",
