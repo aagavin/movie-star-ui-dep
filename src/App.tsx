@@ -8,9 +8,10 @@ import Home from './pages/Home';
 import Media from './pages/MediaDetails';
 import Episodes from './pages/Episodes';
 import Login from './pages/Login';
+import Favourite from './pages/Favourite';
 import Search from './pages/Search';
 
-import { home, logIn, search } from 'ionicons/icons';
+import { home, logIn, search, starOutline } from 'ionicons/icons';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/core/css/core.css';
@@ -43,6 +44,11 @@ const appPages: AppPage[] = [
     title: 'Login',
     url: '/login',
     icon: logIn
+  },
+  {
+    title: 'Favourites',
+    url: '/favourite',
+    icon: starOutline
   }
 ];
 
@@ -57,6 +63,7 @@ const App: React.FunctionComponent = () => (
             <Route path="/:tab(home)/media/:catogery/:mediaId" component={Media} />
             <Route path="/:tab(home)/media/episodes" component={Episodes} />
             <Route path="/search" component={Search} exact={true} />
+            <Route path="/favourite" component={Favourite} exact={true} />
             <Route path="/login" component={Login} exact={true} />
             <Route exact path="/" render={() => <Redirect to="/home" />} />
           </IonRouterOutlet>
