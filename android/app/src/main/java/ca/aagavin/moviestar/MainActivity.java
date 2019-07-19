@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package ca.aagavin.moviestar;
 
 import android.os.Bundle;
 
