@@ -198,7 +198,7 @@ const MidiaDetails: React.FC<any> = (props: any) => {
               </IonRow>
               {isFav ?
                 <IonButton expand="block" color="danger" onClick={e => removeFromFavourite(res.id)} >Remove as favourite</IonButton> :
-                <IonButton expand="block" color="primary" onClick={e => addToFavourite(res.id)}>Add to favourite</IonButton>
+                (props.user && <IonButton expand="block" color="primary" onClick={e => addToFavourite(res.id)}>Add to favourite</IonButton>)
               }
             </IonGrid>
           </IonCardContent>

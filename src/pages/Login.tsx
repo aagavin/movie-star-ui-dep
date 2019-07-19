@@ -13,17 +13,17 @@ const LoginPage: React.FC<any> = props => {
   const [password, setPassword] = useState('');
   const { history } = useReactRouter();
 
-  useEffect(() => {
-    if (props.user) {
-      firestore().collection('favs').doc(props.user.uid).get().then(doc => {
-        localStorage.setItem('favs', JSON.stringify(doc.data()));
-        history.replace('/');
-      });
-    }
-    else{
-      localStorage.removeItem('favs');
-    }
-  }, [props.user, history]);
+  // useEffect(() => {
+  //   if (props.user) {
+  //     firestore().collection('favs').doc(props.user.uid).get().then(doc => {
+  //       localStorage.setItem('favs', JSON.stringify(doc.data()));
+  //       // history.replace('/');
+  //     });
+  //   }
+  //   else{
+  //     localStorage.removeItem('favs');
+  //   }
+  // }, [props.user, history]);
 
   const handleLogin = async () => await props.signInWithEmailAndPassword(username, password);
 
