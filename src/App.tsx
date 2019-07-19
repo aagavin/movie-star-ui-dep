@@ -5,10 +5,10 @@ import { AppPage } from './declarations';
 
 import Menu from './components/Menu';
 import Home from './pages/Home';
-import Media from "./pages/MediaDetails";
-import Episodes from "./pages/Episodes";
-import Login from "./pages/Login";
-import Search from "./pages/Search";
+import Media from './pages/MediaDetails';
+import Episodes from './pages/Episodes';
+import Login from './pages/Login';
+import Search from './pages/Search';
 
 import { home, logIn, search } from 'ionicons/icons';
 

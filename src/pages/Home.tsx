@@ -40,10 +40,7 @@ const HomePage: React.FunctionComponent = () => {
   }
 
   const results = catogery === 'movie' ? movieResults : tvResults;
-  if (results.length === 0) {
-    return <IonProgressBar type="indeterminate" />
-  }
-
+  
   return (
     <>
       <IonHeader>
@@ -64,7 +61,7 @@ const HomePage: React.FunctionComponent = () => {
           </IonSegmentButton>
         </IonSegment>
         <IonCardContent>
-          {results.length === 0 ? <IonProgressBar type="indeterminate" /> : <ResultsList results={results} />}
+          {results.length === 0 ? <IonProgressBar type="indeterminate" /> : <ResultsList results={results} catogery={catogery} />}
         </IonCardContent>
       </IonContent>
     </>
