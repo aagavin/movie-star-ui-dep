@@ -100,7 +100,7 @@ const MidiaDetails: React.FC<any> = (props: any) => {
 
   const addToFavourite = async (id: number) => {
     const fav = {};
-    fav[id] = {};
+    fav[id] = {catogery};
     await firestore().collection('favs').doc(props.user.uid).set(fav, { merge: true });
     setIsFav(true);
     setShowToast(true);
