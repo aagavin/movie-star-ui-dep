@@ -9,7 +9,7 @@ const Favourite: React.FC<any> = props => {
 
   useEffect(() => {
     if (props.user) {
-      console.log(props.user.ra)
+      auth().currentUser.getIdToken(true).then(console.log)
     }
   }, [props.user])
 
