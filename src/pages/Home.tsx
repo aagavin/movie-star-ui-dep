@@ -30,7 +30,7 @@ const HomePage: React.FunctionComponent = () => {
   }, []);
 
   const getResults = async (catogery: string) => {
-    fetch(`${BASE_URL}/${catogery}/upcoming`)
+    fetch(`${BASE_URL}/media/${catogery}/upcoming`)
       .then(res => res.json())
       .then(res => {
         catogery === 'movie' ?

@@ -8,7 +8,7 @@ const ResultsList: React.FunctionComponent<any> = (props: any) => (
     {props.results.map((result: any) => (
       <IonItem detail button key={result.id} onClick={e => { e.preventDefault(); props.history.push(`/home/media/${result.media_type || props.catogery}/${result.id}`) }}>
         <IonThumbnail slot="start">
-          <IonImg src={`${BASE_IMG}/w45${result.poster_path}`} />
+          <IonImg src={`${BASE_IMG}/w92${result.poster_path}`} />
         </IonThumbnail>
         <IonLabel>{result.title ? result.title : result.name}</IonLabel>
       </IonItem>
