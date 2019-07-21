@@ -4,7 +4,7 @@ import { firestore } from 'firebase';
 import useReactRouter from 'use-react-router';
 
 import withFirebaseAuth from 'react-with-firebase-auth'
-import { providers, firebaseAppAuth } from "../firebaseConfig";
+import { providers, firebaseAppAuth } from "../../firebaseConfig";
 
 
 const LoginPage: React.FC<any> = props => {
@@ -41,7 +41,7 @@ const LoginPage: React.FC<any> = props => {
         {!props.user && (
           <>
             <IonItem>
-              <IonLabel position="floating">Username</IonLabel>
+              <IonLabel position="floating">Email</IonLabel>
               <IonInput required onIonChange={(e: any) => setUsername(e.target.value)}></IonInput>
             </IonItem>
             <IonItem>
@@ -54,6 +54,7 @@ const LoginPage: React.FC<any> = props => {
 
         {props.user && (<IonButton expand="full" onClick={props.signOut}>Sign Out</IonButton>)}
 
+          <p>Don't have an account? <a href="/account/signup">Create one</a></p>
       </IonContent>
     </>
   );

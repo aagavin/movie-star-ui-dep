@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { IonHeader, IonToolbar, IonButtons, IonTitle, IonContent, IonButton, IonIcon, IonCard, IonCardHeader, IonCardSubtitle, IonImg, IonCardTitle, IonCardContent } from '@ionic/react';
+import { IonHeader, IonToolbar, IonButtons, IonTitle, IonContent, IonButton, IonIcon, IonCard, IonCardHeader, IonCardSubtitle, IonImg, IonCardTitle, IonCardContent, IonRow, IonCol, IonBadge } from '@ionic/react';
 import useReactRouter from 'use-react-router';
-import { BASE_URL, BASE_IMG } from "../declarations";
+import { BASE_URL, BASE_IMG } from "../../declarations";
 
 interface LocationState {
   id: string;
@@ -13,7 +13,7 @@ const EpisodesPage: React.FC<any> = props => {
 
   const [results, setResults] = useState([]);
   const { history } = useReactRouter();
-  
+
   useEffect(() => {
     props.location.state && getResults(props.location.state)
   }, [props.location.state]);
@@ -21,7 +21,7 @@ const EpisodesPage: React.FC<any> = props => {
   const getResults = async (locationState: LocationState) => {
     const fetchList = [];
     for (let i = 1; i < locationState.numOfEpisodes; i++) {
-      const url = `${BASE_URL}/tv/${locationState.id}/season/${locationState.seasonNum}/episode/${i}`;
+      const url = `${BASE_URL}/media/tv/${locationState.id}/season/${locationState.seasonNum}/episode/${i}`;
       fetchList.push(fetch(url).then(async r => await r.json()));
     }
     const results = await Promise.all(fetchList);
@@ -31,12 +31,22 @@ const EpisodesPage: React.FC<any> = props => {
   const getCard = result => (
     <IonCard key={result.id}>
       <IonCardHeader>
-        <IonCardSubtitle><IonImg src={`${BASE_IMG}/w300${result.still_path}`} /></IonCardSubtitle>
+        <IonCardSubtitle><IonImg src={`${BASE_IMG}/w500${result.still_path}`} /></IonCardSubtitle>
         <IonCardTitle>{result.name}</IonCardTitle>
       </IonCardHeader>
 
       <IonCardContent>
         {result.overview}
+      </IonCardContent>
+      <IonCardContent>
+        <IonRow>
+          <IonCol size="auto">
+            <IonBadge color="light">{result.vote_average}</IonBadge>
+          </IonCol>
+          <IonCol size="auto">
+            <IonBadge color="light">{result.air_date}</IonBadge>
+          </IonCol>
+        </IonRow>
       </IonCardContent>
     </IonCard>
   );
@@ -54,9 +64,7 @@ const EpisodesPage: React.FC<any> = props => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        {(results.length > 0) ? (
-          results.map(result => getCard(result))
-        ) : null}
+        {(results.length > 0) && (results.map(result => getCard(result)))}
       </IonContent>
     </>
   );

@@ -5,11 +5,12 @@ import { AppPage } from './declarations';
 
 import Menu from './components/Menu';
 import Home from './pages/Home';
-import Media from './pages/MediaDetails';
-import Episodes from './pages/Episodes';
-import Login from './pages/Login';
+import Media from './pages/media/MediaDetails';
+import Episodes from './pages/media/Episodes';
+import Login from './pages/account/Login';
+import SignUp from './pages/account/Signup';
 import Favourite from './pages/Favourite';
-import Search from './pages/Search';
+import Search from './pages/media/Search';
 
 import { home, logIn, search, starOutline } from 'ionicons/icons';
 
@@ -42,7 +43,7 @@ const appPages: AppPage[] = [
   },
   {
     title: 'Login',
-    url: '/login',
+    url: '/account/login',
     icon: logIn
   },
   {
@@ -64,7 +65,8 @@ const App: React.FunctionComponent = () => (
             <Route path="/:tab(home)/media/episodes" component={Episodes} />
             <Route path="/search" component={Search} exact={true} />
             <Route path="/favourite" component={Favourite} exact={true} />
-            <Route path="/login" component={Login} exact={true} />
+            <Route path="/account/login" component={Login} exact={true} />
+            <Route path="/account/signup" component={SignUp} exact={true} />
             <Route exact path="/" render={() => <Redirect to="/home" />} />
           </IonRouterOutlet>
         </IonPage>

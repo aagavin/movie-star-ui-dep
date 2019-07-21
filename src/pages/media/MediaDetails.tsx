@@ -1,10 +1,10 @@
-import { IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonHeader, IonImg, IonTitle, IonToolbar, IonButton, IonBadge, IonGrid, IonRow, IonCol, IonToast, IonIcon, IonItem, IonLabel } from '@ionic/react';
+import { IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonHeader, IonImg, IonTitle, IonToolbar, IonButton, IonBadge, IonGrid, IonRow, IonCol, IonToast, IonIcon, IonItem, IonLabel, IonProgressBar } from '@ionic/react';
 import React, { useState, useEffect } from 'react';
 import withFirebaseAuth from 'react-with-firebase-auth';
 import { firestore } from 'firebase';
 import useReactRouter from 'use-react-router';
-import { providers, firebaseAppAuth } from "../firebaseConfig";
-import { BASE_IMG, BASE_URL } from "../declarations";
+import { providers, firebaseAppAuth } from "../../firebaseConfig";
+import { BASE_IMG, BASE_URL } from "../../declarations";
 
 interface BelongsToCollection {
   id: number;
@@ -76,16 +76,15 @@ interface MediaDetail {
 
 const MidiaDetails: React.FC<any> = (props: any) => {
 
-  const emptyResult: MediaDetail = {};
   const { history, match } = useReactRouter();
-  const [result, setResult] = useState(emptyResult);
-  const [isFav, setIsFav] = useState(false);
-  const [showToast, setShowToast] = useState(false);
+  const [result, setResult] = useState<MediaDetail>({});
+  const [isFav, setIsFav] = useState<boolean>(false);
+  const [showToast, setShowToast] = useState<boolean>(false);
   const [showSeasons, setShowSeasons] = useState(false);
   const [catogery] = useState(match.params['catogery']);
 
   useEffect(() => {
-    const url = `${BASE_URL}/${catogery}/${match.params['mediaId']}`;
+    const url = `${BASE_URL}/media/${catogery}/${match.params['mediaId']}`;
     fetch(url).then(r => r.json()).then(setResult).catch(console.error);
   }, [catogery, match.params]);
 
@@ -100,7 +99,7 @@ const MidiaDetails: React.FC<any> = (props: any) => {
 
   const addToFavourite = async (id: number) => {
     const fav = {};
-    fav[id] = {catogery};
+    fav[id] = { catogery };
     await firestore().collection('favs').doc(props.user.uid).set(fav, { merge: true });
     setIsFav(true);
     setShowToast(true);
@@ -118,7 +117,7 @@ const MidiaDetails: React.FC<any> = (props: any) => {
     return result.seasons.map((season: any) => (
       <IonCard key={season.id}>
         <IonCardHeader>
-          <IonCardSubtitle><IonImg src={`${BASE_IMG}/w500${season.poster_path}`} /></IonCardSubtitle>
+          <IonCardSubtitle><IonImg src={`${BASE_IMG}/w780${season.poster_path}`} /></IonCardSubtitle>
           <IonCardTitle>{season.name}</IonCardTitle>
         </IonCardHeader>
 
@@ -136,6 +135,41 @@ const MidiaDetails: React.FC<any> = (props: any) => {
       </IonCard>
     ));
   };
+
+  const getCard = () => (
+    <IonCard>
+      <IonCardHeader>
+        <IonCardSubtitle>
+          <img src={`${BASE_IMG}/w780${res.poster_path}`} alt={`poster for ${res.title}`} />
+        </IonCardSubtitle>
+        <IonCardTitle><b>{res.title}</b></IonCardTitle>
+      </IonCardHeader>
+
+      <IonCardContent>{res.overview}</IonCardContent>
+      <IonCardContent>
+        <IonGrid align-items-start>
+          <IonRow>
+            <IonCol size="auto">
+              <IonBadge color="light">{res.badge1}</IonBadge>
+            </IonCol>
+            <IonCol size="auto">
+              <IonBadge color="light">{res.badge2}</IonBadge>
+            </IonCol>
+            <IonCol size="auto">
+              <IonBadge color="light">{res.badge3}</IonBadge>
+            </IonCol>
+          </IonRow>
+          {isFav ?
+            <IonButton expand="block" color="danger" onClick={e => removeFromFavourite(res.id)} >Remove as favourite</IonButton> :
+            (props.user && <IonButton expand="block" color="primary" onClick={e => addToFavourite(res.id)}>Add to favourite</IonButton>)
+          }
+        </IonGrid>
+      </IonCardContent>
+      <IonCardContent>
+        {catogery === 'tv' && <IonButton expand="full" fill="clear" onClick={e => setShowSeasons(!showSeasons)}>{showSeasons ? 'Hide Seasons' : 'Show Seasons'}</IonButton>}
+      </IonCardContent>
+    </IonCard>
+  );
 
 
   const res = {
@@ -174,39 +208,7 @@ const MidiaDetails: React.FC<any> = (props: any) => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <IonCard>
-          <IonCardHeader>
-            <IonCardSubtitle>
-              <img src={`${BASE_IMG}/w500${res.poster_path}`} alt={`poster for ${res.title}`}/>
-            </IonCardSubtitle>
-            <IonCardTitle><b>{res.title}</b></IonCardTitle>
-          </IonCardHeader>
-
-          <IonCardContent>{res.overview}</IonCardContent>
-          <IonCardContent>
-            <IonGrid align-items-start>
-              <IonRow>
-                <IonCol size="auto">
-                  <IonBadge color="light">{res.badge1}</IonBadge>
-                </IonCol>
-                <IonCol size="auto">
-                  <IonBadge color="light">{res.badge2}</IonBadge>
-                </IonCol>
-                <IonCol size="auto">
-                  <IonBadge color="light">{res.badge3}</IonBadge>
-                </IonCol>
-              </IonRow>
-              {isFav ?
-                <IonButton expand="block" color="danger" onClick={e => removeFromFavourite(res.id)} >Remove as favourite</IonButton> :
-                (props.user && <IonButton expand="block" color="primary" onClick={e => addToFavourite(res.id)}>Add to favourite</IonButton>)
-              }
-            </IonGrid>
-          </IonCardContent>
-          <IonCardContent>
-            {catogery === 'tv' && <IonButton expand="full" fill="clear" onClick={e => setShowSeasons(!showSeasons)}>{showSeasons ? 'Hide Seasons' : 'Show Seasons'}</IonButton>}
-          </IonCardContent>
-        </IonCard>
-
+        {Object.keys(result).length !== 0 ? getCard() : <IonProgressBar type="indeterminate" />}
         {showSeasons && getSeaons()}
       </IonContent>
     </>

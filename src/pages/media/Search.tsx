@@ -1,7 +1,7 @@
 import { IonButtons, IonContent, IonHeader, IonMenuButton, IonSearchbar, IonTitle, IonToolbar } from "@ionic/react";
 import React, { useState } from 'react';
-import { BASE_URL } from "../declarations";
-import ResultsList from '../components/ResultsList';
+import { BASE_URL } from "../../declarations";
+import ResultsList from '../../components/ResultsList';
 
 const SearchPage: React.FC<any> = () => {
 
