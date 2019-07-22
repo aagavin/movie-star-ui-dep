@@ -1,16 +1,19 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import { IonApp, IonPage, IonReactRouter, IonRouterOutlet, IonSplitPane } from '@ionic/react';
 import { AppPage } from './declarations';
 
 import Menu from './components/Menu';
 import Home from './pages/Home';
-import Media from './pages/media/MediaDetails';
-import Episodes from './pages/media/Episodes';
-import Login from './pages/account/Login';
-import SignUp from './pages/account/Signup';
-import Favourite from './pages/Favourite';
-import Search from './pages/media/Search';
+
+/* eslint-disable import/first */
+const Search = lazy(() => import('./pages/media/Search'));
+const Media = lazy(() => import('./pages/media/MediaDetails'));
+const Favourite = lazy(() => import('./pages/Favourite'));
+const SignUp = lazy(() => import('./pages/account/Signup'));
+const Episodes = lazy(() => import('./pages/media/Episodes'));
+const Login = lazy(() => import('./pages/account/Login'));
+
 
 import { home, logIn, search, starOutline } from 'ionicons/icons';
 
@@ -59,6 +62,7 @@ const App: React.FunctionComponent = () => (
       <IonSplitPane contentId="main">
         <Menu appPages={appPages} />
         <IonPage id="main">
+        <Suspense fallback={<div>Loading...</div>}>
           <IonRouterOutlet>
             <Route path="/:tab(home)" component={Home} exact={true} />
             <Route path="/:tab(home)/media/:catogery/:mediaId" component={Media} />
@@ -69,6 +73,7 @@ const App: React.FunctionComponent = () => (
             <Route path="/account/signup" component={SignUp} exact={true} />
             <Route exact path="/" render={() => <Redirect to="/home" />} />
           </IonRouterOutlet>
+          </Suspense>
         </IonPage>
       </IonSplitPane>
     </IonReactRouter>
