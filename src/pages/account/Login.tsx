@@ -1,4 +1,4 @@
-import { IonButton, IonButtons, IonContent, IonHeader, IonInput, IonItem, IonLabel, IonMenuButton, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonButtons, IonContent, IonHeader, IonInput, IonItem, IonLabel, IonMenuButton, IonTitle, IonToolbar, IonCardContent } from '@ionic/react';
 import React, { useState, useEffect } from 'react';
 import { firestore } from 'firebase';
 import useReactRouter from 'use-react-router';
@@ -38,23 +38,25 @@ const LoginPage: React.FC<any> = props => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        {!props.user && (
-          <>
-            <IonItem>
-              <IonLabel position="floating">Email</IonLabel>
-              <IonInput required onIonChange={(e: any) => setUsername(e.target.value)}></IonInput>
-            </IonItem>
-            <IonItem>
-              <IonLabel position="floating">Password</IonLabel>
-              <IonInput type="password" required onIonChange={(e: any) => setPassword(e.target.value)}></IonInput>
-            </IonItem>
-            <IonButton expand="full" onClick={handleLogin}>Sign In</IonButton>
-          </>)}
-        {(props.error && !props.user) && <p>{props.error}</p>}
+        <IonCardContent>
+          {!props.user && (
+            <>
+              <IonItem>
+                <IonLabel position="floating">Email</IonLabel>
+                <IonInput required onIonChange={(e: any) => setUsername(e.target.value)}></IonInput>
+              </IonItem>
+              <IonItem>
+                <IonLabel position="floating">Password</IonLabel>
+                <IonInput type="password" required onIonChange={(e: any) => setPassword(e.target.value)}></IonInput>
+              </IonItem>
+              <IonButton expand="full" onClick={handleLogin}>Sign In</IonButton>
+            </>)}
+          {(props.error && !props.user) && <p>{props.error}</p>}
 
-        {props.user && (<IonButton expand="full" onClick={props.signOut}>Sign Out</IonButton>)}
+          {props.user && (<IonButton expand="full" onClick={props.signOut}>Sign Out</IonButton>)}
 
-          <p>Don't have an account? <a href="/account/signup">Create one</a></p>
+          <p>Don't have an account? <a href="#" onClick={() => history.push('/account/signup')}>Create one</a></p>
+        </IonCardContent>
       </IonContent>
     </>
   );

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonContent, IonItem, IonLabel, IonInput, IonButton } from "@ionic/react";
+import { IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonContent, IonItem, IonLabel, IonInput, IonButton, IonCardContent } from "@ionic/react";
 import { TextFieldTypes, InputChangeEventDetail } from "@ionic/core";
 import { BASE_URL } from "../../declarations";
 
@@ -18,8 +18,16 @@ const SignupPage: React.FC<any> = props => {
   const [errorMsg, setErrorMsg] = useState<string>('');
 
   const setItem = (event: any) => {
-    signup[event.target.name] = event.target.value
+    signup[event.target.name] = event.target.value;
+    if (signup.name === '') {
+      setErrorMsg('name can\'t be blank');
+    }
+    else if (signup.password !== signup.passwordConfirm) {
+      setErrorMsg('password and confirm password needs to match');
+    }
+    else{
     setSignup(signup);
+    }
   }
 
   const submitSignUpForm = async () => {
@@ -66,18 +74,20 @@ const SignupPage: React.FC<any> = props => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <p>* is required</p>
-        {getItem('Name', 'name')}
-        {getItem('Email', 'email', 'email')}
-        {getItem('Password', 'password', 'password')}
-        {getItem('Password Confirm', 'passwordConfirm', 'password')}
-        {getItem('Phone number', 'phone', 'tel', false)}
-        <IonButton expand="full" onClick={submitSignUpForm}>Create Account</IonButton>
-        {errorMsg != '' && (
-          <IonItem>
-            <p style={{ color: '#f00' }}>{errorMsg}</p>
-          </IonItem>
-        )}
+        <IonCardContent>
+          <p>* is required</p>
+          {getItem('Name', 'name')}
+          {getItem('Email', 'email', 'email')}
+          {getItem('Password', 'password', 'password')}
+          {getItem('Password Confirm', 'passwordConfirm', 'password')}
+          {getItem('Phone number', 'phone', 'tel', false)}
+          <IonButton expand="full" onClick={submitSignUpForm}>Create Account</IonButton>
+          {errorMsg != '' && (
+            <IonItem>
+              <p style={{ color: '#f00' }}>{errorMsg}</p>
+            </IonItem>
+          )}
+        </IonCardContent>
       </IonContent>
     </>
   );
