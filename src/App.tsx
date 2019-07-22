@@ -58,25 +58,25 @@ const appPages: AppPage[] = [
 
 const App: React.FunctionComponent = () => (
   <IonApp>
-    <IonReactRouter>
-      <IonSplitPane contentId="main">
-        <Menu appPages={appPages} />
-        <IonPage id="main">
-        <Suspense fallback={<div>Loading...</div>}>
-          <IonRouterOutlet>
-            <Route path="/:tab(home)" component={Home} exact={true} />
-            <Route path="/:tab(home)/media/:catogery/:mediaId" component={Media} />
-            <Route path="/:tab(home)/media/episodes" component={Episodes} />
-            <Route path="/search" component={Search} exact={true} />
-            <Route path="/favourite" component={Favourite} exact={true} />
-            <Route path="/account/login" component={Login} exact={true} />
-            <Route path="/account/signup" component={SignUp} exact={true} />
-            <Route exact path="/" render={() => <Redirect to="/home" />} />
-          </IonRouterOutlet>
-          </Suspense>
-        </IonPage>
-      </IonSplitPane>
-    </IonReactRouter>
+    <Suspense fallback={<div>Loading...</div>}>
+      <IonReactRouter>
+        <IonSplitPane contentId="main">
+          <Menu appPages={appPages} />
+          <IonPage id="main">
+            <IonRouterOutlet>
+              <Route path="/:tab(home)" component={Home} exact={true} />
+              <Route path="/:tab(home)/media/:catogery/:mediaId" component={Media} />
+              <Route path="/:tab(home)/media/episodes" component={Episodes} />
+              <Route path="/search" component={Search} exact={true} />
+              <Route path="/favourite" component={Favourite} exact={true} />
+              <Route path="/account/login" component={Login} exact={true} />
+              <Route path="/account/signup" component={SignUp} exact={true} />
+              <Route exact path="/" render={() => <Redirect to="/home" />} />
+            </IonRouterOutlet>
+          </IonPage>
+        </IonSplitPane>
+      </IonReactRouter>
+    </Suspense>
   </IonApp>
 );
 
