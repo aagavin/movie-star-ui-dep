@@ -12,7 +12,6 @@ import {
   IonProgressBar
 } from '@ionic/react';
 import React, { useState, useEffect } from 'react';
-import './Home.css';
 import ResultsList from '../components/ResultsList';
 import { BASE_URL } from "../declarations";
 
