@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonContent, IonItem, IonLabel, IonInput, IonButton, IonCardContent } from "@ionic/react";
-import { TextFieldTypes, InputChangeEventDetail } from "@ionic/core";
+import { TextFieldTypes } from "@ionic/core";
 import { BASE_URL } from "../../declarations";
 
 
@@ -82,7 +82,7 @@ const SignupPage: React.FC<any> = props => {
           {getItem('Password Confirm', 'passwordConfirm', 'password')}
           {getItem('Phone number', 'phone', 'tel', false)}
           <IonButton expand="full" onClick={submitSignUpForm}>Create Account</IonButton>
-          {errorMsg != '' && (
+          {errorMsg !== '' && (
             <IonItem>
               <p style={{ color: '#f00' }}>{errorMsg}</p>
             </IonItem>
