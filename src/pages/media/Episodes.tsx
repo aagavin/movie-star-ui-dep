@@ -22,7 +22,7 @@ const EpisodesPage: React.FC<any> = props => {
     const fetchList = [];
     for (let i = 1; i < locationState.numOfEpisodes; i++) {
       const url = `${BASE_URL}/media/tv/${locationState.id}/season/${locationState.seasonNum}/episode/${i}`;
-      fetchList.push(fetch(url).then(async r => await r.json()));
+      fetchList.push(fetch(url).then(async r => r.json()));
     }
     const results = await Promise.all(fetchList);
     setResults(results);

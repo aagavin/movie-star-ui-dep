@@ -25,7 +25,7 @@ const LoginPage: React.FC<any> = props => {
   //   }
   // }, [props.user, history]);
 
-  const handleLogin = async () => await props.signInWithEmailAndPassword(username, password);
+  const handleLogin = async () => props.signInWithEmailAndPassword(username, password);
 
   return (
     <>
