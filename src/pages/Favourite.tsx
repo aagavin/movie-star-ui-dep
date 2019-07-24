@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { auth } from 'firebase';
 import { IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonContent, IonProgressBar } from '@ionic/react';
-import withFirebaseAuth from 'react-with-firebase-auth'
+import withFirebaseAuth from 'react-with-firebase-auth';
+import useReactRouter from 'use-react-router';
 
 import MediaDetailsCard from '../components/MediaDetailsCard';
 
@@ -15,17 +16,37 @@ interface FavResults {
 const Favourite: React.FC<any> = props => {
 
   const [results, setResults] = useState<FavResults>();
-
+  const { history } = useReactRouter();
+  
   useEffect(() => {
-    if (props.user) {
-      auth().currentUser.getIdToken(true).then(async (token) => {
-        const url = `${BASE_URL}/user/favourites`;
-        const favs = await fetch(url, { headers: { 'id_token': token } }).then(r => r.json());
-        setResults(favs);
-        console.log(favs);
-      });
+    if (history.location.pathname !== '/favourite') {
+      setResults({favs: []});
     }
-  }, [props.user])
+    else if (history.location.pathname === '/favourite') {
+      getFavs();
+    }
+  }, [history.location.pathname, props.user]);
+
+  const getFavs = async () => {
+    if (props.user) {
+      const token = await auth().currentUser.getIdToken(true);
+      const url = `${BASE_URL}/user/favourites`;
+      const favs = await fetch(url, { headers: { 'id_token': token } }).then(r => r.json());
+      setResults(favs);
+    }
+  }
+
+  const getContent = () => {
+    if (props.user === null) {
+      return <h1>Login to view favourites</h1>
+    }
+
+    if (results) {
+      return results.favs.map(res => <MediaDetailsCard key={res.id} res={res} />);
+    }
+
+    return <IonProgressBar type="indeterminate" />
+  }
 
   return (<>
     <IonHeader>
@@ -37,10 +58,7 @@ const Favourite: React.FC<any> = props => {
       </IonToolbar>
     </IonHeader>
     <IonContent>
-      {results ?
-        results.favs.map(res => <MediaDetailsCard key={res.id} res={res} />) :
-        <IonProgressBar type="indeterminate" />
-      }
+      {getContent()}
     </IonContent>
   </>)
 }
