@@ -11,6 +11,7 @@ MOVIE STAR UI
 _note: this is only needed once_
 
 `npx cap add android`
+
 `npx cap sync`
 
 ## Copy build files
