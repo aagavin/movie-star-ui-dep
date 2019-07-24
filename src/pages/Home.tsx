@@ -24,12 +24,12 @@ const HomePage: React.FunctionComponent = () => {
   useEffect(() => {
     Promise.all([
       getResults('movie'),
-      getResults('tv')
+      getResults('tv', 'popular')
     ]);
   }, []);
 
-  const getResults = async (catogery: string) => {
-    fetch(`${BASE_URL}/media/${catogery}/upcoming`)
+  const getResults = async (catogery: string, filter: string = 'upcoming') => {
+    fetch(`${BASE_URL}/media/${catogery}/${filter}`)
       .then(res => res.json())
       .then(res => {
         catogery === 'movie' ?
@@ -51,7 +51,7 @@ const HomePage: React.FunctionComponent = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <IonSegment color="primary" onIonChange={e => setCatogery(`${e.detail.value}`)}>
+        <IonSegment onIonChange={e => setCatogery(`${e.detail.value}`)}>
           <IonSegmentButton checked={catogery === 'movie'} value="movie">
             <IonLabel>Movie</IonLabel>
           </IonSegmentButton>
