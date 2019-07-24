@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from 'react';
 import { Redirect, Route } from 'react-router-dom';
-import { IonApp, IonPage, IonReactRouter, IonRouterOutlet, IonSplitPane } from '@ionic/react';
+import { IonApp, IonPage, IonReactRouter, IonRouterOutlet, IonSplitPane, IonProgressBar } from '@ionic/react';
 import { AppPage } from './declarations';
 
 import Menu from './components/Menu';
@@ -58,7 +58,7 @@ const appPages: AppPage[] = [
 
 const App: React.FunctionComponent = () => (
   <IonApp>
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<IonProgressBar type="indeterminate" />}>
       <IonReactRouter>
         <IonSplitPane contentId="main">
           <Menu appPages={appPages} />
