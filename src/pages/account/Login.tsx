@@ -16,7 +16,7 @@ const LoginPage: React.FC<any> = props => {
     if (props.user) {
       history.replace('/');
     }
-  }, [props.user]);
+  }, [props.user, history]);
 
   const handleLogin = async () => props.signInWithEmailAndPassword(username, password);
 
@@ -46,7 +46,7 @@ const LoginPage: React.FC<any> = props => {
             </>)}
           {(props.error && !props.user) && <p>{props.error}</p>}
 
-          <p>Don't have an account? <a href="#" onClick={() => history.push('/account/signup')}>Create one</a></p>
+          <p>Don't have an account? <IonButton onClick={() => history.push('/account/signup')}>Create one</IonButton></p>
         </IonCardContent>
       </IonContent>
     </>

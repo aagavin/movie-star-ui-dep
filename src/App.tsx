@@ -80,7 +80,7 @@ const App: React.FunctionComponent = (props: any) => {
     else {
       setPages([...commonPages, ...loggedOutPages]);
     }
-  }, [props.user, loggedInPages]);
+  }, [props.user]);
 
   return (
     <IonApp>

@@ -17,15 +17,6 @@ const Favourite: React.FC<any> = props => {
 
   const [results, setResults] = useState<FavResults>();
   const { history } = useReactRouter();
-  
-  useEffect(() => {
-    if (history.location.pathname !== '/favourite') {
-      setResults({favs: []});
-    }
-    else if (history.location.pathname === '/favourite') {
-      getFavs();
-    }
-  }, [history.location.pathname, props.user]);
 
   const getFavs = async () => {
     if (props.user) {
@@ -35,6 +26,18 @@ const Favourite: React.FC<any> = props => {
       setResults(favs);
     }
   }
+
+  /* eslint-disable react-hooks/exhaustive-deps */
+  useEffect(() => {
+    if (history.location.pathname !== '/favourite') {
+      setResults({favs: []});
+    }
+    else if (history.location.pathname === '/favourite') {
+      getFavs();
+    }
+  }, [history.location.pathname, props.user]);
+  /* eslint-enable react-hooks/exhaustive-deps */
+
 
   const getContent = () => {
     if (props.user === null) {
