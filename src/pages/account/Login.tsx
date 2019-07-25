@@ -1,6 +1,5 @@
 import { IonButton, IonButtons, IonContent, IonHeader, IonInput, IonItem, IonLabel, IonMenuButton, IonTitle, IonToolbar, IonCardContent } from '@ionic/react';
 import React, { useState, useEffect } from 'react';
-import { firestore } from 'firebase';
 import useReactRouter from 'use-react-router';
 
 import withFirebaseAuth from 'react-with-firebase-auth'
@@ -13,17 +12,11 @@ const LoginPage: React.FC<any> = props => {
   const [password, setPassword] = useState('');
   const { history } = useReactRouter();
 
-  // useEffect(() => {
-  //   if (props.user) {
-  //     firestore().collection('favs').doc(props.user.uid).get().then(doc => {
-  //       localStorage.setItem('favs', JSON.stringify(doc.data()));
-  //       // history.replace('/');
-  //     });
-  //   }
-  //   else{
-  //     localStorage.removeItem('favs');
-  //   }
-  // }, [props.user, history]);
+  useEffect(() => {
+    if (props.user) {
+      history.replace('/');
+    }
+  }, [props.user]);
 
   const handleLogin = async () => props.signInWithEmailAndPassword(username, password);
 
@@ -52,8 +45,6 @@ const LoginPage: React.FC<any> = props => {
               <IonButton expand="full" onClick={handleLogin}>Sign In</IonButton>
             </>)}
           {(props.error && !props.user) && <p>{props.error}</p>}
-
-          {props.user && (<IonButton expand="full" onClick={props.signOut}>Sign Out</IonButton>)}
 
           <p>Don't have an account? <a href="#" onClick={() => history.push('/account/signup')}>Create one</a></p>
         </IonCardContent>
