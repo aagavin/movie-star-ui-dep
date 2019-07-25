@@ -1,0 +1,35 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:11.0.0
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - node-v1-{{ .Branch }}-
+            - node-v1-
+      - run: echo "Building zip file"
+      - run: npm run build
+      - save_cache:
+          key: node-v1-dependency-{{ .Branch }}-{{ checksum "package-lock.json" }}-{{checksum "headless-chromium"}}
+          paths:
+            - ./node_modules
+  deploy:
+    docker:
+      - image: circleci/node:11.0.0
+    steps:
+      - attach_workspace:
+          at: .
+      - run: ls -la
+      - run:
+          name: deploy to firebase
+          command: npx firebase-tools deploy --token "$FIREBASE_TOKEN"
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
