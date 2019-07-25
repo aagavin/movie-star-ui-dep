@@ -9,8 +9,9 @@ jobs:
           keys:
             - node-v1-{{ .Branch }}-
             - node-v1-
-      - run: echo "Building zip file"
-      - run: npm run build
+      - run: echo "building files"
+      - run: npm ci
+      - run: npx ionic build
       - save_cache:
           key: node-v1-dependency-{{ .Branch }}-{{ checksum "package-lock.json" }}-{{checksum "headless-chromium"}}
           paths:
