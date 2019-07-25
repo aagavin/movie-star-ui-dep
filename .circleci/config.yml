@@ -7,8 +7,7 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - node-v1-{{ .Branch }}-
-            - node-v1-
+            - node-v1-dependency-{{ .Branch }}-{{ checksum "package-lock.json" }}
       - run: echo "building files"
       - run: npm ci
       - run: npx ionic build
