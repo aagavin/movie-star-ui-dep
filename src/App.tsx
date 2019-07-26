@@ -1,8 +1,10 @@
-import React, { lazy, Suspense, useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import { IonApp, IonPage, IonReactRouter, IonRouterOutlet, IonSplitPane, IonProgressBar } from '@ionic/react';
 import { home, logIn, logOut, search, starOutline } from 'ionicons/icons';
 import withFirebaseAuth from 'react-with-firebase-auth';
+
+import asyncComponent from './AsyncComponent';
 
 import { firebaseAppAuth } from './firebaseConfig';
 import { AppPage } from './declarations';
@@ -11,12 +13,12 @@ import Menu from './components/Menu';
 import Home from './pages/Home';
 
 /* eslint-disable import/first */
-const Search = lazy(() => import('./pages/media/Search'));
-const Media = lazy(() => import('./pages/media/MediaDetails'));
-const Favourite = lazy(() => import('./pages/Favourite'));
-const SignUp = lazy(() => import('./pages/account/Signup'));
-const Episodes = lazy(() => import('./pages/media/Episodes'));
-const Login = lazy(() => import('./pages/account/Login'));
+const Search = asyncComponent(() => import('./pages/media/Search').then(module => module.default));
+const Media = asyncComponent(() => import('./pages/media/MediaDetails').then(module => module.default));
+const Favourite = asyncComponent(() => import('./pages/Favourite').then(module => module.default));
+const SignUp = asyncComponent(() => import('./pages/account/Signup').then(module => module.default));
+const Episodes = asyncComponent(() => import('./pages/media/Episodes').then(module => module.default));
+const Login = asyncComponent(() => import('./pages/account/Login').then(module => module.default));
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/core/css/core.css';
