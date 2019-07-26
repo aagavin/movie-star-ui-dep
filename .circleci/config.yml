@@ -18,6 +18,10 @@ jobs:
       - run: ls -la
       - persist_to_workspace:
           root: .
+          paths:
+            - build
+            - firebase.json
+            - '.firebaserc'
   deploy:
     docker:
       - image: circleci/node:11.0.0
