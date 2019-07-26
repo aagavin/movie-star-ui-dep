@@ -15,6 +15,9 @@ jobs:
           key: node-v1-dependency-{{ .Branch }}-{{ checksum "package-lock.json" }}
           paths:
             - ./node_modules
+      - run: ls -la
+      - persist_to_workspace:
+          root: .
   deploy:
     docker:
       - image: circleci/node:11.0.0
