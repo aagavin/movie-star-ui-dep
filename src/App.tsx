@@ -10,7 +10,8 @@ import { firebaseAppAuth } from './firebaseConfig';
 import { AppPage } from './declarations';
 
 import Menu from './components/Menu';
-import Home from './pages/Home';
+
+const Home = asyncComponent(() => import('./pages/Home').then(module => module.default));
 
 /* eslint-disable import/first */
 const Search = asyncComponent(() => import('./pages/media/Search').then(module => module.default));
