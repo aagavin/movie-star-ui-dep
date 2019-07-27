@@ -1,7 +1,9 @@
 import { IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonHeader, IonImg, IonTitle, IonToolbar, IonButton, IonBadge, IonGrid, IonRow, IonCol, IonToast, IonIcon, IonItem, IonLabel, IonProgressBar } from '@ionic/react';
 import React, { useState, useEffect } from 'react';
 import withFirebaseAuth from 'react-with-firebase-auth';
-import { firestore } from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/database';
+import 'firebase/firestore';
 import useReactRouter from 'use-react-router';
 import { providers, firebaseAppAuth } from "../../firebaseConfig";
 import { BASE_IMG, BASE_URL, MediaDetail } from "../../declarations";
@@ -22,7 +24,7 @@ const MidiaDetails: React.FC<any> = (props: any) => {
 
   useEffect(() => {
     if (props.user && result && result.id) {
-      firestore().collection('favs').doc(props.user.uid).get().then(doc => {
+      firebase.firestore().collection('favs').doc(props.user.uid).get().then(doc => {
         const favs = Object.keys(doc.data());
         setIsFav(favs.includes(result.id.toString()));
       });
@@ -31,16 +33,22 @@ const MidiaDetails: React.FC<any> = (props: any) => {
 
   const addToFavourite = async (id: number) => {
     const fav = {};
-    fav[id] = { catogery };
-    await firestore().collection('favs').doc(props.user.uid).set(fav, { merge: true });
+    fav[id] = {
+      id: result.id,
+      name: result.name ? result.name : null,
+      title: result.title,
+      poster_path: result.poster_path,
+      catogery
+    };
+    await firebase.firestore().collection('favs').doc(props.user.uid).set(fav, { merge: true });
     setIsFav(true);
     setShowToast(true);
   }
 
   const removeFromFavourite = async (id: number) => {
     const delFav = {};
-    delFav[id] = firestore.FieldValue.delete();
-    await firestore().collection('favs').doc(props.user.uid).update(delFav);
+    delFav[id] = firebase.firestore.FieldValue.delete();
+    await firebase.firestore().collection('favs').doc(props.user.uid).update(delFav);
     setIsFav(false);
     setShowToast(true);
   }
@@ -58,7 +66,7 @@ const MidiaDetails: React.FC<any> = (props: any) => {
           <br />
           <IonBadge color="light">{season.episode_count} episodes</IonBadge>
 
-          <IonItem button detail onClick={e => { e.preventDefault(); history.push({ pathname: '/home/media/episodes', state: { id: match.params['mediaId'], seasonNum: season.season_number, numOfEpisodes: season.episode_count } }) }}>
+          <IonItem button detail onClick={() => history.push(`/home/media/${catogery}/${match.params['mediaId']}/season/${season.season_number}/episodes/${season.episode_count}`)}>
             <IonLabel>
               View Episodes
             </IonLabel>

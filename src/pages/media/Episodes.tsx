@@ -4,31 +4,40 @@ import useReactRouter from 'use-react-router';
 import { BASE_URL, BASE_IMG } from "../../declarations";
 
 interface LocationState {
-  id: string;
-  numOfEpisodes: number;
-  seasonNum: number;
+  mediaId?: string;
+  numOfEpisodes?: number;
+  seasonNumber?: number;
+}
+
+interface CardResults {
+  id: React.ReactText,
+  still_path: any,
+  name: React.ReactNode,
+  overview: React.ReactNode,
+  vote_average: React.ReactNode,
+  air_date: React.ReactNode,
 }
 
 const EpisodesPage: React.FC<any> = props => {
 
   const [results, setResults] = useState([]);
-  const { history } = useReactRouter();
+  const { history, match } = useReactRouter();
 
   useEffect(() => {
-    props.location.state && getResults(props.location.state)
-  }, [props.location.state]);
+    match.params && getResults(match.params)
+  }, [match.params]);
 
   const getResults = async (locationState: LocationState) => {
     const fetchList = [];
     for (let i = 1; i < locationState.numOfEpisodes; i++) {
-      const url = `${BASE_URL}/media/tv/${locationState.id}/season/${locationState.seasonNum}/episode/${i}`;
-      fetchList.push(fetch(url).then(async r => r.json()));
+      const url = `${BASE_URL}/media/tv/${locationState.mediaId}/season/${locationState.seasonNumber}/episode/${i}`;
+      fetchList.push(fetch(url).then(r => r.json()));
     }
     const results = await Promise.all(fetchList);
     setResults(results);
   }
 
-  const getCard = result => (
+  const getCard = (result: CardResults) => (
     <IonCard key={result.id}>
       <IonCardHeader>
         <IonCardSubtitle><IonImg src={`${BASE_IMG}/w500${result.still_path}`} /></IonCardSubtitle>
