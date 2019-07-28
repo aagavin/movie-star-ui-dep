@@ -20,6 +20,7 @@ const MidiaDetails: React.FC<any> = (props: any) => {
   useEffect(() => {
     const url = `${BASE_URL}/media/${catogery}/${match.params['mediaId']}`;
     fetch(url).then(r => r.json()).then(setResult).catch(console.error);
+    return () => setResult({});
   }, [catogery, match.params]);
 
   useEffect(() => {
@@ -36,9 +37,9 @@ const MidiaDetails: React.FC<any> = (props: any) => {
     fav[id] = {
       id: result.id,
       name: result.name ? result.name : null,
-      title: result.title,
+      title: result.title ? result.title: null,
       poster_path: result.poster_path,
-      catogery
+      media_type: catogery
     };
     await firebase.firestore().collection('favs').doc(props.user.uid).set(fav, { merge: true });
     setIsFav(true);
@@ -133,7 +134,7 @@ const MidiaDetails: React.FC<any> = (props: any) => {
       <IonToast
         isOpen={showToast}
         onDidDismiss={() => setShowToast(false)}
-        message={isFav ? 'added to fav' : 'removed as fav'}
+        message={isFav ? 'added as favourite' : 'removed as favourite'}
         duration={200}
       >
       </IonToast>
