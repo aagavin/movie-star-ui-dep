@@ -3,7 +3,16 @@ import { IonList, IonItem, IonThumbnail, IonImg, IonLabel } from "@ionic/react";
 import { withRouter } from "react-router";
 import { BASE_IMG } from "../declarations";
 
-const ResultsList: React.FunctionComponent<any> = (props: any) => (
+interface ResultsListProps {
+  catogery?: string,
+  history?: any,
+  location?: any,
+  match?: any,
+  results: [],
+  staticContext?: any
+}
+
+const ResultsList: React.FC<any> = (props: ResultsListProps) => (
   <IonList>
     {props.results.map((result: any) => (
       <IonItem detail button key={result.id} onClick={e => { e.preventDefault(); props.history.push(`/home/media/${result.media_type || props.catogery}/${result.id}`) }}>
