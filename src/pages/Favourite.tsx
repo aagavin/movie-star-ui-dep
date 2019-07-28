@@ -1,36 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import { auth } from 'firebase';
 import { IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonContent, IonProgressBar } from '@ionic/react';
 import withFirebaseAuth from 'react-with-firebase-auth';
+import firebase from 'firebase/app';
+import 'firebase/database';
+import 'firebase/firestore';
 import useReactRouter from 'use-react-router';
 
-import MediaDetailsCard from '../components/MediaDetailsCard';
-
-import { BASE_URL, MediaDetail } from '../declarations';
-import { providers, firebaseAppAuth } from '../firebaseConfig';
+import { firebaseAppAuth } from '../firebaseConfig';
+import ResultsList from '../components/ResultsList';
 
 interface FavResults {
-  favs?: MediaDetail[]
+  catogery?: string,
+  id?: number,
+  name?: string,
+  poster_path?: string,
+  title?: string,
 }
 
 const Favourite: React.FC<any> = props => {
 
-  const [results, setResults] = useState<FavResults>();
+  const [results, setResults] = useState<FavResults[]>();
   const { history } = useReactRouter();
-
-  const getFavs = async () => {
-    if (props.user) {
-      const token = await auth().currentUser.getIdToken(true);
-      const url = `${BASE_URL}/user/favourites`;
-      const favs = await fetch(url, { headers: { 'id_token': token } }).then(r => r.json());
-      setResults(favs);
-    }
-  }
 
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     if (history.location.pathname !== '/favourite') {
-      setResults({favs: []});
+      setResults([]);
     }
     else if (history.location.pathname === '/favourite') {
       getFavs();
@@ -38,14 +33,24 @@ const Favourite: React.FC<any> = props => {
   }, [history.location.pathname, props.user]);
   /* eslint-enable react-hooks/exhaustive-deps */
 
+  const getFavs = async () => {
+    if (props.user) {
+      firebase.firestore().collection('favs').doc(props.user.uid).get().then(doc => {
+        setResults(Object.values(doc.data()));
+      });
+    }
+  }
 
   const getContent = () => {
     if (props.user === null) {
       return <h1>Login to view favourites</h1>
     }
 
-    if (results) {
-      return results.favs.map(res => <MediaDetailsCard key={res.id} res={res} />);
+    if (results && results.length > 0) {
+      return <ResultsList results={results} />
+    }
+    else if (results && results.length === 0) {
+      return <>No favourites :( <br />Add some</>
     }
 
     return <IonProgressBar type="indeterminate" />
@@ -67,6 +72,5 @@ const Favourite: React.FC<any> = props => {
 }
 
 export default withFirebaseAuth({
-  providers,
   firebaseAppAuth,
 })(Favourite);
