@@ -134,7 +134,7 @@ const MidiaDetails: React.FC<any> = (props: any) => {
       <IonToast
         isOpen={showToast}
         onDidDismiss={() => setShowToast(false)}
-        message={isFav ? 'added as favourite' : 'removed as favourite'}
+        message={isFav ? 'added to favourites' : 'removed from favourites'}
         duration={200}
       >
       </IonToast>
