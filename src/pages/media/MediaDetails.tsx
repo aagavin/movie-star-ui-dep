@@ -1,4 +1,4 @@
-import { IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonHeader, IonImg, IonTitle, IonToolbar, IonButton, IonBadge, IonGrid, IonRow, IonCol, IonToast, IonIcon, IonItem, IonLabel, IonProgressBar } from '@ionic/react';
+import { IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonHeader, IonImg, IonTitle, IonToolbar, IonButton, IonBadge, IonGrid, IonRow, IonCol, IonToast, IonItem, IonLabel, IonProgressBar, IonBackButton } from '@ionic/react';
 import React, { useState, useEffect } from 'react';
 import withFirebaseAuth from 'react-with-firebase-auth';
 import firebase from 'firebase/app';
@@ -141,9 +141,7 @@ const MidiaDetails: React.FC<any> = (props: any) => {
       <IonHeader>
         <IonToolbar color="primary">
           <IonButtons slot="start">
-            <IonButton routerDirection="back" onClick={history.goBack}>
-              <IonIcon name="arrow-back"></IonIcon>
-            </IonButton>
+            <IonBackButton defaultHref='/home' />
           </IonButtons>
           <IonTitle>{catogery}</IonTitle>
         </IonToolbar>
