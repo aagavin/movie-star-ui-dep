@@ -36,7 +36,7 @@ const Favourite: React.FC<any> = props => {
   const getFavs = async () => {
     if (props.user) {
       firebase.firestore().collection('favs').doc(props.user.uid).get().then(doc => {
-        setResults(Object.values(doc.data()));
+        doc.data() ? setResults(Object.values(doc.data())) : setResults([]);
       });
     }
   }
