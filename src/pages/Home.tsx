@@ -47,7 +47,7 @@ const HomePage: React.FunctionComponent = () => {
           <IonButtons slot="start">
             <IonMenuButton />
           </IonButtons>
-          <IonTitle>Home</IonTitle>
+          <IonTitle>Popular Movies &amp; TV shows</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
