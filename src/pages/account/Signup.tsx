@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonContent, IonItem, IonLabel, IonInput, IonButton, IonCardContent } from "@ionic/react";
 import { TextFieldTypes } from "@ionic/core";
-import { BASE_URL } from "../../declarations";
+import withFirebaseAuth from 'react-with-firebase-auth';
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import { providers, firebaseAppAuth } from "../../firebaseConfig";
+
 
 
 interface SignupForm {
@@ -25,34 +29,21 @@ const SignupPage: React.FC<any> = props => {
     else if (signup.password !== signup.passwordConfirm) {
       setErrorMsg('password and confirm password needs to match');
     }
-    else{
-    setSignup(signup);
+    else {
+      setSignup(signup);
+      setErrorMsg('');
     }
   }
 
   const submitSignUpForm = async () => {
-    const url = `${BASE_URL}/user/create`;
-    const response = await fetch(url, {
-      method: 'POST',
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(signup)
-    }).then(r => r.json());
-    if (response && response.name) {
-      setErrorMsg('');
-      console.log('success!');
+    try{
+      const user = await props.createUserWithEmailAndPassword(signup.email, signup.password);
+      console.log(user);
+      firebase.auth().currentUser.sendEmailVerification();
+      // await user.sendEmailVerification();
     }
-    else {
-      switch (response.error.message) {
-        case 'EMAIL_EXISTS':
-          setErrorMsg('Email already exists ');
-          break;
-        default:
-          setErrorMsg(response.error.message);
-          break;
-      }
+    catch(err){
+      console.error(err);
     }
   }
 
@@ -93,4 +84,7 @@ const SignupPage: React.FC<any> = props => {
   );
 }
 
-export default SignupPage;
+export default withFirebaseAuth({
+  providers,
+  firebaseAppAuth,
+})(SignupPage);
