@@ -15,13 +15,12 @@ const MidiaDetails: React.FC<any> = (props: any) => {
   const [isFav, setIsFav] = useState<boolean>(false);
   const [showToast, setShowToast] = useState<boolean>(false);
   const [showSeasons, setShowSeasons] = useState(false);
-  const [catogery] = useState(match.params['catogery']);
+  const catogery = match.params['catogery'];
 
   useEffect(() => {
     const url = `${BASE_URL}/media/${catogery}/${match.params['mediaId']}`;
     fetch(url).then(r => r.json()).then(setResult).catch(console.error);
-    return () => setResult({});
-  }, [catogery, match.params]);
+  }, [match.params, catogery])
 
   useEffect(() => {
     if (props.user && result && result.id) {
@@ -119,7 +118,7 @@ const MidiaDetails: React.FC<any> = (props: any) => {
     badge1: `raiting: ${result.vote_average}`
   };
 
-  if (catogery === 'movie') {
+  if (result && catogery === 'movie') {
     res['badge2'] = `runtime: ${res.runtime}`;
     res['badge3'] = res.release_date;
   }
@@ -127,7 +126,6 @@ const MidiaDetails: React.FC<any> = (props: any) => {
     res['badge2'] = res.next_episode_to_air ? `next episode: ${res.next_episode_to_air.air_date}` : '';
     res['badge3'] = '';
   }
-
 
   return (
     <>
@@ -147,7 +145,7 @@ const MidiaDetails: React.FC<any> = (props: any) => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        {Object.keys(result).length !== 0 ? getCard() : <IonProgressBar type="indeterminate" />}
+        {res && res.title ? getCard() : <IonProgressBar type="indeterminate" />}
         {showSeasons && getSeaons()}
       </IonContent>
     </>
