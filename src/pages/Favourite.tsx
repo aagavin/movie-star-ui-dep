@@ -24,7 +24,7 @@ const Favourite: React.FC<any> = props => {
 
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
-    if (history.location.pathname !== '/favourite') {
+    if (history.location.pathname !== '/favourite' && !history.location.pathname.includes('/home/media')) {
       setResults([]);
     }
     else if (history.location.pathname === '/favourite') {
