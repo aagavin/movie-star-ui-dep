@@ -46,7 +46,7 @@ const LoginPage: React.FC<any> = props => {
             </>)}
           {(props.error && !props.user) && <p>{props.error}</p>}
 
-          <p>Don't have an account? <IonButton onClick={() => history.push('/account/signup')}>Create one</IonButton></p>
+          <p>Don't have an account? <IonButton onClick={() => history.replace('/account/signup')}>Create one</IonButton></p>
         </IonCardContent>
       </IonContent>
     </>
