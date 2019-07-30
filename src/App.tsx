@@ -52,14 +52,14 @@ const commonPages: AppPage[] = [
 
 const loggedInPages: AppPage[] = [
   {
-    title: 'Logout',
-    url: '/account/logout',
-    icon: logOut
-  },
-  {
     title: 'Favourites',
     url: '/favourite',
     icon: starOutline
+  },
+  {
+    title: 'Logout',
+    url: '/account/logout',
+    icon: logOut
   }
 ];
 
@@ -93,9 +93,9 @@ const App: React.FunctionComponent = (props: any) => {
             <Menu appPages={pages} />
             <IonPage id="main">
               <IonRouterOutlet>
-                <Route path="/:tab(home)" component={Home} exact={true} />
-                <Route path="/:tab(home)/media/:catogery/:mediaId" component={Media} exact={true} />
-                <Route path="/:tab(home)/media/:catogery/:mediaId/season/:seasonNumber/episodes/:numOfEpisodes" component={Episodes} exact={true} />
+                <Route path="/home" component={Home} exact={true} />
+                <Route path="/home/media/:catogery/:mediaId" component={Media} exact={true} />
+                <Route path="/home/media/:catogery/:mediaId/season/:seasonNumber/episodes/:numOfEpisodes" component={Episodes} exact={true} />
                 <Route path="/search" component={Search} exact={true} />
                 <Route path="/favourite" component={Favourite} exact={true} />
                 <Route path="/account/login" component={Login} exact={true} />
