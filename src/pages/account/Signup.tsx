@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonContent, IonItem, IonLabel, IonInput, IonButton, IonCardContent } from "@ionic/react";
 import { TextFieldTypes } from "@ionic/core";
-import withFirebaseAuth from 'react-with-firebase-auth';
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import { providers, firebaseAppAuth } from "../../firebaseConfig";
-
+import UserContext from '../../context';
 
 
 interface SignupForm {
@@ -20,6 +18,7 @@ const SignupPage: React.FC<any> = props => {
 
   const [signup, setSignup] = useState<SignupForm>({});
   const [errorMsg, setErrorMsg] = useState<string>('');
+  const context = useContext<any>(UserContext);
 
   const setItem = (event: any) => {
     signup[event.target.name] = event.target.value;
@@ -37,10 +36,10 @@ const SignupPage: React.FC<any> = props => {
 
   const submitSignUpForm = async () => {
     try{
-      const user = await props.createUserWithEmailAndPassword(signup.email, signup.password);
+      const user = await context.createUserWithEmailAndPassword(signup.email, signup.password);
       console.log(user);
       firebase.auth().currentUser.sendEmailVerification();
-      // await user.sendEmailVerification();
+      // TODO: show alert and redirect user
     }
     catch(err){
       console.error(err);
@@ -84,7 +83,4 @@ const SignupPage: React.FC<any> = props => {
   );
 }
 
-export default withFirebaseAuth({
-  providers,
-  firebaseAppAuth,
-})(SignupPage);
+export default SignupPage;
