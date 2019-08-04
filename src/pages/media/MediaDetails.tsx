@@ -1,12 +1,11 @@
 import { IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonHeader, IonImg, IonTitle, IonToolbar, IonButton, IonBadge, IonGrid, IonRow, IonCol, IonToast, IonItem, IonLabel, IonProgressBar, IonBackButton } from '@ionic/react';
-import React, { useState, useEffect } from 'react';
-import withFirebaseAuth from 'react-with-firebase-auth';
+import React, { useState, useEffect, useContext } from 'react';
 import firebase from 'firebase/app';
 import 'firebase/database';
 import 'firebase/firestore';
 import useReactRouter from 'use-react-router';
-import { providers, firebaseAppAuth } from "../../firebaseConfig";
 import { BASE_IMG, BASE_URL, MediaDetail } from "../../declarations";
+import UserContext from '../../context';
 
 const MidiaDetails: React.FC<any> = (props: any) => {
 
@@ -16,6 +15,7 @@ const MidiaDetails: React.FC<any> = (props: any) => {
   const [showToast, setShowToast] = useState<boolean>(false);
   const [showSeasons, setShowSeasons] = useState(false);
   const catogery = match.params['catogery'];
+  const context = useContext<any>(UserContext);
 
   useEffect(() => {
     const url = `${BASE_URL}/media/${catogery}/${match.params['mediaId']}`;
@@ -23,13 +23,13 @@ const MidiaDetails: React.FC<any> = (props: any) => {
   }, [match.params, catogery])
 
   useEffect(() => {
-    if (props.user && result && result.id) {
-      firebase.firestore().collection('favs').doc(props.user.uid).get().then(doc => {
+    if (context.user && result && result.id) {
+      firebase.firestore().collection('favs').doc(context.user.uid).get().then(doc => {
         const favs = Object.keys(doc.data());
         setIsFav(favs.includes(result.id.toString()));
       });
     }
-  }, [props.user, result]);
+  }, [context.user, result]);
 
   const addToFavourite = async (id: number) => {
     const fav = {};
@@ -40,7 +40,7 @@ const MidiaDetails: React.FC<any> = (props: any) => {
       poster_path: result.poster_path,
       media_type: catogery
     };
-    await firebase.firestore().collection('favs').doc(props.user.uid).set(fav, { merge: true });
+    await firebase.firestore().collection('favs').doc(context.user.uid).set(fav, { merge: true });
     setIsFav(true);
     setShowToast(true);
   }
@@ -48,7 +48,7 @@ const MidiaDetails: React.FC<any> = (props: any) => {
   const removeFromFavourite = async (id: number) => {
     const delFav = {};
     delFav[id] = firebase.firestore.FieldValue.delete();
-    await firebase.firestore().collection('favs').doc(props.user.uid).update(delFav);
+    await firebase.firestore().collection('favs').doc(context.user.uid).update(delFav);
     setIsFav(false);
     setShowToast(true);
   }
@@ -101,7 +101,7 @@ const MidiaDetails: React.FC<any> = (props: any) => {
           </IonRow>
           {isFav ?
             <IonButton expand="block" color="danger" onClick={e => removeFromFavourite(res.id)} >Remove as favourite</IonButton> :
-            (props.user && <IonButton expand="block" color="primary" onClick={e => addToFavourite(res.id)}>Add to favourite</IonButton>)
+            (context.user && <IonButton expand="block" color="primary" onClick={e => addToFavourite(res.id)}>Add to favourite</IonButton>)
           }
         </IonGrid>
       </IonCardContent>
@@ -152,7 +152,4 @@ const MidiaDetails: React.FC<any> = (props: any) => {
   );
 };
 
-export default withFirebaseAuth({
-  providers,
-  firebaseAppAuth,
-})(MidiaDetails);
+export default MidiaDetails;

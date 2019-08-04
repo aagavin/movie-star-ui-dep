@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState, FunctionComponent, useContext } from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import { IonApp, IonPage, IonReactRouter, IonRouterOutlet, IonSplitPane, IonProgressBar } from '@ionic/react';
 import { home, logIn, logOut, search, starOutline } from 'ionicons/icons';
@@ -8,6 +8,7 @@ import asyncComponent from './AsyncComponent';
 
 import { firebaseAppAuth } from './firebaseConfig';
 import { AppPage } from './declarations';
+import UserContext from './context'
 
 import Menu from './components/Menu';
 
@@ -71,12 +72,13 @@ const loggedOutPages: AppPage[] = [
   }
 ];
 
-const App: React.FunctionComponent = (props: any) => {
+const App: FunctionComponent = (props: any) => {
 
   const [pages, setPages] = useState<AppPage[]>(commonPages);
-
+  const user = useContext(UserContext);
 
   useEffect(() => {
+    user.user = props.user;
     if (props.user) {
       setPages([...commonPages, ...loggedInPages]);
     }
@@ -99,7 +101,7 @@ const App: React.FunctionComponent = (props: any) => {
                 <Route path="/search" component={Search} exact={true} />
                 <Route path="/favourite" component={Favourite} exact={true} />
                 <Route path="/account/login" component={Login} exact={true} />
-                <Route path="/account/logout" render={() => {props.signOut(); return <Redirect to="/home" />}} exact={true} />
+                <Route path="/account/logout" render={() => { props.signOut(); return <Redirect to="/home" /> }} exact={true} />
                 <Route path="/account/signup" component={SignUp} exact={true} />
                 <Route exact path="/" render={() => <Redirect to="/home" />} />
               </IonRouterOutlet>

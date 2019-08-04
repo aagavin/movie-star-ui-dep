@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonContent, IonProgressBar } from '@ionic/react';
-import withFirebaseAuth from 'react-with-firebase-auth';
 import firebase from 'firebase/app';
 import 'firebase/database';
 import 'firebase/firestore';
 import useReactRouter from 'use-react-router';
 
-import { firebaseAppAuth } from '../firebaseConfig';
+import UserContext from '../context';
 import ResultsList from '../components/ResultsList';
 
 interface FavResults {
@@ -21,6 +20,7 @@ const Favourite: React.FC<any> = props => {
 
   const [results, setResults] = useState<FavResults[]>();
   const { history } = useReactRouter();
+  const context = useContext<any>(UserContext);
 
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
@@ -30,19 +30,19 @@ const Favourite: React.FC<any> = props => {
     else if (history.location.pathname === '/favourite') {
       getFavs();
     }
-  }, [history.location.pathname, props.user]);
+  }, [history.location.pathname, context.user]);
   /* eslint-enable react-hooks/exhaustive-deps */
 
   const getFavs = async () => {
-    if (props.user) {
-      firebase.firestore().collection('favs').doc(props.user.uid).get().then(doc => {
+    if (context.user) {
+      firebase.firestore().collection('favs').doc(context.user.uid).get().then(doc => {
         doc.data() ? setResults(Object.values(doc.data())) : setResults([]);
       });
     }
   }
 
   const getContent = () => {
-    if (props.user === null) {
+    if (context.user === null) {
       return <h1>Login to view favourites</h1>
     }
 
@@ -71,6 +71,4 @@ const Favourite: React.FC<any> = props => {
   </>)
 }
 
-export default withFirebaseAuth({
-  firebaseAppAuth,
-})(Favourite);
+export default Favourite;
