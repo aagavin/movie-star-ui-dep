@@ -2,10 +2,7 @@ import { IonButton, IonButtons, IonContent, IonHeader, IonInput, IonItem, IonLab
 import React, { useState, useEffect, useContext } from 'react';
 import useReactRouter from 'use-react-router';
 
-import withFirebaseAuth from 'react-with-firebase-auth';
 import UserContext from '../../context';
-import { providers, firebaseAppAuth } from "../../firebaseConfig";
-
 
 const LoginPage: React.FC<any> = props => {
 
@@ -20,7 +17,7 @@ const LoginPage: React.FC<any> = props => {
     }
   }, [context.user, history]);
 
-  const handleLogin = async () => props.signInWithEmailAndPassword(username, password);
+  const handleLogin = async () => context.signInWithEmailAndPassword(username, password);
 
   return (
     <>
@@ -46,7 +43,7 @@ const LoginPage: React.FC<any> = props => {
               </IonItem>
               <IonButton expand="full" onClick={handleLogin}>Sign In</IonButton>
             </>)}
-          {(props.error && !context.user) && <p>{props.error}</p>}
+          {(context.error && !context.user) && <p>{context.error}</p>}
 
           <p>Don't have an account? <IonButton onClick={() => history.replace('/account/signup')}>Create one</IonButton></p>
         </IonCardContent>
@@ -55,7 +52,4 @@ const LoginPage: React.FC<any> = props => {
   );
 }
 
-export default withFirebaseAuth({
-  providers,
-  firebaseAppAuth,
-})(LoginPage);
+export default LoginPage;

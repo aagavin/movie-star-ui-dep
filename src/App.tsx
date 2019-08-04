@@ -75,18 +75,21 @@ const loggedOutPages: AppPage[] = [
 const App: FunctionComponent = (props: any) => {
 
   const [pages, setPages] = useState<AppPage[]>(commonPages);
-  const user = useContext(UserContext);
+  const context = useContext(UserContext);
 
   useEffect(() => {
-    user.user = props.user;
+    context.user = props.user;
+    context.signInWithEmailAndPassword = props.signInWithEmailAndPassword;
+    context.createUserWithEmailAndPassword = props.createUserWithEmailAndPassword;
+    context.error = props.error;
+    
     if (props.user) {
       setPages([...commonPages, ...loggedInPages]);
     }
     else {
       setPages([...commonPages, ...loggedOutPages]);
     }
-  }, [props.user]);
-
+  }, [props.user, props.signInWithEmailAndPassword, props.createUserWithEmailAndPassword, props.error, context]);
   return (
     <IonApp>
       <Suspense fallback={<IonProgressBar type="indeterminate" />}>
