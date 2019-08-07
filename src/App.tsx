@@ -77,19 +77,30 @@ const App: FunctionComponent = (props: any) => {
   const [pages, setPages] = useState<AppPage[]>(commonPages);
   const context = useContext(UserContext);
 
+  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     context.user = props.user;
     context.signInWithEmailAndPassword = props.signInWithEmailAndPassword;
     context.createUserWithEmailAndPassword = props.createUserWithEmailAndPassword;
     context.error = props.error;
-    
+
     if (props.user) {
+      getFavs();
       setPages([...commonPages, ...loggedInPages]);
     }
     else {
       setPages([...commonPages, ...loggedOutPages]);
     }
-  }, [props.user, props.signInWithEmailAndPassword, props.createUserWithEmailAndPassword, props.error, context]);
+
+
+  }, [props.user]);
+  /* eslint-enable react-hooks/exhaustive-deps */
+
+  const getFavs = async () => {
+    const favsDoc = await context.getFavourites(props.user.uid);
+    sessionStorage.setItem('favs', JSON.stringify(Object.values(favsDoc.data())));
+  }
+
   return (
     <IonApp>
       <Suspense fallback={<IonProgressBar type="indeterminate" />}>

@@ -1,8 +1,5 @@
 import { IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonHeader, IonImg, IonTitle, IonToolbar, IonButton, IonBadge, IonGrid, IonRow, IonCol, IonToast, IonItem, IonLabel, IonProgressBar, IonBackButton } from '@ionic/react';
 import React, { useState, useEffect, useContext } from 'react';
-import firebase from 'firebase/app';
-import 'firebase/database';
-import 'firebase/firestore';
 import useReactRouter from 'use-react-router';
 import { BASE_IMG, BASE_URL, MediaDetail } from "../../declarations";
 import UserContext from '../../context';
@@ -20,35 +17,37 @@ const MidiaDetails: React.FC<any> = (props: any) => {
   useEffect(() => {
     const url = `${BASE_URL}/media/${catogery}/${match.params['mediaId']}`;
     fetch(url).then(r => r.json()).then(setResult).catch(console.error);
+
+    return () => setResult({});
   }, [match.params, catogery])
 
   useEffect(() => {
     if (context.user && result && result.id) {
-      firebase.firestore().collection('favs').doc(context.user.uid).get().then(doc => {
-        const favs = Object.keys(doc.data());
-        setIsFav(favs.includes(result.id.toString()));
-      });
+      const favs = sessionStorage.getItem('favs');
+      setIsFav(favs.includes(result.id.toString()));
     }
+    return () => setIsFav(false);
   }, [context.user, result]);
 
   const addToFavourite = async (id: number) => {
+    const favs = JSON.parse(sessionStorage.getItem('favs'));
     const fav = {};
     fav[id] = {
       id: result.id,
       name: result.name ? result.name : null,
-      title: result.title ? result.title: null,
+      title: result.title ? result.title : null,
       poster_path: result.poster_path,
       media_type: catogery
     };
-    await firebase.firestore().collection('favs').doc(context.user.uid).set(fav, { merge: true });
+    favs.push(fav);
+    await context.addFavourite(context.user.uid, fav);
+    sessionStorage.setItem('favs', favs);
     setIsFav(true);
     setShowToast(true);
   }
 
   const removeFromFavourite = async (id: number) => {
-    const delFav = {};
-    delFav[id] = firebase.firestore.FieldValue.delete();
-    await firebase.firestore().collection('favs').doc(context.user.uid).update(delFav);
+    await context.removeFavourite(context.user.uid, id);
     setIsFav(false);
     setShowToast(true);
   }
