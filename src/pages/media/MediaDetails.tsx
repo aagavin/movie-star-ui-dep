@@ -39,15 +39,18 @@ const MidiaDetails: React.FC<any> = (props: any) => {
       poster_path: result.poster_path,
       media_type: catogery
     };
-    favs.push(fav);
+    favs.push(fav[id]);
     await context.addFavourite(context.user.uid, fav);
-    sessionStorage.setItem('favs', favs);
+    sessionStorage.setItem('favs', JSON.stringify(favs));
     setIsFav(true);
     setShowToast(true);
   }
 
   const removeFromFavourite = async (id: number) => {
+    let favs: Array<{}> = JSON.parse(sessionStorage.getItem('favs'));
+    favs = favs.filter(fav => fav['id'] !== id);
     await context.removeFavourite(context.user.uid, id);
+    sessionStorage.setItem('favs', JSON.stringify(favs));
     setIsFav(false);
     setShowToast(true);
   }
