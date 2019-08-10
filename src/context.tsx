@@ -28,19 +28,16 @@ const getFavourites = async (uid: string) => {
     .doc(uid)
     .get();
 }
+export const init = {
+  user: {},
+  signInWithEmailAndPassword: null,
+  createUserWithEmailAndPassword: null,
+  favourites: [],
+  error: null,
+  addFavourite,
+  removeFavourite,
+  getFavourites
+}
+const UserContext = createContext({});
 
-const UserContext = createContext(
-  {
-    user: {},
-    signInWithEmailAndPassword: null,
-    createUserWithEmailAndPassword: null,
-    error: null,
-    addFavourite,
-    removeFavourite,
-    getFavourites
-  }
-);
-
-export const UserProvider = UserContext.Provider;
-export const UserConsumer = UserContext.Consumer;
 export default UserContext

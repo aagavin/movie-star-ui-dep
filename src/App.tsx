@@ -1,14 +1,14 @@
-import React, { Suspense, useEffect, useState, FunctionComponent, useContext } from 'react';
-import { Redirect, Route } from 'react-router-dom';
-import { IonApp, IonPage, IonReactRouter, IonRouterOutlet, IonSplitPane, IonProgressBar } from '@ionic/react';
+import { IonApp, IonPage, IonProgressBar, IonReactRouter, IonRouterOutlet, IonSplitPane } from '@ionic/react';
 import { home, logIn, logOut, search, starOutline } from 'ionicons/icons';
+import React, { FunctionComponent, Suspense, useEffect, useState } from 'react';
+import { Redirect, Route } from 'react-router-dom';
 import withFirebaseAuth from 'react-with-firebase-auth';
 
 import asyncComponent from './AsyncComponent';
 
-import { firebaseAppAuth } from './firebaseConfig';
+import UserContext, { init } from './context'
 import { AppPage } from './declarations';
-import UserContext from './context'
+import { firebaseAppAuth } from './firebaseConfig';
 
 import Menu from './components/Menu';
 
@@ -31,58 +31,60 @@ import '@ionic/core/css/structure.css';
 import '@ionic/core/css/typography.css';
 
 /* Optional CSS utils that can be commented out */
-import '@ionic/core/css/padding.css';
+import '@ionic/core/css/display.css';
+import '@ionic/core/css/flex-utils.css';
 import '@ionic/core/css/float-elements.css';
+import '@ionic/core/css/padding.css';
 import '@ionic/core/css/text-alignment.css';
 import '@ionic/core/css/text-transformation.css';
-import '@ionic/core/css/flex-utils.css';
-import '@ionic/core/css/display.css';
 
 const commonPages: AppPage[] = [
   {
+    icon: home,
     title: 'Home',
-    url: '/home',
-    icon: home
+    url: '/home'
   },
   {
+    icon: search,
     title: 'Search',
-    url: '/search',
-    icon: search
+    url: '/search'
   },
 ];
 
 const loggedInPages: AppPage[] = [
   {
+    icon: starOutline,
     title: 'Favourites',
-    url: '/favourite',
-    icon: starOutline
+    url: '/favourite'
   },
   {
+    icon: logOut,
     title: 'Logout',
-    url: '/account/logout',
-    icon: logOut
+    url: '/account/logout'
   }
 ];
 
 const loggedOutPages: AppPage[] = [
   {
+    icon: logIn,
     title: 'Login',
-    url: '/account/login',
-    icon: logIn
+    url: '/account/login'
   }
 ];
 
 const App: FunctionComponent = (props: any) => {
 
   const [pages, setPages] = useState<AppPage[]>(commonPages);
-  const context = useContext(UserContext);
+  const [context, setContext] = useState<any>({});
+  const Logout = () => { props.signOut(); return <Redirect to="/home" /> }
+  const RedirectHome = () => <Redirect to="/home" />;
 
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
-    context.user = props.user;
-    context.signInWithEmailAndPassword = props.signInWithEmailAndPassword;
-    context.createUserWithEmailAndPassword = props.createUserWithEmailAndPassword;
-    context.error = props.error;
+    init.user = props.user;
+    init.signInWithEmailAndPassword = props.signInWithEmailAndPassword;
+    init.createUserWithEmailAndPassword = props.createUserWithEmailAndPassword;
+    init.error = props.error;
 
     if (props.user) {
       getFavs();
@@ -91,13 +93,13 @@ const App: FunctionComponent = (props: any) => {
     else {
       setPages([...commonPages, ...loggedOutPages]);
     }
-
-
+    setContext(init);
   }, [props.user]);
   /* eslint-enable react-hooks/exhaustive-deps */
 
   const getFavs = async () => {
-    const favsDoc = await context.getFavourites(props.user.uid);
+    const favsDoc = await init.getFavourites(props.user.uid);
+    init.favourites = Object.values(favsDoc.data());
     sessionStorage.setItem('favs', JSON.stringify(Object.values(favsDoc.data())));
   }
 
@@ -106,6 +108,7 @@ const App: FunctionComponent = (props: any) => {
       <Suspense fallback={<IonProgressBar type="indeterminate" />}>
         <IonReactRouter>
           <IonSplitPane contentId="main">
+          <UserContext.Provider value={context}>
             <Menu appPages={pages} />
             <IonPage id="main">
               <IonRouterOutlet>
@@ -115,11 +118,12 @@ const App: FunctionComponent = (props: any) => {
                 <Route path="/search" component={Search} exact={true} />
                 <Route path="/favourite" component={Favourite} exact={true} />
                 <Route path="/account/login" component={Login} exact={true} />
-                <Route path="/account/logout" render={() => { props.signOut(); return <Redirect to="/home" /> }} exact={true} />
+                <Route path="/account/logout" render={Logout} exact={true} />
                 <Route path="/account/signup" component={SignUp} exact={true} />
-                <Route exact path="/" render={() => <Redirect to="/home" />} />
+                <Route exact={true} path="/" render={RedirectHome} />
               </IonRouterOutlet>
             </IonPage>
+            </UserContext.Provider>
           </IonSplitPane>
         </IonReactRouter>
       </Suspense>
