@@ -112,15 +112,15 @@ const App: FunctionComponent = (props: any) => {
             <Menu appPages={pages} />
             <IonPage id="main">
               <IonRouterOutlet>
-                <Route path="/home" component={Home} exact={true} />
-                <Route path="/home/media/:catogery/:mediaId" component={Media} exact={true} />
-                <Route path="/home/media/:catogery/:mediaId/season/:seasonNumber/episodes/:numOfEpisodes" component={Episodes} exact={true} />
-                <Route path="/search" component={Search} exact={true} />
-                <Route path="/favourite" component={Favourite} exact={true} />
-                <Route path="/account/login" component={Login} exact={true} />
-                <Route path="/account/logout" render={Logout} exact={true} />
-                <Route path="/account/signup" component={SignUp} exact={true} />
-                <Route exact={true} path="/" render={RedirectHome} />
+                <Route path="/home" component={Home} exact />
+                <Route path="/home/media/:catogery/:mediaId" component={Media} exact />
+                <Route path="/home/media/:catogery/:mediaId/season/:seasonNumber/episodes/:numOfEpisodes" component={Episodes} exact />
+                <Route path="/search" component={Search} exact />
+                <Route path="/favourite" component={Favourite} exact />
+                <Route path="/account/login" component={Login} exact />
+                <Route path="/account/logout" render={Logout} exact />
+                <Route path="/account/signup" component={SignUp} exact />
+                <Route exact path="/" render={RedirectHome} />
               </IonRouterOutlet>
             </IonPage>
             </UserContext.Provider>

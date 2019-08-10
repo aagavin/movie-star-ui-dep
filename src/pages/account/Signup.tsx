@@ -1,8 +1,8 @@
-import React, { useState, useContext } from 'react';
-import { IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonContent, IonItem, IonLabel, IonInput, IonButton, IonCardContent } from "@ionic/react";
-import { TextFieldTypes } from "@ionic/core";
+import { TextFieldTypes } from '@ionic/core';
+import { IonButton, IonButtons, IonCardContent, IonContent, IonHeader, IonInput, IonItem, IonLabel, IonMenuButton, IonTitle, IonToolbar } from '@ionic/react';
 import firebase from 'firebase/app';
 import 'firebase/auth';
+import React, { useContext, useState } from 'react';
 import UserContext from '../../context';
 
 
@@ -36,12 +36,12 @@ const SignupPage: React.FC<any> = props => {
 
   const submitSignUpForm = async () => {
     try{
-      const user = await context.createUserWithEmailAndPassword(signup.email, signup.password);
-      console.log(user);
+      await context.createUserWithEmailAndPassword(signup.email, signup.password);
       firebase.auth().currentUser.sendEmailVerification();
-      // TODO: show alert and redirect user
+      
     }
     catch(err){
+      // tslint:disable-next-line: no-console
       console.error(err);
     }
   }
@@ -49,7 +49,7 @@ const SignupPage: React.FC<any> = props => {
   const getItem = (text: string, name: string, type: TextFieldTypes = 'text', required: boolean = true) => (
     <IonItem>
       <IonLabel position="floating">{text} {required && '*'}</IonLabel>
-      <IonInput type={type} name={name} required={required} onIonChange={setItem}></IonInput>
+      <IonInput type={type} name={name} required={required} onIonChange={setItem}/>
     </IonItem>
   );
 

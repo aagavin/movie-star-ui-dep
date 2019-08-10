@@ -1,13 +1,16 @@
-import { IonButtons, IonContent, IonHeader, IonMenuButton, IonSearchbar, IonTitle, IonToolbar } from "@ionic/react";
+import { SearchbarChangeEventDetail } from '@ionic/core/dist/types/components/searchbar/searchbar-interface';
+import { IonButtons, IonContent, IonHeader, IonMenuButton, IonSearchbar, IonTitle, IonToolbar } from '@ionic/react';
 import React, { useState } from 'react';
-import { BASE_URL } from "../../declarations";
 import ResultsList from '../../components/ResultsList';
+import { BASE_URL } from '../../declarations';
 
 const SearchPage: React.FC<any> = () => {
 
   const [results, setResults] = useState([]);
 
-  const handleSearch = async (query: string) => {
+  const handleSearch = async (queryEvent: CustomEvent<SearchbarChangeEventDetail>) => {
+    // tslint:disable-next-line: no-string-literal
+    const query = queryEvent.target['value'];
     if (query !== '' && query.length > 3) {
       const response = await fetch(`${BASE_URL}/search/?q=${query}`).then(r => r.json())
       setResults(response);
@@ -28,7 +31,7 @@ const SearchPage: React.FC<any> = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <IonSearchbar onIonChange={(e:any) => handleSearch(e.target.value)}></IonSearchbar>
+        <IonSearchbar onIonChange={handleSearch}/>
         <ResultsList results={results} />
       </IonContent>
     </>

@@ -1,7 +1,7 @@
+import { IonBackButton, IonBadge, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonContent, IonHeader, IonImg, IonRow, IonTitle, IonToolbar } from '@ionic/react';
 import React, { useEffect, useState } from 'react';
-import { IonHeader, IonToolbar, IonButtons, IonTitle, IonContent, IonCard, IonCardHeader, IonCardSubtitle, IonImg, IonCardTitle, IonCardContent, IonRow, IonCol, IonBadge, IonBackButton } from '@ionic/react';
 import useReactRouter from 'use-react-router';
-import { BASE_URL, BASE_IMG } from "../../declarations";
+import { BASE_IMG, BASE_URL } from '../../declarations';
 
 interface LocationState {
   mediaId?: string;
@@ -18,14 +18,14 @@ interface CardResults {
   air_date: React.ReactNode,
 }
 
+// tslint:disable: no-string-literal
+// tslint:disable: no-unused-expression
 const EpisodesPage: React.FC<any> = () => {
 
   const [results, setResults] = useState([]);
   const { match } = useReactRouter();
 
-  useEffect(() => {
-    match.params && getResults(match.params)
-  }, [match.params]);
+  useEffect(() => {match.params && getResults(match.params)}, [match.params]);
 
   const getResults = async (locationState: LocationState) => {
     const fetchList = [];
@@ -33,8 +33,7 @@ const EpisodesPage: React.FC<any> = () => {
       const url = `${BASE_URL}/media/tv/${locationState.mediaId}/season/${locationState.seasonNumber}/episode/${i+1}`;
       fetchList.push(fetch(url).then(r => r.json()));
     }
-    const results = await Promise.all(fetchList);
-    setResults(results);
+    setResults(await Promise.all(fetchList));
   }
 
   const getCard = (result: CardResults) => (

@@ -1,7 +1,7 @@
-import React from "react";
-import { withRouter } from "react-router";
-import { IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent, IonGrid, IonRow, IonCol, IonBadge } from "@ionic/react";
-import { BASE_IMG, MediaDetail } from "../declarations";
+import { IonBadge, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonGrid, IonRow } from '@ionic/react';
+import React from 'react';
+import { withRouter } from 'react-router';
+import { BASE_IMG, MediaDetail } from '../declarations';
 
 interface MediaDetailsProps {
   res?: MediaDetail
@@ -15,18 +15,18 @@ const MediaDetailsCard: React.FunctionComponent<any> = (props: MediaDetailsProps
 
   const res = {
     ...props.res,
-    title: props.res.title ? props.res.title : props.res.name,
     badge1: `raiting: ${props.res.vote_average}`,
-    catogery: props.res.title ? 'movie' : 'tv'
+    catogery: props.res.title ? 'movie' : 'tv',
+    title: props.res.title ? props.res.title : props.res.name,
   };
 
   if (res.catogery === 'movie') {
-    res['badge2'] = `runtime: ${res.runtime}`;
-    res['badge3'] = res.release_date;
+    res.badge2 = `runtime: ${res.runtime}`;
+    res.badge3 = res.release_date;
   }
   else {
-    res['badge2'] = res.next_episode_to_air ? `next episode: ${res.next_episode_to_air.air_date}` : '';
-    res['badge3'] = '';
+    res.badge2 = res.next_episode_to_air ? `next episode: ${res.next_episode_to_air.air_date}` : '';
+    res.badge3 = '';
   }
 
   return (
