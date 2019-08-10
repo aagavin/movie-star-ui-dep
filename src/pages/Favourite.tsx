@@ -12,21 +12,15 @@ interface FavResults {
   title?: string,
 }
 
-const Favourite: React.FC<any> = props => {
+const Favourite: React.FC<any> = () => {
 
   const [results, setResults] = useState<FavResults[]>();
   const context = useContext<any>(UserContext);
 
-  /* eslint-disable react-hooks/exhaustive-deps */
-  useEffect(() => {
-    const favs = sessionStorage.getItem('favs');
-    setResults(JSON.parse(favs));
-  }, [context, sessionStorage.getItem('favs')]);
-  /* eslint-enable react-hooks/exhaustive-deps */
-
+  useEffect(() => setResults(context.favourites), [context]);
 
   const getContent = () => {
-    if (context.user === null) {
+    if (typeof context.user === 'undefined' || context.user === null) {
       return <h1>Login to view favourites</h1>
     }
 
@@ -36,7 +30,6 @@ const Favourite: React.FC<any> = props => {
     else if (results && results.length === 0) {
       return <>No favourites :( <br />Add some</>
     }
-
     return <IonProgressBar type="indeterminate" />
   }
 
