@@ -1,18 +1,20 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 export default function asyncComponent(getComponent) {
   class AsyncComponent extends Component {
-    static Component = null;
-    state = { Component: AsyncComponent.Component };
+    public static Component = null;
+    public state = { Component: AsyncComponent.Component };
 
-    componentWillMount() {
+    public componentWillMount() {
       if (!this.state.Component) {
-        getComponent().then(Component => {
+        // tslint:disable-next-line: no-shadowed-variable
+        getComponent().then((Component: any) => {
           AsyncComponent.Component = Component
           this.setState({ Component })
         })
       }
     }
-    render() {
+    public render() {
+      // tslint:disable-next-line: no-shadowed-variable
       const { Component } = this.state
       if (Component) {
         return <Component {...this.props} />

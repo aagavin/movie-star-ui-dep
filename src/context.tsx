@@ -1,7 +1,7 @@
-import { createContext } from 'react';
 import firebase from 'firebase/app';
 import 'firebase/database';
 import 'firebase/firestore';
+import { createContext } from 'react';
 
 const addFavourite = async (uid: string, fav: {}) => {
   return firebase
@@ -30,6 +30,7 @@ const getFavourites = async (uid: string) => {
 }
 export const init = {
   user: {},
+  // tslint:disable-next-line: object-literal-sort-keys
   signInWithEmailAndPassword: null,
   createUserWithEmailAndPassword: null,
   favourites: [],

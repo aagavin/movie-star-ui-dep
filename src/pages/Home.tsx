@@ -1,19 +1,19 @@
 import {
   IonButtons,
+  IonCardContent,
   IonContent,
   IonHeader,
   IonLabel,
   IonMenuButton,
-  IonTitle,
-  IonToolbar,
+  IonProgressBar,
   IonSegment,
   IonSegmentButton,
-  IonCardContent,
-  IonProgressBar
+  IonTitle,
+  IonToolbar
 } from '@ionic/react';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ResultsList from '../components/ResultsList';
-import { BASE_URL } from "../declarations";
+import { BASE_URL } from '../declarations';
 
 const HomePage: React.FunctionComponent = () => {
 
@@ -28,11 +28,11 @@ const HomePage: React.FunctionComponent = () => {
     ]);
   }, []);
 
-  const getResults = async (catogery: string, filter: string = 'upcoming') => {
-    fetch(`${BASE_URL}/media/${catogery}/${filter}`)
+  const getResults = async (ResultCatogery: string, filter: string = 'upcoming') => {
+    fetch(`${BASE_URL}/media/${ResultCatogery}/${filter}`)
       .then(res => res.json())
       .then(res => {
-        catogery === 'movie' ?
+        ResultCatogery === 'movie' ?
           setMovieResults(res) :
           setTvResults(res);
       });
@@ -51,6 +51,7 @@ const HomePage: React.FunctionComponent = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
+        {/* tslint:disable-next-line: jsx-no-lambda */}
         <IonSegment onIonChange={e => setCatogery(`${e.detail.value}`)}>
           <IonSegmentButton checked={catogery === 'movie'} value="movie">
             <IonLabel>Movie</IonLabel>

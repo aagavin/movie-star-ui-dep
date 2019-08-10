@@ -1,9 +1,12 @@
-import { IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonHeader, IonImg, IonTitle, IonToolbar, IonButton, IonBadge, IonGrid, IonRow, IonCol, IonToast, IonItem, IonLabel, IonProgressBar, IonBackButton } from '@ionic/react';
-import React, { useState, useEffect, useContext } from 'react';
+import { IonBackButton, IonBadge, IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonImg, IonItem, IonLabel, IonProgressBar, IonRow, IonTitle, IonToast, IonToolbar } from '@ionic/react';
+import React, { useContext, useEffect, useState } from 'react';
 import useReactRouter from 'use-react-router';
-import { BASE_IMG, BASE_URL, MediaDetail } from "../../declarations";
 import UserContext from '../../context';
+import { BASE_IMG, BASE_URL, MediaDetail } from '../../declarations';
 
+// tslint:disable: no-string-literal
+// tslint:disable: no-console
+// tslint:disable: jsx-no-lambda
 const MidiaDetails: React.FC<any> = (props: any) => {
 
   const { history, match } = useReactRouter();
@@ -11,6 +14,7 @@ const MidiaDetails: React.FC<any> = (props: any) => {
   const [isFav, setIsFav] = useState<boolean>(false);
   const [showToast, setShowToast] = useState<boolean>(false);
   const [showSeasons, setShowSeasons] = useState(false);
+
   const catogery = match.params['catogery'];
   const context = useContext<any>(UserContext);
 
@@ -67,8 +71,7 @@ const MidiaDetails: React.FC<any> = (props: any) => {
           {season.overview}
           <br />
           <IonBadge color="light">{season.episode_count} episodes</IonBadge>
-
-          <IonItem button detail onClick={() => history.push(`/home/media/${catogery}/${match.params['mediaId']}/season/${season.season_number}/episodes/${season.episode_count}`)}>
+          <IonItem button detail onClick={e => history.push(`/home/media/${catogery}/${match.params['mediaId']}/season/${season.season_number}/episodes/${season.episode_count}`)}>
             <IonLabel>
               View Episodes
             </IonLabel>
@@ -78,7 +81,11 @@ const MidiaDetails: React.FC<any> = (props: any) => {
     ));
   };
 
-  const getCard = () => (
+  const getCard = () => {
+    const removeFavClickHandler = () => removeFromFavourite(res.id);
+    const addFavClickHandler = () => addToFavourite(res.id);
+    const showSeasonsClickHandler = () => setShowSeasons(!showSeasons)
+    return (
     <IonCard>
       <IonCardHeader>
         <IonCardSubtitle>
@@ -102,16 +109,16 @@ const MidiaDetails: React.FC<any> = (props: any) => {
             </IonCol>
           </IonRow>
           {isFav ?
-            <IonButton expand="block" color="danger" onClick={e => removeFromFavourite(res.id)} >Remove as favourite</IonButton> :
-            (context.user && <IonButton expand="block" color="primary" onClick={e => addToFavourite(res.id)}>Add to favourite</IonButton>)
+            <IonButton expand="block" color="danger" onClick={removeFavClickHandler} >Remove as favourite</IonButton> :
+            (context.user && <IonButton expand="block" color="primary" onClick={addFavClickHandler}>Add to favourite</IonButton>)
           }
         </IonGrid>
       </IonCardContent>
       <IonCardContent>
-        {catogery === 'tv' && <IonButton expand="full" fill="clear" onClick={e => setShowSeasons(!showSeasons)}>{showSeasons ? 'Hide Seasons' : 'Show Seasons'}</IonButton>}
+        {catogery === 'tv' && <IonButton expand="full" fill="clear" onClick={showSeasonsClickHandler}>{showSeasons ? 'Hide Seasons' : 'Show Seasons'}</IonButton>}
       </IonCardContent>
     </IonCard>
-  );
+  )};
 
 
   const res = {
@@ -136,12 +143,11 @@ const MidiaDetails: React.FC<any> = (props: any) => {
         onDidDismiss={() => setShowToast(false)}
         message={isFav ? 'added to favourites' : 'removed from favourites'}
         duration={200}
-      >
-      </IonToast>
+      />
       <IonHeader>
         <IonToolbar color="primary">
           <IonButtons slot="start">
-            <IonBackButton defaultHref='/home' />
+            <IonBackButton defaultHref="/home" />
           </IonButtons>
           <IonTitle>{catogery}</IonTitle>
         </IonToolbar>

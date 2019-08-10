@@ -1,5 +1,5 @@
-import { IonButton, IonButtons, IonContent, IonHeader, IonInput, IonItem, IonLabel, IonMenuButton, IonTitle, IonToolbar, IonCardContent } from '@ionic/react';
-import React, { useState, useEffect, useContext } from 'react';
+import { IonButton, IonButtons, IonCardContent, IonContent, IonHeader, IonInput, IonItem, IonLabel, IonMenuButton, IonTitle, IonToolbar } from '@ionic/react';
+import React, { useContext, useEffect, useState } from 'react';
 import useReactRouter from 'use-react-router';
 
 import UserContext from '../../context';
@@ -11,10 +11,11 @@ const LoginPage: React.FC<any> = props => {
   const { history } = useReactRouter();
   const context = useContext<any>(UserContext);
 
-  useEffect(() => {context.user && history.replace('/')}, [context.user, history]);
+  useEffect(() => context.user && history.replace('/'), [context.user, history]);
 
   const handleLogin = async () => context.signInWithEmailAndPassword(username, password);
 
+  // tslint:disable: jsx-no-lambda
   return (
     <>
       <IonHeader>
@@ -31,11 +32,11 @@ const LoginPage: React.FC<any> = props => {
             <>
               <IonItem>
                 <IonLabel position="floating">Email</IonLabel>
-                <IonInput required onIonChange={(e: any) => setUsername(e.target.value)}></IonInput>
+                <IonInput required onIonChange={(e: any) => setUsername(e.target.value)}/>
               </IonItem>
               <IonItem>
                 <IonLabel position="floating">Password</IonLabel>
-                <IonInput type="password" required onIonChange={(e: any) => setPassword(e.target.value)}></IonInput>
+                <IonInput type="password" required onIonChange={(e: any) => setPassword(e.target.value)}/>
               </IonItem>
               <IonButton expand="full" onClick={handleLogin}>Sign In</IonButton>
             </>)}
@@ -46,6 +47,7 @@ const LoginPage: React.FC<any> = props => {
       </IonContent>
     </>
   );
+  // tslint:enable: jsx-no-lambda
 }
 
 export default LoginPage;

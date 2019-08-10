@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonContent, IonProgressBar } from '@ionic/react';
+import { IonButtons, IonContent, IonHeader, IonMenuButton, IonProgressBar, IonTitle, IonToolbar } from '@ionic/react';
+import React, { useContext, useEffect, useState } from 'react';
 
-import UserContext from '../context';
 import ResultsList from '../components/ResultsList';
+import UserContext from '../context';
 
 interface FavResults {
   catogery?: string,
@@ -33,19 +33,21 @@ const Favourite: React.FC<any> = () => {
     return <IonProgressBar type="indeterminate" />
   }
 
-  return (<>
-    <IonHeader>
-      <IonToolbar color="primary">
-        <IonButtons slot="start">
-          <IonMenuButton />
-        </IonButtons>
-        <IonTitle>Favourites</IonTitle>
-      </IonToolbar>
-    </IonHeader>
-    <IonContent>
-      {getContent()}
-    </IonContent>
-  </>)
+  return (
+    <>
+      <IonHeader>
+        <IonToolbar color="primary">
+          <IonButtons slot="start">
+            <IonMenuButton />
+          </IonButtons>
+          <IonTitle>Favourites</IonTitle>
+        </IonToolbar>
+      </IonHeader>
+      <IonContent>
+        {getContent()}
+      </IonContent>
+    </>
+  )
 }
 
 export default Favourite;
