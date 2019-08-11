@@ -12,8 +12,8 @@ import {
   IonToolbar
 } from '@ionic/react';
 import React, { useEffect, useState } from 'react';
-import ResultsList from '../components/ResultsList';
 import { BASE_URL } from '../declarations';
+const ResultsList = React.lazy(() => import('../components/ResultsList'));
 
 const HomePage: React.FunctionComponent = () => {
 
