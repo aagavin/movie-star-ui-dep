@@ -100,7 +100,6 @@ const App: FunctionComponent = (props: any) => {
   const getFavs = async () => {
     const favsDoc = await init.getFavourites(props.user.uid);
     init.favourites = Object.values(favsDoc.data());
-    sessionStorage.setItem('favs', JSON.stringify(Object.values(favsDoc.data())));
   }
 
   return (
