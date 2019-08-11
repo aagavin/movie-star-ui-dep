@@ -2,12 +2,12 @@ import { IonBackButton, IonBadge, IonButton, IonButtons, IonCard, IonCardContent
 import React, { useContext, useEffect, useState } from 'react';
 import useReactRouter from 'use-react-router';
 import UserContext from '../../context';
-import { BASE_IMG, BASE_URL, MediaDetail } from '../../declarations';
+import { BASE_IMG, BASE_URL, MediaDetail, Season } from '../../declarations';
 
 // tslint:disable: no-string-literal
 // tslint:disable: no-console
 // tslint:disable: jsx-no-lambda
-const MidiaDetails: React.FC<any> = (props: any) => {
+const MidiaDetails: React.FC<any> = () => {
 
   const { history, match } = useReactRouter();
   const [result, setResult] = useState<MediaDetail>({});
@@ -27,14 +27,13 @@ const MidiaDetails: React.FC<any> = (props: any) => {
 
   useEffect(() => {
     if (context.user && result && result.id) {
-      const favs = sessionStorage.getItem('favs');
-      setIsFav(favs.includes(result.id.toString()));
+      console.log(context.favourites);
+      setIsFav(context.favourites.includes(result.id.toString()));
     }
     return () => setIsFav(false);
-  }, [context.user, result]);
+  }, [context.user, context.favourites, result.id]);
 
   const addToFavourite = async (id: number) => {
-    const favs = JSON.parse(sessionStorage.getItem('favs'));
     const fav = {};
     fav[id] = {
       id: result.id,
@@ -43,24 +42,21 @@ const MidiaDetails: React.FC<any> = (props: any) => {
       poster_path: result.poster_path,
       media_type: catogery
     };
-    favs.push(fav[id]);
     await context.addFavourite(context.user.uid, fav);
-    sessionStorage.setItem('favs', JSON.stringify(favs));
+    context.favourites.push(fav[id]);
     setIsFav(true);
     setShowToast(true);
   }
 
   const removeFromFavourite = async (id: number) => {
-    let favs: Array<{}> = JSON.parse(sessionStorage.getItem('favs'));
-    favs = favs.filter(fav => fav['id'] !== id);
     await context.removeFavourite(context.user.uid, id);
-    sessionStorage.setItem('favs', JSON.stringify(favs));
+    context.favourites = context.favourites.filter(f => f.id !== id);
     setIsFav(false);
     setShowToast(true);
   }
 
-  const getSeaons = () => {
-    return result.seasons.map((season: any) => (
+  const getSeaons = () => (
+    result.seasons.map((season: Season) => (
       <IonCard key={season.id}>
         <IonCardHeader>
           <IonCardSubtitle><IonImg src={`${BASE_IMG}/w780${season.poster_path}`} /></IonCardSubtitle>
@@ -78,47 +74,48 @@ const MidiaDetails: React.FC<any> = (props: any) => {
           </IonItem>
         </IonCardContent>
       </IonCard>
-    ));
-  };
+    ))
+  );
 
   const getCard = () => {
     const removeFavClickHandler = () => removeFromFavourite(res.id);
     const addFavClickHandler = () => addToFavourite(res.id);
     const showSeasonsClickHandler = () => setShowSeasons(!showSeasons)
     return (
-    <IonCard>
-      <IonCardHeader>
-        <IonCardSubtitle>
-          <img src={`${BASE_IMG}/w780${res.poster_path}`} alt={`poster for ${res.title}`} />
-        </IonCardSubtitle>
-        <IonCardTitle><b>{res.title}</b></IonCardTitle>
-      </IonCardHeader>
+      <IonCard>
+        <IonCardHeader>
+          <IonCardSubtitle>
+            <IonImg src={`${BASE_IMG}/w780${res.poster_path}`} alt={`poster for ${res.title}`} />
+          </IonCardSubtitle>
+          <IonCardTitle><b>{res.title}</b></IonCardTitle>
+        </IonCardHeader>
 
-      <IonCardContent>{res.overview}</IonCardContent>
-      <IonCardContent>
-        <IonGrid align-items-start>
-          <IonRow>
-            <IonCol size="auto">
-              <IonBadge color="light">{res.badge1}</IonBadge>
-            </IonCol>
-            <IonCol size="auto">
-              <IonBadge color="light">{res.badge2}</IonBadge>
-            </IonCol>
-            <IonCol size="auto">
-              <IonBadge color="light">{res.badge3}</IonBadge>
-            </IonCol>
-          </IonRow>
-          {isFav ?
-            <IonButton expand="block" color="danger" onClick={removeFavClickHandler} >Remove as favourite</IonButton> :
-            (context.user && <IonButton expand="block" color="primary" onClick={addFavClickHandler}>Add to favourite</IonButton>)
-          }
-        </IonGrid>
-      </IonCardContent>
-      <IonCardContent>
-        {catogery === 'tv' && <IonButton expand="full" fill="clear" onClick={showSeasonsClickHandler}>{showSeasons ? 'Hide Seasons' : 'Show Seasons'}</IonButton>}
-      </IonCardContent>
-    </IonCard>
-  )};
+        <IonCardContent>{res.overview}</IonCardContent>
+        <IonCardContent>
+          <IonGrid align-items-start>
+            <IonRow>
+              <IonCol size="auto">
+                <IonBadge color="light">{res.badge1}</IonBadge>
+              </IonCol>
+              <IonCol size="auto">
+                <IonBadge color="light">{res.badge2}</IonBadge>
+              </IonCol>
+              <IonCol size="auto">
+                <IonBadge color="light">{res.badge3}</IonBadge>
+              </IonCol>
+            </IonRow>
+            {isFav ?
+              <IonButton expand="block" color="danger" onClick={removeFavClickHandler} >Remove as favourite</IonButton> :
+              (context.user && <IonButton expand="block" color="primary" onClick={addFavClickHandler}>Add to favourite</IonButton>)
+            }
+          </IonGrid>
+        </IonCardContent>
+        <IonCardContent>
+          {catogery === 'tv' && <IonButton expand="full" fill="clear" onClick={showSeasonsClickHandler}>{showSeasons ? 'Hide Seasons' : 'Show Seasons'}</IonButton>}
+        </IonCardContent>
+      </IonCard>
+    )
+  };
 
 
   const res = {
@@ -132,8 +129,13 @@ const MidiaDetails: React.FC<any> = (props: any) => {
     res['badge3'] = res.release_date;
   }
   else {
+
     res['badge2'] = res.next_episode_to_air ? `next episode: ${res.next_episode_to_air.air_date}` : '';
-    res['badge3'] = '';
+    if(typeof res.networks !== 'undefined'){
+      const networkNames = res.networks.map(n => n.name);
+      res['badge3'] = `Airs on: ${networkNames.join(', ')}`;
+    }
+    
   }
 
   return (

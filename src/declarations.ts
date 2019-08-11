@@ -20,6 +20,13 @@ interface Genre {
   name: string;
 }
 
+interface Nextwork {
+  id: number,
+  name: string,
+  logo_path: string,
+  origin_country: string,
+}
+
 interface ProductionCompany {
   id: number;
   logo_path: string;
@@ -41,6 +48,16 @@ interface NextEpisodeToAir {
   air_date: string;
 }
 
+export interface Season {
+  air_date: string;
+  episode_count: number;
+  id: number;
+  name: string;
+  overview: string;
+  poster_path: string;
+  season_number: number;
+}
+
 export interface MediaDetail {
   adult?: boolean;
   badge1?: string;
@@ -50,6 +67,7 @@ export interface MediaDetail {
   belongs_to_collection?: BelongsToCollection;
   budget?: number;
   genres?: Genre[];
+  networks?: Nextwork[];
   homepage?: string;
   id?: number;
   imdb_id?: string;
@@ -67,7 +85,7 @@ export interface MediaDetail {
   runtime?: number;
   spoken_languages?: SpokenLanguage[];
   status?: string;
-  seasons?: [];
+  seasons?: Season[];
   tagline?: string;
   title?: string;
   video?: boolean;
