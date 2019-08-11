@@ -11,7 +11,8 @@ const LoginPage: React.FC<any> = props => {
   const { history } = useReactRouter();
   const context = useContext<any>(UserContext);
 
-  useEffect(() => context.user && history.replace('/'), [context.user, history]);
+  // tslint:disable-next-line: no-unused-expression
+  useEffect(() => { context.user && history.replace('/') } , [context.user, history]);
 
   const handleLogin = async () => context.signInWithEmailAndPassword(username, password);
 
