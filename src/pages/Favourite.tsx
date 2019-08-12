@@ -1,8 +1,8 @@
 import { IonButtons, IonContent, IonHeader, IonMenuButton, IonProgressBar, IonTitle, IonToolbar } from '@ionic/react';
 import React, { useContext, useEffect, useState } from 'react';
-
-import ResultsList from '../components/ResultsList';
 import UserContext from '../context';
+
+const ResultsList = React.lazy(() => import('../components/ResultsList') );
 
 interface FavResults {
   catogery?: string,
@@ -17,7 +17,14 @@ const Favourite: React.FC<any> = () => {
   const [results, setResults] = useState<FavResults[]>();
   const context = useContext<any>(UserContext);
 
-  useEffect(() => setResults(context.favourites), [context]);
+  useEffect(() => {
+    if(context.user && context.favourites.length === 0){
+      context.getFavourites(context.user.uid).then(fav => setResults(Object.values(fav.data())));
+    }
+    else{
+      setResults(context.favourites);
+    }
+  }, [context, context.favourites, context.user]);
 
   const getContent = () => {
     if (typeof context.user === 'undefined' || context.user === null) {
