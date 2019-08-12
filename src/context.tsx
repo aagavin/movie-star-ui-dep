@@ -39,6 +39,6 @@ export const init = {
   removeFavourite,
   getFavourites
 }
-const UserContext = createContext({});
+const UserContext = createContext(init);
 
 export default UserContext
