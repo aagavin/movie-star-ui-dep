@@ -27,11 +27,10 @@ const MidiaDetails: React.FC<any> = () => {
 
   useEffect(() => {
     if (context.user && result && result.id) {
-      console.log(context.favourites);
       setIsFav(context.favourites.includes(result.id.toString()));
     }
     return () => setIsFav(false);
-  }, [context.user, context.favourites, result.id]);
+  }, [context.user, context.favourites, result, result.id]);
 
   const addToFavourite = async (id: number) => {
     const fav = {};
