@@ -1,12 +1,12 @@
 import { IonApp, IonPage, IonProgressBar, IonReactRouter, IonRouterOutlet, IonSplitPane } from '@ionic/react';
 import { home, logIn, logOut, search, starOutline } from 'ionicons/icons';
-import React, { FunctionComponent, Suspense, useEffect, useState } from 'react';
+import React, { FunctionComponent, Suspense, useContext, useEffect, useState } from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import withFirebaseAuth from 'react-with-firebase-auth';
 
 import asyncComponent from './AsyncComponent';
 
-import UserContext, { init } from './context'
+import UserContext from './context'
 import { AppPage } from './declarations';
 import { firebaseAppAuth } from './firebaseConfig';
 
@@ -75,16 +75,16 @@ const loggedOutPages: AppPage[] = [
 const App: FunctionComponent = (props: any) => {
 
   const [pages, setPages] = useState<AppPage[]>(commonPages);
-  const [context, setContext] = useState<any>({});
+  const context = useContext<any>(UserContext);
   const Logout = () => { props.signOut(); return <Redirect to="/home" /> }
   const RedirectHome = () => <Redirect to="/home" />;
 
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
-    init.user = props.user;
-    init.signInWithEmailAndPassword = props.signInWithEmailAndPassword;
-    init.createUserWithEmailAndPassword = props.createUserWithEmailAndPassword;
-    init.error = props.error;
+    context.user = props.user;
+    context.signInWithEmailAndPassword = props.signInWithEmailAndPassword;
+    context.createUserWithEmailAndPassword = props.createUserWithEmailAndPassword;
+    context.error = props.error;
 
     if (props.user) {
       getFavs();
@@ -93,13 +93,12 @@ const App: FunctionComponent = (props: any) => {
     else {
       setPages([...commonPages, ...loggedOutPages]);
     }
-    setContext(init);
   }, [props.user]);
   /* eslint-enable react-hooks/exhaustive-deps */
 
   const getFavs = async () => {
-    const favsDoc = await init.getFavourites(props.user.uid);
-    init.favourites = Object.values(favsDoc.data());
+    const favsDoc = await context.getFavourites(props.user.uid);
+    Object.values(favsDoc.data()).forEach(f => context.favourites.push(f));
   }
 
   return (
@@ -107,7 +106,6 @@ const App: FunctionComponent = (props: any) => {
       <Suspense fallback={<IonProgressBar type="indeterminate" />}>
         <IonReactRouter>
           <IonSplitPane contentId="main">
-          <UserContext.Provider value={context}>
             <Menu appPages={pages} />
             <IonPage id="main">
               <IonRouterOutlet>
@@ -122,7 +120,6 @@ const App: FunctionComponent = (props: any) => {
                 <Route exact path="/" render={RedirectHome} />
               </IonRouterOutlet>
             </IonPage>
-            </UserContext.Provider>
           </IonSplitPane>
         </IonReactRouter>
       </Suspense>
