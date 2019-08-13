@@ -12,9 +12,12 @@ const LoginPage: React.FC<any> = props => {
   const context = useContext<any>(UserContext);
 
   // tslint:disable-next-line: no-unused-expression
-  useEffect(() => { context.user && history.replace('/') } , [context.user, history]);
+  useEffect(() => { context.user && history.replace('/') }, [context.user, history]);
 
-  const handleLogin = async () => context.signInWithEmailAndPassword(username, password);
+  const handleLogin = async () => {
+    console.log(context);
+    await context.signInWithEmailAndPassword(username, password);
+  }
 
   // tslint:disable: jsx-no-lambda
   return (
@@ -33,15 +36,15 @@ const LoginPage: React.FC<any> = props => {
             <>
               <IonItem>
                 <IonLabel position="floating">Email</IonLabel>
-                <IonInput required onIonChange={(e: any) => setUsername(e.target.value)}/>
+                <IonInput required onIonChange={(e: any) => setUsername(e.target.value)} />
               </IonItem>
               <IonItem>
                 <IonLabel position="floating">Password</IonLabel>
-                <IonInput type="password" required onIonChange={(e: any) => setPassword(e.target.value)}/>
+                <IonInput type="password" required onIonChange={(e: any) => setPassword(e.target.value)} />
               </IonItem>
               <IonButton expand="full" onClick={handleLogin}>Sign In</IonButton>
             </>)}
-          {(context.error && !context.user) && <p>{context.error}</p>}
+          <p>{context.error}</p>
 
           <p>Don't have an account? <IonButton onClick={() => history.replace('/account/signup')}>Create one</IonButton></p>
         </IonCardContent>

@@ -13,7 +13,7 @@ import {
 } from '@ionic/react';
 import React, { useEffect, useState } from 'react';
 import { BASE_URL } from '../declarations';
-const ResultsList = React.lazy(() => import('../components/ResultsList'));
+import ResultsList from "../components/ResultsList";
 
 const HomePage: React.FunctionComponent = () => {
 
