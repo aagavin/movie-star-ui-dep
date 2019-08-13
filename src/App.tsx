@@ -76,7 +76,11 @@ const App: FunctionComponent = (props: any) => {
 
   const [pages, setPages] = useState<AppPage[]>(commonPages);
   const context = useContext<any>(UserContext);
-  const Logout = () => { props.signOut(); return <Redirect to="/home" /> }
+  const Logout = () => { 
+    props.signOut();
+    context.favourites = [];
+    return <Redirect to="/home" /> 
+  }
   const RedirectHome = () => <Redirect to="/home" />;
 
   /* eslint-disable react-hooks/exhaustive-deps */

@@ -24,6 +24,7 @@ const Favourite: React.FC<any> = () => {
     else{
       setResults(context.favourites);
     }
+    return () => setResults([]);
   }, [context, context.favourites, context.user]);
 
   const getContent = () => {
