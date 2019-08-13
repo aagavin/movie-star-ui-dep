@@ -1,12 +1,12 @@
 import { IonApp, IonPage, IonProgressBar, IonReactRouter, IonRouterOutlet, IonSplitPane } from '@ionic/react';
 import { home, logIn, logOut, search, starOutline } from 'ionicons/icons';
-import React, { FunctionComponent, Suspense, useContext, useEffect, useState } from 'react';
+import React, { FunctionComponent, Suspense, useEffect, useState } from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import withFirebaseAuth from 'react-with-firebase-auth';
 
 import asyncComponent from './AsyncComponent';
 
-import UserContext from './context'
+import UserContext, { init } from './context'
 import { AppPage } from './declarations';
 import { firebaseAppAuth } from './firebaseConfig';
 
@@ -75,20 +75,29 @@ const loggedOutPages: AppPage[] = [
 const App: FunctionComponent = (props: any) => {
 
   const [pages, setPages] = useState<AppPage[]>(commonPages);
-  const context = useContext<any>(UserContext);
-  const Logout = () => { 
+  const [ctx, setCtx] = useState<any>({});
+  const Logout = () => {
     props.signOut();
-    context.favourites = [];
-    return <Redirect to="/home" /> 
+    ctx.favourites = [];
+    return <Redirect to="/home" />
   }
   const RedirectHome = () => <Redirect to="/home" />;
 
+  useEffect(() => {
+    setCtx(init)
+  }, []);
+
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
-    context.user = props.user;
-    context.signInWithEmailAndPassword = props.signInWithEmailAndPassword;
-    context.createUserWithEmailAndPassword = props.createUserWithEmailAndPassword;
-    context.error = props.error;
+    setCtx({
+      ...init,
+      ...ctx,
+      user: props.user,
+      signInWithEmailAndPassword: props.signInWithEmailAndPassword,
+      createUserWithEmailAndPassword: props.createUserWithEmailAndPassword,
+      favourites: [],
+      error: props.error,
+    })
 
     if (props.user) {
       getFavs();
@@ -98,11 +107,21 @@ const App: FunctionComponent = (props: any) => {
       setPages([...commonPages, ...loggedOutPages]);
     }
   }, [props.user]);
+
+  useEffect(() => {
+    setCtx({
+      ...ctx,
+      error: props.error
+    })
+  }, [props.error]);
   /* eslint-enable react-hooks/exhaustive-deps */
 
   const getFavs = async () => {
-    const favsDoc = await context.getFavourites(props.user.uid);
-    Object.values(favsDoc.data()).forEach(f => context.favourites.push(f));
+    const favsDoc = await ctx.getFavourites(props.user.uid);
+    setCtx({
+      ...ctx,
+      favourites: Object.values(favsDoc.data())
+    })
   }
 
   return (
@@ -110,20 +129,22 @@ const App: FunctionComponent = (props: any) => {
       <Suspense fallback={<IonProgressBar type="indeterminate" />}>
         <IonReactRouter>
           <IonSplitPane contentId="main">
-            <Menu appPages={pages} />
-            <IonPage id="main">
-              <IonRouterOutlet>
-                <Route path="/home" component={Home} exact />
-                <Route path="/home/media/:catogery/:mediaId" component={Media} exact />
-                <Route path="/home/media/:catogery/:mediaId/season/:seasonNumber/episodes/:numOfEpisodes" component={Episodes} exact />
-                <Route path="/search" component={Search} exact />
-                <Route path="/favourite" component={Favourite} exact />
-                <Route path="/account/login" component={Login} exact />
-                <Route path="/account/logout" render={Logout} exact />
-                <Route path="/account/signup" component={SignUp} exact />
-                <Route exact path="/" render={RedirectHome} />
-              </IonRouterOutlet>
-            </IonPage>
+            <UserContext.Provider value={ctx}>
+              <Menu appPages={pages} />
+              <IonPage id="main">
+                <IonRouterOutlet>
+                  <Route path="/home" component={Home} exact />
+                  <Route path="/home/media/:catogery/:mediaId" component={Media} exact />
+                  <Route path="/home/media/:catogery/:mediaId/season/:seasonNumber/episodes/:numOfEpisodes" component={Episodes} exact />
+                  <Route path="/search" component={Search} exact />
+                  <Route path="/favourite" component={Favourite} exact />
+                  <Route path="/account/login" component={Login} exact />
+                  <Route path="/account/logout" render={Logout} exact />
+                  <Route path="/account/signup" component={SignUp} exact />
+                  <Route exact path="/" render={RedirectHome} />
+                </IonRouterOutlet>
+              </IonPage>
+            </UserContext.Provider>
           </IonSplitPane>
         </IonReactRouter>
       </Suspense>
