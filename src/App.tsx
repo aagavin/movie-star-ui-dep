@@ -6,7 +6,7 @@ import withFirebaseAuth from 'react-with-firebase-auth';
 
 import asyncComponent from './AsyncComponent';
 
-import UserContext, { init } from './context'
+import UserContext, { getFavourites, init } from './context'
 import { AppPage } from './declarations';
 import { firebaseAppAuth } from './firebaseConfig';
 
@@ -89,15 +89,7 @@ const App: FunctionComponent = (props: any) => {
 
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
-    setCtx({
-      ...init,
-      ...ctx,
-      user: props.user,
-      signInWithEmailAndPassword: props.signInWithEmailAndPassword,
-      createUserWithEmailAndPassword: props.createUserWithEmailAndPassword,
-      favourites: [],
-      error: props.error,
-    })
+    setContext(setCtx, ctx, props);
 
     if (props.user) {
       getFavs();
@@ -106,22 +98,12 @@ const App: FunctionComponent = (props: any) => {
     else {
       setPages([...commonPages, ...loggedOutPages]);
     }
-  }, [props.user]);
-
-  useEffect(() => {
-    setCtx({
-      ...ctx,
-      error: props.error
-    })
-  }, [props.error]);
+  }, [props]);
   /* eslint-enable react-hooks/exhaustive-deps */
 
   const getFavs = async () => {
-    const favsDoc = await ctx.getFavourites(props.user.uid);
-    setCtx({
-      ...ctx,
-      favourites: Object.values(favsDoc.data())
-    })
+    const favsDoc = await getFavourites(props.user.uid);
+    setContext(setCtx, ctx, props, Object.values(favsDoc.data()));
   }
 
   return (
@@ -155,3 +137,16 @@ const App: FunctionComponent = (props: any) => {
 export default withFirebaseAuth({
   firebaseAppAuth,
 })(App);
+
+function setContext(setCtx: React.Dispatch<any>, ctx: any, props: any, favourites: any = []) {
+  setCtx({
+    ...init,
+    ...ctx,
+    user: props.user,
+    signInWithEmailAndPassword: props.signInWithEmailAndPassword,
+    createUserWithEmailAndPassword: props.createUserWithEmailAndPassword,
+    favourites,
+    error: props.error,
+  });
+}
+

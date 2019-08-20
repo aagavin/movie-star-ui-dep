@@ -21,13 +21,12 @@ const MidiaDetails: React.FC<any> = () => {
   useEffect(() => {
     const url = `${BASE_URL}/media/${catogery}/${match.params['mediaId']}`;
     fetch(url).then(r => r.json()).then(setResult).catch(console.error);
-
     return () => setResult({});
   }, [match.params, catogery])
 
   useEffect(() => {
     if (context.user && result && result.id) {
-      setIsFav(context.favourites.includes(result.id.toString()));
+      setIsFav(context.favourites.some(f => f.id === result.id));
     }
     return () => setIsFav(false);
   }, [context.user, context.favourites, result, result.id]);

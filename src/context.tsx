@@ -21,7 +21,7 @@ const removeFavourite = async (uid: string, delId) => {
     .update(delFav);
 }
 
-const getFavourites = async (uid: string) => {
+export const getFavourites = async (uid: string) => {
   return firebase
     .firestore()
     .collection('favs')

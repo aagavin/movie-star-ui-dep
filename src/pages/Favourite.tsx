@@ -18,14 +18,9 @@ const Favourite: React.FC<any> = () => {
   const context = useContext<any>(UserContext);
 
   useEffect(() => {
-    if(context.user && context.favourites && context.favourites.length === 0){
-      context.getFavourites(context.user.uid).then(fav => setResults(Object.values(fav.data())));
-    }
-    else{
-      setResults(context.favourites);
-    }
+    setResults(context.favourites);
     return () => setResults([]);
-  }, [context, context.favourites, context.user]);
+  }, [context]);
 
   const getContent = () => {
     if (typeof context.user === 'undefined' || context.user === null) {
