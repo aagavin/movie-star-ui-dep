@@ -15,7 +15,6 @@ const LoginPage: React.FC<any> = props => {
   useEffect(() => { context.user && history.replace('/') }, [context.user, history]);
 
   const handleLogin = async () => {
-    console.log(context);
     await context.signInWithEmailAndPassword(username, password);
   }
 
