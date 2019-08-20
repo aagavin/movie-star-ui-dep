@@ -3,5 +3,8 @@
   "appName": "Movie Star",
   "bundledWebRuntime": false,
   "npmClient": "npm",
-  "webDir": "build"
+  "webDir": "build",
+  "server": {
+    "url": "https://movie.aagavin.ca"
+  }
 }
