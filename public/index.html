@@ -20,6 +20,13 @@
   <!-- Tell the browser it's a PWA -->
   <meta name="mobile-web-app-capable" content="yes">
 
+  <link rel="dns-prefetch" href="https://watch-tv-list.herokuapp.com">
+  <link rel="preconnect" href="https://watch-tv-list.herokuapp.com">
+  <link rel="preload" href="https://watch-tv-list.herokuapp.com/media/movie/upcoming" as="fetch" type="application/json" crossorigin>
+  <link rel="preload" href="https://watch-tv-list.herokuapp.com/media/tv/popular" as="fetch" type="application/json" crossorigin>
+
+
+
   <!-- add to homescreen for ios -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-title" content="Movie Star" />
