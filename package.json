@@ -27,6 +27,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "build-android": "npm run build; npx cap copy; cd ./android; gradle app:assemble",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
