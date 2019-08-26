@@ -1,0 +1,15 @@
+{
+    "short_name": "Movie Star",
+    "name": "View search, and favourite movie/tv shows to get notfications about when they are airing",
+    "icons": [
+      {
+        "src":"./assets/icon/icon.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+    ],
+    "start_url": "/home",
+    "background_color": "#222",
+    "theme_color": "#222",
+    "display": "standalone"
+  }

@@ -4,23 +4,21 @@ import React, { FunctionComponent, Suspense, useEffect, useState } from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import withFirebaseAuth from 'react-with-firebase-auth';
 
-import asyncComponent from './AsyncComponent';
-
 import UserContext, { getFavourites, init } from './context'
 import { AppPage } from './declarations';
 import { firebaseAppAuth } from './firebaseConfig';
 
 import Menu from './components/Menu';
 
-const Home = asyncComponent(() => import('./pages/Home').then(module => module.default));
-
 /* eslint-disable import/first */
-const Search = asyncComponent(() => import('./pages/media/Search').then(module => module.default));
-const Media = asyncComponent(() => import('./pages/media/MediaDetails').then(module => module.default));
-const Favourite = asyncComponent(() => import('./pages/Favourite').then(module => module.default));
-const SignUp = asyncComponent(() => import('./pages/account/Signup').then(module => module.default));
-const Episodes = asyncComponent(() => import('./pages/media/Episodes').then(module => module.default));
-const Login = asyncComponent(() => import('./pages/account/Login').then(module => module.default));
+const Home = React.lazy(() => import('./pages/Home'))
+
+const Search = React.lazy(() => import('./pages/media/Search'));
+const Media = React.lazy(() => import('./pages/media/MediaDetails'));
+const Favourite = React.lazy(() => import('./pages/Favourite'));
+const SignUp = React.lazy(() => import('./pages/account/Signup'));
+const Episodes = React.lazy(() => import('./pages/media/Episodes'));
+const Login = React.lazy(() => import('./pages/account/Login'));
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/core/css/core.css';
@@ -83,16 +81,28 @@ const App: FunctionComponent = (props: any) => {
   }
   const RedirectHome = () => <Redirect to="/home" />;
 
-  useEffect(() => {
-    setCtx(init)
-  }, []);
+  const setContext = (contextFx: React.Dispatch<any>, context: any, properties: any, favourites: any = []) => {
+    contextFx({
+      ...init,
+      ...context,
+      user: properties.user,
+      signInWithEmailAndPassword: properties.signInWithEmailAndPassword,
+      createUserWithEmailAndPassword: properties.createUserWithEmailAndPassword,
+      favourites,
+      error: properties.error,
+    });
+  }
+
+  useEffect(() => { setCtx(init) }, []);
 
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     setContext(setCtx, ctx, props);
 
     if (props.user) {
-      getFavs();
+      getFavourites(props.user.uid)
+        .then(favsDoc => setContext(setCtx, ctx, props, Object.values(favsDoc.data())))
+        .catch(e => new Error(e.message));
       setPages([...commonPages, ...loggedInPages]);
     }
     else {
@@ -100,11 +110,6 @@ const App: FunctionComponent = (props: any) => {
     }
   }, [props]);
   /* eslint-enable react-hooks/exhaustive-deps */
-
-  const getFavs = async () => {
-    const favsDoc = await getFavourites(props.user.uid);
-    setContext(setCtx, ctx, props, Object.values(favsDoc.data()));
-  }
 
   return (
     <IonApp>
@@ -137,16 +142,4 @@ const App: FunctionComponent = (props: any) => {
 export default withFirebaseAuth({
   firebaseAppAuth,
 })(App);
-
-function setContext(setCtx: React.Dispatch<any>, ctx: any, props: any, favourites: any = []) {
-  setCtx({
-    ...init,
-    ...ctx,
-    user: props.user,
-    signInWithEmailAndPassword: props.signInWithEmailAndPassword,
-    createUserWithEmailAndPassword: props.createUserWithEmailAndPassword,
-    favourites,
-    error: props.error,
-  });
-}
 

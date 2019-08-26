@@ -9,20 +9,34 @@
   <base href="/" />
 
   <meta name="viewport"
-    content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
   <meta name="format-detection" content="telephone=no" />
   <meta name="msapplication-tap-highlight" content="no" />
 
+  <link rel="icon" sizes="192x192" href="%PUBLIC_URL%/assets/icon/icon.png">
   <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
   <!-- Add manifest -->
   <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
   <!-- Tell the browser it's a PWA -->
   <meta name="mobile-web-app-capable" content="yes">
 
+  <link rel="dns-prefetch" href="https://watch-tv-list.herokuapp.com">
+  <link rel="dns-prefetch" href="https://image.tmdb.org">
+  <link rel="preconnect" href="https://watch-tv-list.herokuapp.com">
+  <link rel="preconnect" href="https://image.tmdb.org">
+  <link rel="prefetch" href="https://watch-tv-list.herokuapp.com/media/movie/upcoming" as="fetch"
+    type="application/json" crossorigin>
+  <link rel="prefetch" href="https://watch-tv-list.herokuapp.com/media/tv/popular" as="fetch" type="application/json"
+    crossorigin>
+
+
+
   <!-- add to homescreen for ios -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-title" content="Movie Star" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <link rel="apple-touch-icon" href="%PUBLIC_URL%/icon/icon.png">
+
 
   <!-- Make sure theme-color is defined -->
   <meta name="theme-color" content="#536878">
@@ -30,31 +44,28 @@
 
 <body>
   <div id="root">
-    <div class="App">
-      <div class="App-header">
-        <h2>Home</h2>
-      </div>
-      <p class="App-intro">
-        Loading site...
-      </p>
-    </div>
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function () {
-          navigator.serviceWorker.register('service-worker.js').then(function (registration) {
-            // Registration was successful
-            console.log('ServiceWorker registration successful with scope: ', registration.scope);
-          }, function (err) {
-            // registration failed :(
-            console.log('ServiceWorker registration failed: ', err);
-          }).catch(function (err) {
-            console.log(err)
-          });
+
+    <p class="App-intro">
+      Loading site...
+    </p>
+  </div>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('service-worker.js').then(function (registration) {
+          // Registration was successful
+          console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        }, function (err) {
+          // registration failed :(
+          console.log('ServiceWorker registration failed: ', err);
+        }).catch(function (err) {
+          console.log(err)
         });
-      } else {
-        console.log('service worker is not supported');
-      }
-    </script>
+      });
+    } else {
+      console.log('service worker is not supported');
+    }
+  </script>
 </body>
 
 </html>
