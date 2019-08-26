@@ -21,9 +21,13 @@
   <meta name="mobile-web-app-capable" content="yes">
 
   <link rel="dns-prefetch" href="https://watch-tv-list.herokuapp.com">
+  <link rel="dns-prefetch" href="https://image.tmdb.org">
   <link rel="preconnect" href="https://watch-tv-list.herokuapp.com">
-  <link rel="preload" href="https://watch-tv-list.herokuapp.com/media/movie/upcoming" as="fetch" type="application/json" crossorigin>
-  <link rel="preload" href="https://watch-tv-list.herokuapp.com/media/tv/popular" as="fetch" type="application/json" crossorigin>
+  <link rel="preconnect" href="https://image.tmdb.org">
+  <link rel="prefetch" href="https://watch-tv-list.herokuapp.com/media/movie/upcoming" as="fetch"
+    type="application/json" crossorigin>
+  <link rel="prefetch" href="https://watch-tv-list.herokuapp.com/media/tv/popular" as="fetch" type="application/json"
+    crossorigin>
 
 
 
@@ -40,31 +44,28 @@
 
 <body>
   <div id="root">
-    <div class="App">
-      <div class="App-header">
-        <h2>Home</h2>
-      </div>
-      <p class="App-intro">
-        Loading site...
-      </p>
-    </div>
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function () {
-          navigator.serviceWorker.register('service-worker.js').then(function (registration) {
-            // Registration was successful
-            console.log('ServiceWorker registration successful with scope: ', registration.scope);
-          }, function (err) {
-            // registration failed :(
-            console.log('ServiceWorker registration failed: ', err);
-          }).catch(function (err) {
-            console.log(err)
-          });
+
+    <p class="App-intro">
+      Loading site...
+    </p>
+  </div>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('service-worker.js').then(function (registration) {
+          // Registration was successful
+          console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        }, function (err) {
+          // registration failed :(
+          console.log('ServiceWorker registration failed: ', err);
+        }).catch(function (err) {
+          console.log(err)
         });
-      } else {
-        console.log('service worker is not supported');
-      }
-    </script>
+      });
+    } else {
+      console.log('service worker is not supported');
+    }
+  </script>
 </body>
 
 </html>
