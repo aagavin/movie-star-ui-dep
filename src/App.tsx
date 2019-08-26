@@ -81,8 +81,21 @@ const App: FunctionComponent = (props: any) => {
   }
   const RedirectHome = () => <Redirect to="/home" />;
 
+  const setContext = (contextFx: React.Dispatch<any>, context: any, properties: any, favourites: any = []) => {
+    contextFx({
+      ...init,
+      ...context,
+      user: properties.user,
+      signInWithEmailAndPassword: properties.signInWithEmailAndPassword,
+      createUserWithEmailAndPassword: properties.createUserWithEmailAndPassword,
+      favourites,
+      error: properties.error,
+    });
+  }
+
   useEffect(() => { setCtx(init) }, []);
 
+  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     setContext(setCtx, ctx, props);
 
@@ -95,7 +108,8 @@ const App: FunctionComponent = (props: any) => {
     else {
       setPages([...commonPages, ...loggedOutPages]);
     }
-  }, [props, ctx]);
+  }, [props]);
+  /* eslint-enable react-hooks/exhaustive-deps */
 
   return (
     <IonApp>
@@ -128,16 +142,4 @@ const App: FunctionComponent = (props: any) => {
 export default withFirebaseAuth({
   firebaseAppAuth,
 })(App);
-
-function setContext(setCtx: React.Dispatch<any>, ctx: any, props: any, favourites: any = []) {
-  setCtx({
-    ...init,
-    ...ctx,
-    user: props.user,
-    signInWithEmailAndPassword: props.signInWithEmailAndPassword,
-    createUserWithEmailAndPassword: props.createUserWithEmailAndPassword,
-    favourites,
-    error: props.error,
-  });
-}
 
