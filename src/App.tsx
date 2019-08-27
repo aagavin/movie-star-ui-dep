@@ -1,4 +1,5 @@
-import { IonApp, IonPage, IonProgressBar, IonReactRouter, IonRouterOutlet, IonSplitPane } from '@ionic/react';
+import { IonApp, IonPage, IonProgressBar, IonRouterOutlet, IonSplitPane } from '@ionic/react';
+import { IonReactRouter } from '@ionic/react-router';
 import { home, logIn, logOut, search, starOutline } from 'ionicons/icons';
 import React, { FunctionComponent, Suspense, useEffect, useState } from 'react';
 import { Redirect, Route } from 'react-router-dom';
