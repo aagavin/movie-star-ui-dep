@@ -87,9 +87,8 @@ const MidiaDetails: React.FC<any> = () => {
           </IonCardSubtitle>
           <IonCardTitle><b>{res.title}</b></IonCardTitle>
         </IonCardHeader>
-
-        <IonCardContent>{res.overview}</IonCardContent>
         <IonCardContent>
+          {res.overview}
           <IonGrid align-items-start>
             <IonRow>
               <IonCol size="auto">
@@ -102,14 +101,16 @@ const MidiaDetails: React.FC<any> = () => {
                 <IonBadge color="light">{res.badge3}</IonBadge>
               </IonCol>
             </IonRow>
+          </IonGrid>
+
+          <IonGrid>
             {isFav ?
               <IonButton expand="block" color="danger" onClick={removeFavClickHandler} >Remove as favourite</IonButton> :
               (context.user && <IonButton expand="block" color="primary" onClick={addFavClickHandler}>Add to favourite</IonButton>)
             }
+            {catogery === 'tv' && <IonButton expand="block" fill="clear" onClick={showSeasonsClickHandler}>{showSeasons ? 'Hide Seasons' : 'Show Seasons'}</IonButton>}
+            <br /><br /><br />
           </IonGrid>
-        </IonCardContent>
-        <IonCardContent>
-          {catogery === 'tv' && <IonButton expand="full" fill="clear" onClick={showSeasonsClickHandler}>{showSeasons ? 'Hide Seasons' : 'Show Seasons'}</IonButton>}
         </IonCardContent>
       </IonCard>
     )
@@ -129,11 +130,11 @@ const MidiaDetails: React.FC<any> = () => {
   else {
 
     res['badge2'] = res.next_episode_to_air ? `next episode: ${res.next_episode_to_air.air_date}` : '';
-    if(typeof res.networks !== 'undefined'){
+    if (typeof res.networks !== 'undefined') {
       const networkNames = res.networks.map(n => n.name);
       res['badge3'] = `Airs on: ${networkNames.join(', ')}`;
     }
-    
+
   }
 
   return (
