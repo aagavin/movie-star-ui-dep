@@ -115,15 +115,15 @@ const App: FunctionComponent = (props: any) => {
   return (
     <IonApp>
       <Suspense fallback={<IonProgressBar type="indeterminate" />}>
-        <IonReactRouter>
+        <IonReactRouter forceRefresh={false}>
           <IonSplitPane contentId="main">
             <UserContext.Provider value={ctx}>
               <Menu appPages={pages} />
               <IonPage id="main">
                 <IonRouterOutlet>
-                  <Route path="/home" component={Home} exact />
-                  <Route path="/home/media/:catogery/:mediaId" component={Media} exact />
-                  <Route path="/home/media/:catogery/:mediaId/season/:seasonNumber/episodes/:numOfEpisodes" component={Episodes} exact />
+                  <Route path="/home/media/:catogery/:mediaId/season/:seasonNumber/episodes/:numOfEpisodes" component={Episodes} />
+                  <Route path="/home/media/:catogery/:mediaId" component={Media} />
+                  <Route path="/home" component={Home} />
                   <Route path="/search" component={Search} exact />
                   <Route path="/favourite" component={Favourite} exact />
                   <Route path="/account/login" component={Login} exact />
