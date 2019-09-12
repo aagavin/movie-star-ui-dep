@@ -14,12 +14,12 @@ import Menu from './components/Menu';
 /* eslint-disable import/first */
 const Home = React.lazy(() => import(/* webpackChunkName: 'HomePage' */'./pages/Home'))
 
-const Search = React.lazy(() => import(/* webpackchunkname: 'SearchPage' */'./pages/media/Search'));
-const Media = React.lazy(() => import(/* webpackchunkname: 'MediaDetailsPage' */'./pages/media/MediaDetails'));
-const Favourite = React.lazy(() => import(/* webpackchunkname: 'FavouritePage' */'./pages/Favourite'));
-const SignUp = React.lazy(() => import(/* webpackchunkname: 'SignupPage' */'./pages/account/Signup'));
-const Episodes = React.lazy(() => import(/* webpackchunkname: 'EpisodesPage' */'./pages/media/Episodes'));
-const Login = React.lazy(() => import(/* webpackchunkname: 'LoginPage' */'./pages/account/Login'));
+const Search = React.lazy(() => import(/* webpackChunkName: 'SearchPage' */'./pages/media/Search'));
+const Media = React.lazy(() => import(/* webpackChunkName: 'MediaDetailsPage' */'./pages/media/MediaDetails'));
+const Favourite = React.lazy(() => import(/* webpackChunkName: 'FavouritePage' */'./pages/Favourite'));
+const SignUp = React.lazy(() => import(/* webpackChunkName: 'SignupPage' */'./pages/account/Signup'));
+const Episodes = React.lazy(() => import(/* webpackChunkName: 'EpisodesPage' */'./pages/media/Episodes'));
+const Login = React.lazy(() => import(/* webpackChunkName: 'LoginPage' */'./pages/account/Login'));
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/core/css/core.css';
