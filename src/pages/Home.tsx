@@ -5,6 +5,7 @@ import {
   IonHeader,
   IonLabel,
   IonMenuButton,
+  IonPage,
   IonProgressBar,
   IonSegment,
   IonSegmentButton,
@@ -41,7 +42,7 @@ const HomePage: React.FunctionComponent = () => {
   const results = catogery === 'movie' ? movieResults : tvResults;
   
   return (
-    <>
+    <IonPage>
       <IonHeader>
         <IonToolbar color="primary">
           <IonButtons slot="start">
@@ -64,7 +65,7 @@ const HomePage: React.FunctionComponent = () => {
           {results.length === 0 ? <IonProgressBar type="indeterminate" /> : <ResultsList results={results} catogery={catogery} />}
         </IonCardContent>
       </IonContent>
-    </>
+    </IonPage>
   );
 };
 

@@ -1,5 +1,5 @@
 import { TextFieldTypes } from '@ionic/core';
-import { IonButton, IonButtons, IonCardContent, IonContent, IonHeader, IonInput, IonItem, IonLabel, IonMenuButton, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonButtons, IonCardContent, IonContent, IonHeader, IonInput, IonItem, IonLabel, IonMenuButton, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import React, { useContext, useState } from 'react';
@@ -14,7 +14,7 @@ interface SignupForm {
   phone?: string
 }
 
-const SignupPage: React.FC<any> = props => {
+const SignupPage: React.FC<any> = () => {
 
   const [signup, setSignup] = useState<SignupForm>({});
   const [errorMsg, setErrorMsg] = useState<string>('');
@@ -54,7 +54,7 @@ const SignupPage: React.FC<any> = props => {
   );
 
   return (
-    <>
+    <IonPage>
       <IonHeader>
         <IonToolbar color="primary">
           <IonButtons slot="start">
@@ -79,7 +79,7 @@ const SignupPage: React.FC<any> = props => {
           )}
         </IonCardContent>
       </IonContent>
-    </>
+    </IonPage>
   );
 }
 

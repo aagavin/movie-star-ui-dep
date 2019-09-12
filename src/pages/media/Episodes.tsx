@@ -1,4 +1,4 @@
-import { IonBackButton, IonBadge, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonContent, IonHeader, IonImg, IonRow, IonTitle, IonToolbar } from '@ionic/react';
+import { IonBackButton, IonBadge, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonContent, IonHeader, IonImg, IonRow, IonTitle, IonToolbar, IonPage } from '@ionic/react';
 import React, { useEffect, useState } from 'react';
 import useReactRouter from 'use-react-router';
 import { BASE_IMG, BASE_URL } from '../../declarations';
@@ -60,7 +60,7 @@ const EpisodesPage: React.FC<any> = () => {
   );
 
   return (
-    <>
+    <IonPage>
       <IonHeader>
         <IonToolbar color="primary">
           <IonButtons slot="start">
@@ -72,7 +72,7 @@ const EpisodesPage: React.FC<any> = () => {
       <IonContent>
         {(results.length > 0) && (results.map(result => getCard(result)))}
       </IonContent>
-    </>
+    </IonPage>
   );
 };
 

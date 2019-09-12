@@ -1,4 +1,27 @@
-import { IonBackButton, IonBadge, IonButton, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonImg, IonItem, IonLabel, IonProgressBar, IonRow, IonTitle, IonToast, IonToolbar } from '@ionic/react';
+import {
+  IonBackButton,
+  IonBadge,
+  IonButton,
+  IonButtons,
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCardSubtitle,
+  IonCardTitle,
+  IonCol,
+  IonContent,
+  IonGrid,
+  IonHeader,
+  IonImg,
+  IonItem,
+  IonLabel,
+  IonPage,
+  IonProgressBar,
+  IonRow,
+  IonTitle,
+  IonToast,
+  IonToolbar,
+} from '@ionic/react';
 import React, { useContext, useEffect, useState } from 'react';
 import useReactRouter from 'use-react-router';
 import UserContext from '../../context';
@@ -16,13 +39,15 @@ const MidiaDetails: React.FC<any> = () => {
   const [showSeasons, setShowSeasons] = useState(false);
 
   const catogery = match.params['catogery'];
+  const mediaId = match.params['mediaId'];
   const context = useContext<any>(UserContext);
 
+  // eslint-disable-next-line
   useEffect(() => {
-    const url = `${BASE_URL}/media/${catogery}/${match.params['mediaId']}`;
+    const url = `${BASE_URL}/media/${catogery}/${mediaId}`;
     fetch(url).then(r => r.json()).then(setResult).catch(console.error);
     return () => setResult({});
-  }, [match.params, catogery])
+  }, [mediaId, catogery])
 
   useEffect(() => {
     if (context.user && result && result.id) {
@@ -109,7 +134,6 @@ const MidiaDetails: React.FC<any> = () => {
               (context.user && <IonButton expand="block" color="primary" onClick={addFavClickHandler}>Add to favourite</IonButton>)
             }
             {catogery === 'tv' && <IonButton expand="block" fill="clear" onClick={showSeasonsClickHandler}>{showSeasons ? 'Hide Seasons' : 'Show Seasons'}</IonButton>}
-            <br /><br /><br />
           </IonGrid>
         </IonCardContent>
       </IonCard>
@@ -138,7 +162,7 @@ const MidiaDetails: React.FC<any> = () => {
   }
 
   return (
-    <>
+    <IonPage>
       <IonToast
         isOpen={showToast}
         onDidDismiss={() => setShowToast(false)}
@@ -157,7 +181,7 @@ const MidiaDetails: React.FC<any> = () => {
         {res && res.title ? getCard() : <IonProgressBar type="indeterminate" />}
         {showSeasons && getSeaons()}
       </IonContent>
-    </>
+    </IonPage>
   );
 };
 

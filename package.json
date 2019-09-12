@@ -5,8 +5,8 @@
   "dependencies": {
     "@capacitor/android": "^1.1.1",
     "@capacitor/core": "1.1.1",
-    "@ionic/react": "^4.8.0-rc.0",
-    "@ionic/react-router": "^4.8.0-rc.0",
+    "@ionic/react": "^4.9.0-rc.2",
+    "@ionic/react-router": "^4.9.0-rc.2",
     "@types/jest": "24.0.18",
     "@types/node": "12.7.2",
     "@types/react": "^16.9.2",
@@ -44,9 +44,9 @@
   ],
   "description": "An Ionic project",
   "devDependencies": {
+    "@capacitor/cli": "1.1.1",
     "tslint": "^5.19.0",
     "tslint-config-prettier": "^1.18.0",
-    "tslint-react": "^4.0.0",
-    "@capacitor/cli": "1.1.1"
+    "tslint-react": "^4.0.0"
   }
 }

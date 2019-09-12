@@ -1,4 +1,13 @@
-import { IonButtons, IonContent, IonHeader, IonMenuButton, IonProgressBar, IonTitle, IonToolbar } from '@ionic/react';
+import { 
+  IonButtons,
+  IonContent,
+  IonHeader,
+  IonMenuButton,
+  IonPage,
+  IonProgressBar,
+  IonTitle,
+  IonToolbar
+ } from '@ionic/react';
 import React, { useContext, useEffect, useState } from 'react';
 import UserContext from '../context';
 
@@ -37,7 +46,7 @@ const Favourite: React.FC<any> = () => {
   }
 
   return (
-    <>
+    <IonPage>
       <IonHeader>
         <IonToolbar color="primary">
           <IonButtons slot="start">
@@ -49,7 +58,7 @@ const Favourite: React.FC<any> = () => {
       <IonContent>
         {getContent()}
       </IonContent>
-    </>
+    </IonPage>
   )
 }
 

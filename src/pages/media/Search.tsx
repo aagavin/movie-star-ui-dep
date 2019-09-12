@@ -1,5 +1,5 @@
 import { SearchbarChangeEventDetail } from '@ionic/core/dist/types/components/searchbar/searchbar-interface';
-import { IonButtons, IonContent, IonHeader, IonMenuButton, IonSearchbar, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonSearchbar, IonTitle, IonToolbar } from '@ionic/react';
 import React, { useState } from 'react';
 import ResultsList from '../../components/ResultsList';
 import { BASE_URL } from '../../declarations';
@@ -21,7 +21,7 @@ const SearchPage: React.FC<any> = () => {
   }
 
   return (
-    <>
+    <IonPage>
       <IonHeader>
         <IonToolbar color="primary">
           <IonButtons slot="start">
@@ -34,7 +34,7 @@ const SearchPage: React.FC<any> = () => {
         <IonSearchbar onIonChange={handleSearch}/>
         <ResultsList results={results} />
       </IonContent>
-    </>
+    </IonPage>
   );
 };
 

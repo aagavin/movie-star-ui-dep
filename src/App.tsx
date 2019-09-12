@@ -1,4 +1,4 @@
-import { IonApp, IonPage, IonProgressBar, IonRouterOutlet, IonSplitPane } from '@ionic/react';
+import { IonApp, IonProgressBar, IonRouterOutlet, IonSplitPane } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { home, logIn, logOut, search, starOutline } from 'ionicons/icons';
 import React, { FunctionComponent, Suspense, useEffect, useState } from 'react';
@@ -80,7 +80,7 @@ const App: FunctionComponent = (props: any) => {
     ctx.favourites = [];
     return <Redirect to="/home" />
   }
-  const RedirectHome = () => <Redirect to="/home" />;
+  const RedirectHome = () => <Redirect to="/search" />;
 
   const setContext = (contextFx: React.Dispatch<any>, context: any, properties: any, favourites: any = []) => {
     contextFx({
@@ -115,15 +115,14 @@ const App: FunctionComponent = (props: any) => {
   return (
     <IonApp>
       <Suspense fallback={<IonProgressBar type="indeterminate" />}>
-        <IonReactRouter forceRefresh={false}>
+        <IonReactRouter>
           <IonSplitPane contentId="main">
             <UserContext.Provider value={ctx}>
               <Menu appPages={pages} />
-              <IonPage id="main">
-                <IonRouterOutlet>
-                  <Route path="/home/media/:catogery/:mediaId/season/:seasonNumber/episodes/:numOfEpisodes" component={Episodes} />
-                  <Route path="/home/media/:catogery/:mediaId" component={Media} />
-                  <Route path="/home" component={Home} />
+                <IonRouterOutlet id="main">
+                  <Route path="/home" component={Home} exact />
+                  <Route path="/home/media/:catogery/:mediaId" component={Media} exact />
+                  <Route path="/home/media/:catogery/:mediaId/season/:seasonNumber/episodes/:numOfEpisodes" component={Episodes} exact />
                   <Route path="/search" component={Search} exact />
                   <Route path="/favourite" component={Favourite} exact />
                   <Route path="/account/login" component={Login} exact />
@@ -131,7 +130,6 @@ const App: FunctionComponent = (props: any) => {
                   <Route path="/account/signup" component={SignUp} exact />
                   <Route exact path="/" render={RedirectHome} />
                 </IonRouterOutlet>
-              </IonPage>
             </UserContext.Provider>
           </IonSplitPane>
         </IonReactRouter>
@@ -143,4 +141,3 @@ const App: FunctionComponent = (props: any) => {
 export default withFirebaseAuth({
   firebaseAppAuth,
 })(App);
-

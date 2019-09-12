@@ -1,7 +1,6 @@
-import { IonButton, IonButtons, IonCardContent, IonContent, IonHeader, IonInput, IonItem, IonLabel, IonMenuButton, IonTitle, IonToolbar } from '@ionic/react';
+import { IonApp, IonButton, IonButtons, IonCardContent, IonContent, IonHeader, IonInput, IonItem, IonLabel, IonMenuButton, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import React, { useContext, useEffect, useState } from 'react';
 import useReactRouter from 'use-react-router';
-
 import UserContext from '../../context';
 
 const LoginPage: React.FC<any> = props => {
@@ -20,7 +19,7 @@ const LoginPage: React.FC<any> = props => {
 
   // tslint:disable: jsx-no-lambda
   return (
-    <>
+    <IonPage>
       <IonHeader>
         <IonToolbar color="primary">
           <IonButtons slot="start">
@@ -48,7 +47,7 @@ const LoginPage: React.FC<any> = props => {
           <p>Don't have an account? <IonButton onClick={() => history.replace('/account/signup')}>Create one</IonButton></p>
         </IonCardContent>
       </IonContent>
-    </>
+    </IonPage>
   );
   // tslint:enable: jsx-no-lambda
 }
