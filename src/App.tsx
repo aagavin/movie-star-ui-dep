@@ -12,14 +12,14 @@ import { firebaseAppAuth } from './firebaseConfig';
 import Menu from './components/Menu';
 
 /* eslint-disable import/first */
-const Home = React.lazy(() => import(/* webpackChunkName: 'HomePage' */'./pages/Home'))
+const Home = React.lazy(() => import('./pages/Home'))
 
-const Search = React.lazy(() => import(/* webpackChunkName: 'SearchPage' */'./pages/media/Search'));
-const Media = React.lazy(() => import(/* webpackChunkName: 'MediaDetailsPage' */'./pages/media/MediaDetails'));
-const Favourite = React.lazy(() => import(/* webpackChunkName: 'FavouritePage' */'./pages/Favourite'));
-const SignUp = React.lazy(() => import(/* webpackChunkName: 'SignupPage' */'./pages/account/Signup'));
-const Episodes = React.lazy(() => import(/* webpackChunkName: 'EpisodesPage' */'./pages/media/Episodes'));
-const Login = React.lazy(() => import(/* webpackChunkName: 'LoginPage' */'./pages/account/Login'));
+const Search = React.lazy(() => import('./pages/media/Search'));
+const Media = React.lazy(() => import('./pages/media/MediaDetails'));
+const Favourite = React.lazy(() => import('./pages/Favourite'));
+const SignUp = React.lazy(() => import('./pages/account/Signup'));
+const Episodes = React.lazy(() => import('./pages/media/Episodes'));
+const Login = React.lazy(() => import('./pages/account/Login'));
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/core/css/core.css';
