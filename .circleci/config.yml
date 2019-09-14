@@ -9,7 +9,7 @@ jobs:
           keys:
             - node-v1-dependency-{{ .Branch }}-{{ checksum "package-lock.json" }}
       - run: echo "building files"
-      - run: npm ci
+      - run: npm i
       - run: npx ionic build
       - save_cache:
           key: node-v1-dependency-{{ .Branch }}-{{ checksum "package-lock.json" }}
