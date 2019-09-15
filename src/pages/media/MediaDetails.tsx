@@ -56,6 +56,15 @@ const MidiaDetails: React.FC<any> = () => {
     return () => setIsFav(false);
   }, [context.user, context.favourites, result, result.id]);
 
+  const parseDate = (dateString: string): string => {
+    const monthName = {
+      1: 'Jan', 2: 'Feb', 3: 'Mar', 4: 'Apr', 5: 'May', 6:'Jun',
+      7: 'Jul', 8: 'Aug', 9: 'Sept', 10: 'Oct', 11: 'Nov', 12: 'Dec',
+    }
+    const d = new Date(dateString);
+    return `${monthName[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
+  }
+
   const addToFavourite = async (id: number) => {
     const fav = {};
     fav[id] = {
@@ -76,6 +85,26 @@ const MidiaDetails: React.FC<any> = () => {
     context.favourites = context.favourites.filter(f => f.id !== id);
     setIsFav(false);
     setShowToast(true);
+  }
+
+  const res = {
+    ...result,
+    title: result && result.title ? result.title : result.name,
+    badge1: `raiting: ${result.vote_average}`
+  };
+
+  if (result && catogery === 'movie') {
+    res['badge2'] = `runtime: ${res.runtime}`;
+    res['badge3'] = parseDate(res.release_date);
+  }
+  else {
+
+    res['badge2'] = res.next_episode_to_air ? `next episode: ${parseDate(res.next_episode_to_air.air_date)}` : '';
+    if (typeof res.networks !== 'undefined') {
+      const networkNames = res.networks.map(n => n.name);
+      res['badge3'] = `Airs on: ${networkNames.join(', ')}`;
+    }
+
   }
 
   const getSeaons = () => (
@@ -139,27 +168,6 @@ const MidiaDetails: React.FC<any> = () => {
       </IonCard>
     )
   };
-
-
-  const res = {
-    ...result,
-    title: result && result.title ? result.title : result.name,
-    badge1: `raiting: ${result.vote_average}`
-  };
-
-  if (result && catogery === 'movie') {
-    res['badge2'] = `runtime: ${res.runtime}`;
-    res['badge3'] = res.release_date;
-  }
-  else {
-
-    res['badge2'] = res.next_episode_to_air ? `next episode: ${res.next_episode_to_air.air_date}` : '';
-    if (typeof res.networks !== 'undefined') {
-      const networkNames = res.networks.map(n => n.name);
-      res['badge3'] = `Airs on: ${networkNames.join(', ')}`;
-    }
-
-  }
 
   return (
     <IonPage>
