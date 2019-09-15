@@ -1,6 +1,5 @@
 import {
   IonButtons,
-  IonCardContent,
   IonContent,
   IonHeader,
   IonLabel,
@@ -19,8 +18,8 @@ import { BASE_URL } from '../declarations';
 const HomePage: React.FunctionComponent = () => {
 
   const [catogery, setCatogery] = useState('movie');
-  const [movieResults, setMovieResults] = useState([]);
-  const [tvResults, setTvResults] = useState([]);
+  const [movieResults, setMovieResults] = useState(<></>);
+  const [tvResults, setTvResults] = useState(<></>);
 
   useEffect(() => {
     Promise.all([
@@ -29,18 +28,21 @@ const HomePage: React.FunctionComponent = () => {
     ]);
   }, []);
 
-  const getResults = async (ResultCatogery: string, filter: string = 'upcoming') => {
-    fetch(`${BASE_URL}/media/${ResultCatogery}/${filter}`)
+  const getResults = async (resultCatogery: string, filter: string = 'upcoming') => {
+    fetch(`${BASE_URL}/media/${resultCatogery}/${filter}`)
       .then(res => res.json())
       .then(res => {
-        ResultCatogery === 'movie' ?
-          setMovieResults(res) :
-          setTvResults(res);
+        if (resultCatogery === 'movie') {
+          setMovieResults(<ResultsList results={res} catogery={resultCatogery} />);
+        }
+        else {
+          setTvResults(<ResultsList results={res} catogery={resultCatogery} />);
+        }
       });
   }
 
-  const results = catogery === 'movie' ? movieResults : tvResults;
-  
+  const getResultsList = () => catogery === 'movie' ? movieResults : tvResults;
+
   return (
     <IonPage>
       <IonHeader>
@@ -61,9 +63,11 @@ const HomePage: React.FunctionComponent = () => {
             <IonLabel>TV</IonLabel>
           </IonSegmentButton>
         </IonSegment>
-        <IonCardContent>
-          {results.length === 0 ? <IonProgressBar type="indeterminate" /> : <ResultsList results={results} catogery={catogery} />}
-        </IonCardContent>
+        {
+          (tvResults !== <></> && tvResults !== <></>) ?
+            getResultsList() :
+            <IonProgressBar type="indeterminate" />
+        }
       </IonContent>
     </IonPage>
   );
