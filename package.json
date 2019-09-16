@@ -7,12 +7,6 @@
     "@capacitor/core": "1.2.0",
     "@ionic/react": "^4.9.0-rc.2",
     "@ionic/react-router": "^4.9.0-rc.2",
-    "@types/jest": "24.0.18",
-    "@types/node": "12.7.5",
-    "@types/react": "^16.9.2",
-    "@types/react-dom": "^16.9.0",
-    "@types/react-router": "^5.0.3",
-    "@types/react-router-dom": "^4.3.5",
     "firebase": "^6.6.1",
     "ionicons": "^4.6.3",
     "node-sass": "^4.12.0",
@@ -24,6 +18,18 @@
     "react-with-firebase-auth": "^1.0.4",
     "typescript": "3.6.3",
     "use-react-router": "^1.0.7"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "1.2.0",
+    "tslint": "^5.19.0",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-react": "^4.0.0",
+    "@types/jest": "24.0.18",
+    "@types/node": "12.7.5",
+    "@types/react": "^16.9.2",
+    "@types/react-dom": "^16.9.0",
+    "@types/react-router": "^5.0.3",
+    "@types/react-router-dom": "^4.3.5"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -42,11 +48,5 @@
     "not ie <= 11",
     "not op_mini all"
   ],
-  "description": "An Ionic project",
-  "devDependencies": {
-    "@capacitor/cli": "1.2.0",
-    "tslint": "^5.19.0",
-    "tslint-config-prettier": "^1.18.0",
-    "tslint-react": "^4.0.0"
-  }
+  "description": "An Ionic project"
 }
