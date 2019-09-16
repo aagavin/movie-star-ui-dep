@@ -1,10 +1,10 @@
 /* eslint-disable */
 
 // Set this to true for production
-var doCache = false;
+var doCache = !window.location.hostname === 'localhost';
 
 // Name our cache
-var CACHE_NAME = 'my-pwa-cache-v1';
+var CACHE_NAME = 'movie-star-cache';
 
 // Delete old caches that are not our current one!
 self.addEventListener("activate", event => {
