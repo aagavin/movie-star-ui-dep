@@ -18,6 +18,7 @@ import { BASE_URL } from '../declarations';
 const HomePage: React.FunctionComponent = () => {
 
   const [catogery, setCatogery] = useState('movie');
+  const [isLoading, setIsLoading] = useState(true);
   const [movieResults, setMovieResults] = useState(<></>);
   const [tvResults, setTvResults] = useState(<></>);
 
@@ -38,6 +39,7 @@ const HomePage: React.FunctionComponent = () => {
         else {
           setTvResults(<ResultsList results={res} catogery={resultCatogery} />);
         }
+        setIsLoading(false);
       });
   }
 
@@ -63,11 +65,7 @@ const HomePage: React.FunctionComponent = () => {
             <IonLabel>TV</IonLabel>
           </IonSegmentButton>
         </IonSegment>
-        {
-          (tvResults !== <></> && tvResults !== <></>) ?
-            getResultsList() :
-            <IonProgressBar type="indeterminate" />
-        }
+        {!isLoading ? getResultsList() : <IonProgressBar type="indeterminate" />}
       </IonContent>
     </IonPage>
   );
