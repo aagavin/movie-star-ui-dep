@@ -28,6 +28,19 @@ export const getFavourites = async (uid: string) => {
     .doc(uid)
     .get();
 }
+
+export const setContext = (contextFx: React.Dispatch<any>, context: any, properties: any, favourites: any = []) => {
+  contextFx({
+    ...init,
+    ...context,
+    user: properties.user,
+    signInWithEmailAndPassword: properties.signInWithEmailAndPassword,
+    createUserWithEmailAndPassword: properties.createUserWithEmailAndPassword,
+    favourites,
+    error: properties.error,
+  });
+}
+
 export const init = {
   user: {},
   // tslint:disable-next-line: object-literal-sort-keys

@@ -5,7 +5,7 @@ import React, { FunctionComponent, Suspense, useEffect, useState } from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import withFirebaseAuth from 'react-with-firebase-auth';
 
-import UserContext, { getFavourites, init } from './context'
+import UserContext, { getFavourites, init, setContext } from './context'
 import { AppPage } from './declarations';
 import { firebaseAppAuth } from './firebaseConfig';
 
@@ -75,24 +75,14 @@ const App: FunctionComponent = (props: any) => {
 
   const [pages, setPages] = useState<AppPage[]>(commonPages);
   const [ctx, setCtx] = useState<any>({});
+
   const Logout = () => {
     props.signOut();
     ctx.favourites = [];
     return <Redirect to="/home" />
   }
-  const RedirectHome = () => <Redirect to="/home" />;
 
-  const setContext = (contextFx: React.Dispatch<any>, context: any, properties: any, favourites: any = []) => {
-    contextFx({
-      ...init,
-      ...context,
-      user: properties.user,
-      signInWithEmailAndPassword: properties.signInWithEmailAndPassword,
-      createUserWithEmailAndPassword: properties.createUserWithEmailAndPassword,
-      favourites,
-      error: properties.error,
-    });
-  }
+  const redirectHome = () => <Redirect to="/home" />;
 
   useEffect(() => { setCtx(init) }, []);
 
@@ -128,7 +118,7 @@ const App: FunctionComponent = (props: any) => {
                   <Route path="/account/login" component={Login} exact />
                   <Route path="/account/logout" render={Logout} exact />
                   <Route path="/account/signup" component={SignUp} exact />
-                  <Route exact path="/" render={RedirectHome} />
+                  <Route exact path="/" render={redirectHome} />
                 </IonRouterOutlet>
             </UserContext.Provider>
           </IonSplitPane>
