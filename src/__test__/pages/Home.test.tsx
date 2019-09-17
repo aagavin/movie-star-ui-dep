@@ -72,7 +72,7 @@ describe('Home page', () => {
 
   afterEach(cleanup);
 
-  test('basic render', async () => {
+  test('happy path render', async () => {
     fetchMock.get('end:/movie/upcoming', movieResponse);
     fetchMock.get('end:/tv/popular', tvResponse);
     const ui = render(
