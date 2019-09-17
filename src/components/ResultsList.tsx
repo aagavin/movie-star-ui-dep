@@ -13,7 +13,7 @@ interface ResultsListProps {
 }
 
 const ResultsList: React.FC<any> = (props: ResultsListProps) => (
-  <IonList>
+  <IonList id={`result-list-${props.catogery}`}>
     {props.results.map((result: any) => (
       // tslint:disable-next-line: jsx-no-lambda
       <IonItem detail button key={result.id} onClick={e => props.history.push(`/home/media/${result.media_type || props.catogery}/${result.id}`)}>
