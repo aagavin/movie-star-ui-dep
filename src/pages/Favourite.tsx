@@ -29,7 +29,7 @@ const Favourite: React.FC<any> = () => {
   useEffect(() => {
     setResults(context.favourites);
     return () => setResults([]);
-  }, [context]);
+  }, [context.favourites]);
 
   const getContent = () => {
     if (typeof context.user === 'undefined' || context.user === null) {
