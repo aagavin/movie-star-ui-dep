@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  test-build:
     docker:
       - image: circleci/node:11.0.0
     steps:
@@ -10,6 +10,7 @@ jobs:
             - node-v1-dependency-{{ .Branch }}-{{ checksum "package-lock.json" }}
       - run: echo "building files"
       - run: npm i
+      - run: npm test
       - run: npx ionic build
       - save_cache:
           key: node-v1-dependency-{{ .Branch }}-{{ checksum "package-lock.json" }}
@@ -36,10 +37,10 @@ workflows:
   version: 2
   build-and-deploy:
     jobs:
-      - build
+      - test-build
       - deploy:
           requires:
-            - build
+            - test-build
           filters:
             branches:
               only:

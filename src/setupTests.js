@@ -1,0 +1,1 @@
+import { fetchMock, MATCHED, UNMATCHED } from 'fetch-mock';
