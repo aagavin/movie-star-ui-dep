@@ -1,8 +1,8 @@
-import { cleanup, fireEvent, render, wait, waitForElement } from '@testing-library/react'
+import { cleanup, render, waitForElement } from '@testing-library/react'
 import fetchMock from 'fetch-mock';
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
-import HomePage from './Home';
+import HomePage from '../../pages/Home';
 
 const movieResponse = [
   {
