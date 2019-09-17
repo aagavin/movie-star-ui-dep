@@ -1,4 +1,4 @@
-import { 
+import {
   IonButtons,
   IonContent,
   IonHeader,
@@ -7,11 +7,11 @@ import {
   IonProgressBar,
   IonTitle,
   IonToolbar
- } from '@ionic/react';
+} from '@ionic/react';
 import React, { useContext, useEffect, useState } from 'react';
 import UserContext from '../context';
 
-const ResultsList = React.lazy(() => import('../components/ResultsList') );
+const ResultsList = React.lazy(() => import('../components/ResultsList'));
 
 interface FavResults {
   catogery?: string,
