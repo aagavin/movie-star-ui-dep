@@ -17,22 +17,27 @@ const favs = [
     poster_path: "/poster",
     media_type: "movie"
   }
-]
+];
+
+const initTests = async () => {
+  const ui = render(
+    <MemoryRouter>
+      <Suspense fallback="...">
+      <UserContext.Provider value={{ ...init, favourites: favs }}>
+        <FavouritePage />
+      </UserContext.Provider>
+      </Suspense>
+    </MemoryRouter>
+  );
+  await waitForElement(() => ui.container.querySelector('#result-list-undefined'));
+  return ui;
+}
 
 describe('Favourite Page', () => {
   afterEach(cleanup);
 
   test('happy path render', async () => {
-    const ui = render(
-      <MemoryRouter>
-        <Suspense fallback="...">
-        <UserContext.Provider value={{ ...init, favourites: favs }}>
-          <FavouritePage />
-        </UserContext.Provider>
-        </Suspense>
-      </MemoryRouter>
-    );
-    await waitForElement(() => ui.container.querySelector('#result-list-undefined'));
+    const ui = await initTests();
     const items = ui.container.querySelectorAll('ion-item');
     items.forEach((item, index) => {
       const label = item.querySelector('ion-label');
