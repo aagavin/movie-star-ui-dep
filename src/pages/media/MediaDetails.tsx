@@ -134,7 +134,7 @@ const MidiaDetails: React.FC<any> = () => {
     const addFavClickHandler = () => addToFavourite(res.id);
     const showSeasonsClickHandler = () => setShowSeasons(!showSeasons)
     return (
-      <IonCard>
+      <IonCard id={`card-${res.id}`}>
         <IonCardHeader>
           <IonCardSubtitle>
             <IonImg src={`${BASE_IMG}/w780${res.poster_path}`} alt={`poster for ${res.title}`} />
