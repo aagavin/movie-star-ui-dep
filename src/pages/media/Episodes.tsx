@@ -37,7 +37,7 @@ const EpisodesPage: React.FC<any> = () => {
   }
 
   const getCard = (result: CardResults) => (
-    <IonCard key={result.id}>
+    <IonCard key={result.id} id={`card-${result.id}`}>
       <IonCardHeader>
         <IonCardSubtitle><IonImg src={`${BASE_IMG}/w500${result.still_path}`} /></IonCardSubtitle>
         <IonCardTitle>{result.name}</IonCardTitle>
