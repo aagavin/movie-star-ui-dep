@@ -47,9 +47,18 @@
   },
   "jest": {
     "collectCoverageFrom": [
-      "src/**/*.{js,jsx,ts,tsx}",
+      "./src/**/*.tsx",
       "!<rootDir>/node_modules/"
-    ]
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 27,
+        "functions": 36,
+        "lines": 41,
+        "statements": 40
+      }
+    },
+    "coverageReporters": ["text"]
   },
   "browserslist": [
     ">0.2%",
