@@ -1,3 +1,8 @@
+
+
+[![CircleCI](https://circleci.com/gh/aagavin/movie-star-ui.svg?style=svg)](https://circleci.com/gh/aagavin/movie-star-ui) [![codecov](https://codecov.io/gh/aagavin/movie-star-ui/branch/master/graph/badge.svg)](https://codecov.io/gh/aagavin/movie-star-ui)
+
+
 MOVIE STAR UI
 ===
 
