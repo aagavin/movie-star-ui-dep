@@ -11,6 +11,7 @@ jobs:
       - run: echo "building files"
       - run: npm i
       - run: npm test -- --ci --coverage --detectOpenHandles --forceExit
+      - run: npx codecov
       - run: npx ionic build
       - save_cache:
           key: node-v1-dependency-{{ .Branch }}-{{ checksum "package-lock.json" }}
