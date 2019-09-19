@@ -10,7 +10,9 @@ jobs:
             - node-v1-dependency-{{ .Branch }}-{{ checksum "package-lock.json" }}
       - run: echo "building files"
       - run: npm i
-      - run: npm test -- --ci --coverage --forceExit; npx codecov
+      - run: npm test -- --ci --coverage --detectOpenHandles --forceExit
+      - run: curl https://codecov.io/bash -o codecov.sh
+      - run: bash codecov.sh -t "$CODECOV_TOKEN"
       - run: npx ionic build
       - save_cache:
           key: node-v1-dependency-{{ .Branch }}-{{ checksum "package-lock.json" }}
