@@ -60,7 +60,7 @@
         "lines": 44
       }
     },
-    "coverageReporters": ["text"]
+    "coverageReporters": ["text", "json"]
   },
   "browserslist": [
     ">0.2%",
