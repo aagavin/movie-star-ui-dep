@@ -109,7 +109,7 @@ const MidiaDetails: React.FC<any> = () => {
 
   const getSeaons = () => (
     result.seasons && result.seasons.map((season: Season) => (
-      <IonCard key={season.id}>
+      <IonCard key={season.id} id={`card-season-${season.id}`}>
         <IonCardHeader>
           <IonCardSubtitle><IonImg src={`${BASE_IMG}/w780${season.poster_path}`} /></IonCardSubtitle>
           <IonCardTitle>{season.name}</IonCardTitle>

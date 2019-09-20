@@ -1,4 +1,4 @@
-import { cleanup, render, waitForElement } from '@testing-library/react';
+import { cleanup, render, waitForElement, fireEvent } from '@testing-library/react';
 import fetchMock from 'fetch-mock';
 import React from 'react';
 import { MemoryRouter, Route } from 'react-router';
@@ -289,6 +289,7 @@ const tvResponse = {
 }
 
 describe('Favourite Page', () => {
+  beforeEach(fetchMock.reset);
   afterEach(cleanup);
 
   const getUi = (url) => {
@@ -301,6 +302,14 @@ describe('Favourite Page', () => {
     </MemoryRouter>);
   };
 
+  test('render loading state', async () => {
+    const url = '/home/media/movie/458156';
+    fetchMock.get('end:/movie/458156', movieResponse);
+    const { container } = getUi(url);
+    expect(container.querySelector('ion-progress-bar')).not.toBeNull();
+
+  });
+
   test('happy path movie render', async () => {
     const url = '/home/media/movie/458156';
     fetchMock.get('end:/movie/458156', movieResponse);
@@ -312,8 +321,18 @@ describe('Favourite Page', () => {
     expect(getByText(/Add to favourite/)).not.toBeNull();
   });
 
-  test.skip('happy path tv render', async () => {
+  test('happy path tv render', async () => {
     const url = '/home/media/tv/1403';
     fetchMock.get('end:tv/1403', tvResponse);
+    const { container, getByText, queryAllByText } = getUi(url);
+    await waitForElement(() => container.querySelector('#card-1403'));
+    expect(container.querySelector('ion-card-title').textContent).toBe(tvResponse.name);
+    expect(container.querySelector('ion-card-content').childNodes[0].textContent).toBe(tvResponse.overview);
+    expect(container.querySelectorAll('ion-badge').length).not.toBe(0);
+    expect(getByText(/Add to favourite/)).not.toBeNull();
+    fireEvent.click(getByText(/Show Seasons/));
+    const seasonsCards = container.querySelectorAll('[id^="card-season-"]');
+    expect(seasonsCards).toHaveLength(tvResponse.seasons.length);
+    fireEvent.click(queryAllByText(/View Episodes/)[0]);
   });
 });
