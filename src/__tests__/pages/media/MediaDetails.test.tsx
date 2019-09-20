@@ -333,6 +333,5 @@ describe('Favourite Page', () => {
     fireEvent.click(getByText(/Show Seasons/));
     const seasonsCards = container.querySelectorAll('[id^="card-season-"]');
     expect(seasonsCards).toHaveLength(tvResponse.seasons.length);
-    fireEvent.click(queryAllByText(/View Episodes/)[0]);
   });
 });
