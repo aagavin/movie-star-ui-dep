@@ -42,7 +42,7 @@ const LoginPage: React.FC<any> = props => {
               </IonItem>
               <IonButton expand="full" onClick={handleLogin}>Sign In</IonButton>
             </>)}
-          <p>{context.error}</p>
+          {context.error && <p style={{ color: '#ff0000', fontWeight: 'bold', paddingLeft: '1em' }}>{context.error}</p>}
 
           <p>Don't have an account? <IonButton onClick={() => history.replace('/account/signup')}>Create one</IonButton></p>
         </IonCardContent>

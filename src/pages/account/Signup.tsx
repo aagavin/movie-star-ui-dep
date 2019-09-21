@@ -3,6 +3,7 @@ import { IonButton, IonButtons, IonCardContent, IonContent, IonHeader, IonInput,
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import React, { useContext, useState } from 'react';
+import useReactRouter from 'use-react-router';
 import UserContext from '../../context';
 
 
@@ -19,14 +20,23 @@ const SignupPage: React.FC<any> = () => {
   const [signup, setSignup] = useState<SignupForm>({});
   const [errorMsg, setErrorMsg] = useState<string>('');
   const context = useContext<any>(UserContext);
+  const { history } = useReactRouter();
+
+  // eslint-disable-next-line
+  const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   const setItem = (event: any) => {
     signup[event.target.name] = event.target.value;
+
+    console.log(signup);
     if (signup.name === '') {
       setErrorMsg('name can\'t be blank');
     }
     else if (signup.password !== signup.passwordConfirm) {
       setErrorMsg('password and confirm password needs to match');
+    }
+    else if (signup.email && !signup.email.match(emailRegex)){
+      setErrorMsg('a valid email needed to be provided');
     }
     else {
       setSignup(signup);
@@ -38,7 +48,7 @@ const SignupPage: React.FC<any> = () => {
     try{
       await context.createUserWithEmailAndPassword(signup.email, signup.password);
       firebase.auth().currentUser.sendEmailVerification();
-      
+      history.replace('/home');
     }
     catch(err){
       // tslint:disable-next-line: no-console

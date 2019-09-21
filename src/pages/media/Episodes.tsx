@@ -1,4 +1,4 @@
-import { IonBackButton, IonBadge, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonContent, IonHeader, IonImg, IonRow, IonTitle, IonToolbar, IonPage } from '@ionic/react';
+import { IonBackButton, IonBadge, IonButtons, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonContent, IonHeader, IonImg, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
 import React, { useEffect, useState } from 'react';
 import useReactRouter from 'use-react-router';
 import { BASE_IMG, BASE_URL } from '../../declarations';
