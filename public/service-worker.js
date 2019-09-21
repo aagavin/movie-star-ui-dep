@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 // Set this to true for production
-var doCache = !window.location.hostname === 'localhost';
+var doCache = !(window.location.hostname === 'localhost');
 
 // Name our cache
 var CACHE_NAME = 'movie-star-cache';
