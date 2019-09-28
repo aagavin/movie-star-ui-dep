@@ -1,23 +1,41 @@
 version: 2
 jobs:
-  test-build:
+  install-packages:
     docker:
-      - image: circleci/node:11.0.0
+      - image: circleci/node:11.0.0    
     steps:
       - checkout
       - restore_cache:
           keys:
             - node-v1-dependency-{{ .Branch }}-{{ checksum "package-lock.json" }}
-      - run: echo "building files"
+      - run: echo "Installing files"
       - run: npm i
-      - run: npm test -- --ci --coverage --detectOpenHandles --forceExit
-      - run: curl https://codecov.io/bash -o codecov.sh
-      - run: bash codecov.sh -t "$CODECOV_TOKEN"
-      - run: npx ionic build
       - save_cache:
           key: node-v1-dependency-{{ .Branch }}-{{ checksum "package-lock.json" }}
           paths:
             - ./node_modules
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+  tests:
+    docker:
+      - image: circleci/node:11.0.0
+    steps:
+      - attach_workspace:
+          at: .
+      - run: echo "running tests"
+      - run: npm test -- --ci --coverage --detectOpenHandles --forceExit
+      - run: curl https://codecov.io/bash -o codecov.sh
+      - run: bash codecov.sh -t "$CODECOV_TOKEN"
+  build:
+    docker:
+      - image: circleci/node:11.0.0
+    steps:
+      - attach_workspace:
+          at: .
+      - run: echo "building files"
+      - run: npx ionic build
       - run: ls -la
       - persist_to_workspace:
           root: .
@@ -39,10 +57,17 @@ workflows:
   version: 2
   build-and-deploy:
     jobs:
-      - test-build
+      - install-packages
+      - tests:
+          requires:
+            - install-packages
+      - build:
+          requires:
+            - install-packages
       - deploy:
           requires:
-            - test-build
+            - build
+            - tests
           filters:
             branches:
               only:
