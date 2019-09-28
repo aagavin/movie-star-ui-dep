@@ -1,3 +1,4 @@
+import { Plugins } from '@capacitor/core';
 import {
   IonBackButton,
   IonBadge,
@@ -28,6 +29,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import useReactRouter from 'use-react-router';
 import UserContext from '../../context';
 import { BASE_IMG, BASE_URL, MediaDetail, Season } from '../../declarations';
+
+const { Modals, Share } = Plugins;
 
 // tslint:disable: no-string-literal
 // tslint:disable: no-console
@@ -69,14 +72,22 @@ const MidiaDetails: React.FC<any> = () => {
 
   // TODO: 
   const shareBtnclick = async (e: MouseEvent) => {
-    console.log(navigator);
-    if (navigator && navigator['share']) {
-      navigator['share']({
-        title: document.title,
-        text: 'Hello World',
-        url: 'https://developer.mozilla.org',
-      })
+    try {
+      await Share.share({
+        title: res.title,
+        text: res.title,
+        url: window.location.href,
+        dialogTitle: 'share item'
+      });
     }
+    catch (err) {
+      await Modals.alert({
+        title: 'error',
+        message: err
+      });
+    }
+
+
   }
 
   const addToFavourite = async (id: number) => {
@@ -197,12 +208,12 @@ const MidiaDetails: React.FC<any> = () => {
             <IonBackButton defaultHref="/home" />
           </IonButtons>
           <IonTitle>{catogery}</IonTitle>
-
           <IonButtons slot="end">
-            <IonButton size="small" fill="clear" slot="end" onClick={shareBtnclick}>
+            <IonButton size="small" slot="end" onClick={shareBtnclick}>
               <IonIcon slot="icon-only" icon={share} />
             </IonButton>
           </IonButtons>
+
         </IonToolbar>
       </IonHeader>
       <IonContent>
