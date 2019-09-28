@@ -54,10 +54,10 @@
     ],
     "coverageThreshold": {
       "global": {
-        "statements": 64,
-        "branches": 63,
-        "functions": 54,
-        "lines": 66
+        "statements": 60,
+        "branches": 55,
+        "functions": 50,
+        "lines": 60
       }
     },
     "coverageReporters": ["text", "json"]
