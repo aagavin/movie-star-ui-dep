@@ -12,6 +12,7 @@ import {
   IonContent,
   IonGrid,
   IonHeader,
+  IonIcon,
   IonImg,
   IonItem,
   IonLabel,
@@ -22,6 +23,7 @@ import {
   IonToast,
   IonToolbar,
 } from '@ionic/react';
+import { share } from 'ionicons/icons';
 import React, { useContext, useEffect, useState } from 'react';
 import useReactRouter from 'use-react-router';
 import UserContext from '../../context';
@@ -58,11 +60,23 @@ const MidiaDetails: React.FC<any> = () => {
 
   const parseDate = (dateString: string): string => {
     const monthName = {
-      1: 'Jan', 2: 'Feb', 3: 'Mar', 4: 'Apr', 5: 'May', 6:'Jun',
+      1: 'Jan', 2: 'Feb', 3: 'Mar', 4: 'Apr', 5: 'May', 6: 'Jun',
       7: 'Jul', 8: 'Aug', 9: 'Sept', 10: 'Oct', 11: 'Nov', 12: 'Dec',
     }
     const d = new Date(dateString);
     return `${monthName[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
+  }
+
+  // TODO: 
+  const shareBtnclick = async (e: MouseEvent) => {
+    console.log(navigator);
+    if (navigator && navigator['share']) {
+      navigator['share']({
+        title: document.title,
+        text: 'Hello World',
+        url: 'https://developer.mozilla.org',
+      })
+    }
   }
 
   const addToFavourite = async (id: number) => {
@@ -183,6 +197,12 @@ const MidiaDetails: React.FC<any> = () => {
             <IonBackButton defaultHref="/home" />
           </IonButtons>
           <IonTitle>{catogery}</IonTitle>
+
+          <IonButtons slot="end">
+            <IonButton size="small" fill="clear" slot="end" onClick={shareBtnclick}>
+              <IonIcon slot="icon-only" icon={share} />
+            </IonButton>
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent>
