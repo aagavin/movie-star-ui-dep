@@ -8,7 +8,6 @@ jobs:
       - restore_cache:
           keys:
             - node-v1-dependency-{{ .Branch }}-{{ checksum "package-lock.json" }}
-      - run: echo "Installing files"
       - run: npm i
       - save_cache:
           key: node-v1-dependency-{{ .Branch }}-{{ checksum "package-lock.json" }}
@@ -24,8 +23,7 @@ jobs:
     steps:
       - attach_workspace:
           at: .
-      - run: echo "running tests"
-      - run: npm test -- --ci --coverage --detectOpenHandles --forceExit
+      - run: npm test -- --ci --coverage --detectOpenHandles --runInBand --forceExit
       - run: curl https://codecov.io/bash -o codecov.sh
       - run: bash codecov.sh -t "$CODECOV_TOKEN"
   build:
@@ -34,7 +32,6 @@ jobs:
     steps:
       - attach_workspace:
           at: .
-      - run: echo "building files"
       - run: npx ionic build
       - run: ls -la
       - persist_to_workspace:
@@ -43,6 +40,20 @@ jobs:
             - build
             - firebase.json
             - '.firebaserc'
+  build-android:
+    docker:
+      - image: circleci/android:api-28-alpha
+    steps:
+      - attach_workspace:
+          at: .
+      - run: curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash -
+      - run: sudo apt-get install -y nodejs
+      - run: npm --version
+      - run: npx cap sync
+      - run: npx cap copy
+      - run: cd ./android; ./gradlew app:assemble
+      - store_artifacts:
+          path: ./android/app/build/outputs/apk/debug/app-debug.apk
   deploy:
     docker:
       - image: circleci/node:11.0.0
@@ -64,6 +75,15 @@ workflows:
       - build:
           requires:
             - install-packages
+          filters:
+            branches:
+              only:
+                - master
+      - build-android:
+          requires:
+            - install-packages
+            - build
+            - tests
       - deploy:
           requires:
             - build
