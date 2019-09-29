@@ -75,15 +75,15 @@ workflows:
       - build:
           requires:
             - install-packages
-          filters:
-            branches:
-              only:
-                - master
       - build-android:
           requires:
             - install-packages
             - build
             - tests
+          filters:
+            branches:
+              only:
+                - master
       - deploy:
           requires:
             - build
