@@ -1,7 +1,7 @@
 SENDGRID_API_KEY=${SENDGRID_API_KEY:-default}
 ls
 pwd
-CONTENT = `base64 ./android/app/build/outputs/apk/debug/app-debug.apk`
+CONTENT=$(base64 ./android/app/build/outputs/apk/debug/app-debug.apk)
 echo $CONTENT
 curl --request POST \
 	--url https://api.sendgrid.com/v3/mail/send \
