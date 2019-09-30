@@ -29,7 +29,7 @@
     "@types/react-dom": "^16.9.1",
     "@types/react-router": "^5.1.1",
     "@types/react-router-dom": "^4.3.5",
-    "fetch-mock": "^7.3.9",
+    "fetch-mock": "^7.4.0",
     "tslint": "^5.19.0",
     "tslint-config-prettier": "^1.18.0",
     "tslint-react": "^4.0.0"
