@@ -71,20 +71,20 @@ const MidiaDetails: React.FC<any> = () => {
   }
 
   // TODO: 
-  const shareBtnclick = async (e: MouseEvent) => {
+  const shareBtnclick = e => {
     try {
-      await Share.share({
+      Share.share({
         title: res.title,
         text: res.title,
         url: window.location.href,
         dialogTitle: 'share item'
-      });
+      }).then(console.log).catch(console.error);
     }
     catch (err) {
-      await Modals.alert({
+      Modals.alert({
         title: 'error',
         message: err
-      });
+      }).then(console.log).catch(console.error);;
     }
 
 
