@@ -16,7 +16,7 @@
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.2.0",
     "react-with-firebase-auth": "^1.0.4",
-    "typescript": "3.6.3",
+    "typescript": "3.6.4",
     "use-react-router": "^1.0.7"
   },
   "devDependencies": {
