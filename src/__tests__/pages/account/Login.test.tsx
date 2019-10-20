@@ -27,7 +27,7 @@ describe('Login Page', () => {
   });
 
   test('click signin button', async () => {
-    const mockSignInFn = jest.fn((user, pass) => null)
+    const mockSignInFn = jest.fn((user, pass) => null);
     const { container } = getUi({ signInWithEmailAndPassword: mockSignInFn });
     const button = container.querySelector('ion-button');
     fireEvent.click(button);

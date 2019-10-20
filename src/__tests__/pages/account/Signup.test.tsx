@@ -28,10 +28,11 @@ describe('Signup Page', () => {
   });
 
   test('click create account page', async ()=>{
-    const { getByText, debug } = getUi();
+    const createUserWithEmailAndPassword = jest.fn();
+    const { getByText } = getUi({ createUserWithEmailAndPassword });
     const createActBtn = getByText(/Create Account/);
     fireEvent.click(createActBtn);
-    debug();
+    expect(createUserWithEmailAndPassword).toBeCalledTimes(1);
   });
 
 });

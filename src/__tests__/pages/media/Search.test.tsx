@@ -1,7 +1,7 @@
-import { cleanup, fireEvent, render } from '@testing-library/react';
+import { cleanup, render } from '@testing-library/react';
 import fetchMock from 'fetch-mock';
 import React from 'react';
-import { MemoryRouter, Route } from 'react-router';
+import { MemoryRouter } from 'react-router';
 import Search from '../../../pages/media/Search';
 
 const response = [
@@ -433,15 +433,13 @@ describe('Search Page', () => {
   afterEach(() => { cleanup(); fetchMock.reset(); });
 
   const renderUi = () => 
-      render(<MemoryRouter initialEntries={['/']}><Search /></MemoryRouter>);
+      render(<MemoryRouter initialEntries={['/']}><Search /></MemoryRouter>, {baseElement: document.createElement('div')});
 
   test('happy path render', async () => {
     fetchMock.get('end:/search/?q=aveng', response);
     const { container, debug } = renderUi();
     const searchBar = container.querySelector('ion-searchbar');
-    fireEvent.focus(searchBar);
-    fireEvent.change(searchBar, { change: { target: { value: 'aveng' } } });
-    fireEvent.keyDown(searchBar, { key: 'Enter', code: 13 });
+    // userEvent.type(searchBar, 'aveng')
     expect(container.querySelector('#result-list-undefined')).not.toBeNull();
   });
 });
