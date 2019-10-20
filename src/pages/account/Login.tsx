@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import useReactRouter from 'use-react-router';
 import UserContext from '../../context';
 
-const LoginPage: React.FC<any> = props => {
+const LoginPage: React.FC<any> = () => {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -32,11 +32,11 @@ const LoginPage: React.FC<any> = props => {
         <IonCardContent>
           {!context.user && (
             <>
-              <IonItem>
+              <IonItem id="imput-email">
                 <IonLabel position="floating">Email</IonLabel>
                 <IonInput required onIonChange={(e: any) => setUsername(e.target.value)} />
               </IonItem>
-              <IonItem>
+              <IonItem id="imput-password">
                 <IonLabel position="floating">Password</IonLabel>
                 <IonInput type="password" required onIonChange={(e: any) => setPassword(e.target.value)} />
               </IonItem>

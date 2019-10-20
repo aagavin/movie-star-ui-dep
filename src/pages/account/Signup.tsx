@@ -28,7 +28,6 @@ const SignupPage: React.FC<any> = () => {
   const setItem = (event: any) => {
     signup[event.target.name] = event.target.value;
 
-    console.log(signup);
     if (signup.name === '') {
       setErrorMsg('name can\'t be blank');
     }
@@ -75,7 +74,7 @@ const SignupPage: React.FC<any> = () => {
       </IonHeader>
       <IonContent>
         <IonCardContent>
-          <p>* is required</p>
+          <p>* is required {JSON.stringify(signup)}</p>
           {getItem('Name', 'name')}
           {getItem('Email', 'email', 'email')}
           {getItem('Password', 'password', 'password')}

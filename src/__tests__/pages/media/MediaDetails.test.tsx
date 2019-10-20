@@ -1,4 +1,4 @@
-import { cleanup, render, waitForElement, fireEvent } from '@testing-library/react';
+import { cleanup, fireEvent, render, waitForElement } from '@testing-library/react';
 import fetchMock from 'fetch-mock';
 import React from 'react';
 import { MemoryRouter, Route } from 'react-router';
@@ -288,7 +288,7 @@ const tvResponse = {
   'vote_count': 1356
 }
 
-describe('Favourite Page', () => {
+describe('Media Details Page', () => {
   beforeEach(fetchMock.reset);
   afterEach(cleanup);
 
