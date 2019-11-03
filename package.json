@@ -9,7 +9,7 @@
     "@ionic/react-router": "^4.11.0",
     "firebase": "^7.2.2",
     "ionicons": "^4.6.3",
-    "node-sass": "^4.12.0",
+    "node-sass": "^4.13.0",
     "react": "^16.10.2",
     "react-dom": "^16.11.0",
     "react-router": "^5.0.1",
