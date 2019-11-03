@@ -9,6 +9,9 @@ import UserContext, { getFavourites, init, setContext } from './context'
 import { AppPage } from './declarations';
 import { firebaseAppAuth } from './firebaseConfig';
 
+import { Plugins, PushNotification, PushNotificationActionPerformed, PushNotificationToken } from '@capacitor/core';
+
+
 import Menu from './components/Menu';
 
 /* eslint-disable import/first */
@@ -76,14 +79,42 @@ const App: FunctionComponent = (props: any) => {
   const [pages, setPages] = useState<AppPage[]>(commonPages);
   const [ctx, setCtx] = useState<any>({});
 
+  const { PushNotifications } = Plugins;
+
   const Logout = () => {
     props.signOut();
     ctx.favourites = [];
     return <Redirect to="/home" />
   }
-
   const redirectHome = () => <Redirect to="/home" />;
 
+  useEffect(() => {
+    // Register with Apple / Google to receive push via APNS/FCM
+    PushNotifications.register();
+
+    // On success, we should be able to receive notifications
+    PushNotifications.addListener('registration', (token: PushNotificationToken) => { alert(token) });
+
+    // Some issue with our setup and push will not work
+    PushNotifications.addListener('registrationError',
+      (error: any) => { alert('Error on registration: ' + JSON.stringify(error)); });
+
+    // Show us the notification payload if the app is open on our device
+    PushNotifications.addListener('pushNotificationReceived',
+      (notification: PushNotification) => {
+        alert('Push received: ' + JSON.stringify(notification));
+      }
+    );
+
+
+    // Method called when tapping on a notification
+    PushNotifications.addListener('pushNotificationActionPerformed',
+      (notification: PushNotificationActionPerformed) => {
+        alert('Push action performed: ' + JSON.stringify(notification));
+      }
+    );
+
+  }, [PushNotifications]);
   useEffect(() => { setCtx(init) }, []);
 
   /* eslint-disable react-hooks/exhaustive-deps */
@@ -109,17 +140,17 @@ const App: FunctionComponent = (props: any) => {
           <IonSplitPane contentId="main">
             <UserContext.Provider value={ctx}>
               <Menu appPages={pages} />
-                <IonRouterOutlet id="main">
-                  <Route path="/home" component={Home} exact />
-                  <Route path="/home/media/:catogery/:mediaId" component={Media} exact />
-                  <Route path="/home/media/:catogery/:mediaId/season/:seasonNumber/episodes/:numOfEpisodes" component={Episodes} exact />
-                  <Route path="/search" component={Search} exact />
-                  <Route path="/favourite" component={Favourite} exact />
-                  <Route path="/account/login" component={Login} exact />
-                  <Route path="/account/logout" render={Logout} exact />
-                  <Route path="/account/signup" component={SignUp} exact />
-                  <Route exact path="/" render={redirectHome} />
-                </IonRouterOutlet>
+              <IonRouterOutlet id="main">
+                <Route path="/home" component={Home} exact />
+                <Route path="/home/media/:catogery/:mediaId" component={Media} exact />
+                <Route path="/home/media/:catogery/:mediaId/season/:seasonNumber/episodes/:numOfEpisodes" component={Episodes} exact />
+                <Route path="/search" component={Search} exact />
+                <Route path="/favourite" component={Favourite} exact />
+                <Route path="/account/login" component={Login} exact />
+                <Route path="/account/logout" render={Logout} exact />
+                <Route path="/account/signup" component={SignUp} exact />
+                <Route exact path="/" render={redirectHome} />
+              </IonRouterOutlet>
             </UserContext.Provider>
           </IonSplitPane>
         </IonReactRouter>

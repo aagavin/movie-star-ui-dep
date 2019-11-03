@@ -25,3 +25,6 @@ yarn-error.log*
 
 # firebase files
 .firebase/
+
+# idea files
+android/.idea

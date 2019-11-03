@@ -3,6 +3,5 @@
     <string name="app_name">Movie Star</string>
     <string name="title_activity_main">Movie Star</string>
     <string name="package_name">ca.aagavin.moviestar</string>
-    <string name="fileprovider_authority">ca.aagavin.moviestar.fileprovider</string>
     <string name="custom_url_scheme">ca.aagavin.moviestar</string>
 </resources>
