@@ -79,7 +79,7 @@ const App: FunctionComponent = (props: any) => {
   const [pages, setPages] = useState<AppPage[]>(commonPages);
   const [ctx, setCtx] = useState<any>({});
 
-  const { PushNotifications } = Plugins;
+  const { PushNotifications, Device } = Plugins;
 
   const Logout = () => {
     props.signOut();
@@ -89,32 +89,36 @@ const App: FunctionComponent = (props: any) => {
   const redirectHome = () => <Redirect to="/home" />;
 
   useEffect(() => {
-    // Register with Apple / Google to receive push via APNS/FCM
-    PushNotifications.register();
 
-    // On success, we should be able to receive notifications
-    PushNotifications.addListener('registration', (token: PushNotificationToken) => { alert(token) });
+    Device.getInfo().then(info => {
+      if (info.platform !== 'web') {
+        // Register with Apple / Google to receive push via APNS/FCM
+        PushNotifications.register();
 
-    // Some issue with our setup and push will not work
-    PushNotifications.addListener('registrationError',
-      (error: any) => { alert('Error on registration: ' + JSON.stringify(error)); });
+        PushNotifications.addListener('registration', (token: PushNotificationToken) => { });
 
-    // Show us the notification payload if the app is open on our device
-    PushNotifications.addListener('pushNotificationReceived',
-      (notification: PushNotification) => {
-        alert('Push received: ' + JSON.stringify(notification));
+        // Some issue with our setup and push will not work
+        PushNotifications.addListener('registrationError', (error: any) => { alert('Error on registration: ' + JSON.stringify(error)); });
+
+        // Show us the notification payload if the app is open on our device
+        PushNotifications.addListener('pushNotificationReceived',
+          (notification: PushNotification) => {
+            alert('Push received: ' + JSON.stringify(notification));
+          }
+        );
+
+        // Method called when tapping on a notification
+        PushNotifications.addListener('pushNotificationActionPerformed',
+          (notification: PushNotificationActionPerformed) => {
+            alert('Push action performed: ' + JSON.stringify(notification));
+          }
+        );
       }
-    );
+
+    });
 
 
-    // Method called when tapping on a notification
-    PushNotifications.addListener('pushNotificationActionPerformed',
-      (notification: PushNotificationActionPerformed) => {
-        alert('Push action performed: ' + JSON.stringify(notification));
-      }
-    );
-
-  }, [PushNotifications]);
+  }, [PushNotifications, Device]);
   useEffect(() => { setCtx(init) }, []);
 
   /* eslint-disable react-hooks/exhaustive-deps */
