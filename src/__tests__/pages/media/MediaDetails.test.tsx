@@ -1,4 +1,4 @@
-import { cleanup, fireEvent, render, waitForElement } from '@testing-library/react';
+import { cleanup, fireEvent, render, waitForElement, waitForElementToBeRemoved } from '@testing-library/react';
 import fetchMock from 'fetch-mock';
 import React from 'react';
 import { MemoryRouter, Route } from 'react-router';
@@ -292,9 +292,9 @@ describe('Media Details Page', () => {
   beforeEach(fetchMock.reset);
   afterEach(cleanup);
 
-  const getUi = (url) => {
+  const getUi = (url, restContext = {}) => {
     return render(<MemoryRouter initialEntries={[url]}>
-      <UserContext.Provider value={{ ...init, favourites: [], user: { id: 123 } }}>
+      <UserContext.Provider value={{ ...init, favourites: [], user: { id: 123 }, ...restContext }}>
         <Route path={'/home/media/:catogery/:mediaId'}>
           <MediaDetailsPage />
         </Route>
@@ -333,5 +333,25 @@ describe('Media Details Page', () => {
     fireEvent.click(getByText(/Show Seasons/));
     const seasonsCards = container.querySelectorAll('[id^="card-season-"]');
     expect(seasonsCards).toHaveLength(tvResponse.seasons.length);
+  });
+
+  test.skip('test remove item from favourite', async () => {
+    const url = '/home/media/movie/458156';
+    const favourites = [
+      {
+        'id': 458156,
+        'media_type': 'movie',
+        'name': null,
+        'poster_path': '/8j58iEBw9pOXFD2L0nt0ZXeHviB.jpg',
+        'title': 'John Wick: Chapter 3 – Parabellum'
+      }
+    ];
+    const removeFavourite = jest.fn((id, fav) => ({}));
+    fetchMock.get('end:/movie/458156', movieResponse);
+    const { debug, getByText } = getUi(url, { favourites, removeFavourite });
+    await waitForElement(() => getByText(/Remove as favourite/));
+    const removeFavBtn = getByText(/Remove as favourite/);
+    fireEvent.click(removeFavBtn);
+    expect(removeFavourite).toBeCalledTimes(1);
   });
 });
