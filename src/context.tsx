@@ -19,7 +19,7 @@ const removeFavourite = async (uid: string, delId) => {
     .collection('favs')
     .doc(uid)
     .update(delFav);
-}
+};
 
 export const getFavourites = async (uid: string) => {
   return firebase
@@ -27,7 +27,7 @@ export const getFavourites = async (uid: string) => {
     .collection('favs')
     .doc(uid)
     .get();
-}
+};
 
 export const setContext = (contextFx: React.Dispatch<any>, context: any, properties: any, favourites: any = []) => {
   contextFx({
@@ -39,7 +39,7 @@ export const setContext = (contextFx: React.Dispatch<any>, context: any, propert
     favourites,
     error: properties.error,
   });
-}
+};
 
 export const init = {
   user: {},
