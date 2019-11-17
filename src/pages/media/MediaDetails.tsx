@@ -64,8 +64,8 @@ const MidiaDetails: React.FC<any> = () => {
 
   const parseDate = (dateString: string): string => {
     const monthName = {
-      1: 'Jan', 2: 'Feb', 3: 'Mar', 4: 'Apr', 5: 'May', 6: 'Jun',
-      7: 'Jul', 8: 'Aug', 9: 'Sept', 10: 'Oct', 11: 'Nov', 12: 'Dec',
+      0: 'Jan', 1: 'Feb', 2: 'Mar', 3: 'Apr', 4: 'May', 5: 'Jun',
+      6: 'Jul', 7: 'Aug', 8: 'Sept', 9: 'Oct', 10: 'Nov', 11: 'Dec',
     }
     const d = new Date(dateString);
     return `${monthName[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
