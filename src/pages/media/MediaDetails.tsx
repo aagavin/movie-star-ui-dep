@@ -26,6 +26,7 @@ import {
 } from '@ionic/react';
 import { share } from 'ionicons/icons';
 import React, { useContext, useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet';
 import useReactRouter from 'use-react-router';
 import UserContext from '../../context';
 import { BASE_IMG, BASE_URL, MediaDetail, Season } from '../../declarations';
@@ -196,6 +197,10 @@ const MidiaDetails: React.FC<any> = () => {
 
   return (
     <IonPage>
+      <Helmet>
+        <meta name="Description" content={res.overview} />
+        <title>{`Movie Star - ${res.title}`}</title>
+      </Helmet>
       <IonToast
         isOpen={showToast}
         onDidDismiss={() => setShowToast(false)}
