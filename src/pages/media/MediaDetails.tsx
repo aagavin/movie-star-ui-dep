@@ -203,6 +203,12 @@ const MidiaDetails: React.FC<any> = () => {
         <meta property="og:title" content={res.title} />
         <meta property="og:description" content={res.overview} />
         <meta property="og:image" content={`${BASE_IMG}/w780${res.poster_path}`} />
+      
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content={window.location.href} />
+        <meta name="twitter:title" content={res.title} />
+        <meta name="twitter:description" content={res.overview} />
+        <meta name="twitter:image" content={`${BASE_IMG}/w780${res.poster_path}`} />
         <title>{`Movie Star - ${res.title}`}</title>
       </Helmet>
       <IonToast
