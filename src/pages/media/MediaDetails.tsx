@@ -199,6 +199,10 @@ const MidiaDetails: React.FC<any> = () => {
     <IonPage>
       <Helmet>
         <meta name="Description" content={res.overview} />
+        <meta property="og:url" content={window.location.href} />
+        <meta property="og:title" content={res.title} />
+        <meta property="og:description" content={res.overview} />
+        <meta property="og:image" content={`${BASE_IMG}/w780${res.poster_path}`} />
         <title>{`Movie Star - ${res.title}`}</title>
       </Helmet>
       <IonToast
