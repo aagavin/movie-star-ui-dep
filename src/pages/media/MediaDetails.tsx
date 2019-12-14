@@ -133,7 +133,7 @@ const MidiaDetails: React.FC<any> = () => {
 
   }
 
-  const getSeaons = () => (
+  const getSeasons = () => (
     result.seasons && result.seasons.map((season: Season) => (
       <IonCard key={season.id} id={`card-season-${season.id}`}>
         <IonCardHeader>
@@ -233,7 +233,7 @@ const MidiaDetails: React.FC<any> = () => {
       </IonHeader>
       <IonContent>
         {res && res.title ? getCard() : <IonProgressBar type="indeterminate" />}
-        {showSeasons && getSeaons()}
+        {showSeasons && getSeasons()}
       </IonContent>
     </IonPage>
   );
