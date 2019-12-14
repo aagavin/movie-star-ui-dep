@@ -22,22 +22,23 @@ import { UserSettings } from '../../declarations';
 const Settings: React.FC<any> = () => {
 
   const [settings, setSettings] = useState<UserSettings>({});
+  const [doUpdate, setDoUpdate] = useState<boolean>(false);
   const context = useContext<any>(UserContext);
   
   useEffect(() => {
     // tslint:disable-next-line: no-unused-expression
     context.user && firebase.firestore().collection('settings').doc(context.user.uid).get().then(setDoc => {
       setSettings(setDoc.data());
+      setDoUpdate(true);
     });
   }, [context.user]);
 
   const saveSettings = (e: CustomEvent<ToggleChangeEventDetail>) => {
-    // TMP Disable 
-    // tslint:disable-next-line: no-console
-    console.log(e);
     settings[e.detail.value] = e.detail.checked;
-    // tslint:disable-next-line: no-unused-expression
-    context.user && firestore().collection('settings').doc(context.user.uid).update(settings).then(() => console.log('updated'));
+    if (doUpdate && context.user) {
+      firestore().collection('settings').doc(context.user.uid).update(settings).then();
+    }
+     
   };
 
   return (
@@ -53,7 +54,10 @@ const Settings: React.FC<any> = () => {
       <IonContent>
           <IonList>
             <IonItem button>
-              <IonLabel>Public Favourites</IonLabel>
+              <IonLabel class="ion-text-wrap">
+                <h2>Public Favourite</h2>
+                <p text-warp>Allow other users to search and like your list of favourites</p>
+                </IonLabel>
               <IonToggle value="publicFav" checked={settings.publicFav} onIonChange={saveSettings} />
             </IonItem>
           </IonList>
