@@ -1,6 +1,6 @@
 import { IonApp, IonProgressBar, IonRouterOutlet, IonSplitPane } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { home, logIn, logOut, search, settings, starOutline } from 'ionicons/icons';
+import { home, logIn, logOut, search, settings, star } from 'ionicons/icons';
 import React, { FunctionComponent, Suspense, useEffect, useState } from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import withFirebaseAuth from 'react-with-firebase-auth';
@@ -56,7 +56,7 @@ const commonPages: AppPage[] = [
 
 const loggedInPages: AppPage[] = [
   {
-    icon: starOutline,
+    icon: star,
     title: 'Favourites',
     url: '/favourite'
   },
