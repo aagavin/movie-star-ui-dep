@@ -20,7 +20,7 @@ const ResultsList: React.FC<any> = (props: ResultsListProps) => (
         <IonThumbnail slot="start">
           <IonImg src={`${BASE_IMG}/w92${result.poster_path}`} alt={`poster icon for ${result.title ? result.title : result.name}`} />
         </IonThumbnail>
-        <IonLabel>{result.title ? result.title : result.name}</IonLabel>
+        <IonLabel class="ion-text-wrap">{result.title ? result.title : result.name}</IonLabel>
       </IonItem>
     ))}
   </IonList>
