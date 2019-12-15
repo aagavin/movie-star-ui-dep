@@ -12,7 +12,7 @@ import {
   IonToggle,
   IonToolbar
 } from '@ionic/react';
-import firebase, { firestore } from 'firebase/app';
+import { firestore } from 'firebase/app';
 import 'firebase/database';
 import 'firebase/firestore';
 import React, { useContext, useEffect, useState } from 'react';
@@ -27,7 +27,7 @@ const Settings: React.FC<any> = () => {
   
   useEffect(() => {
     // tslint:disable-next-line: no-unused-expression
-    context.user && firebase.firestore().collection('settings').doc(context.user.uid).get().then(setDoc => {
+    context.user && firestore().collection('settings').doc(context.user.uid).get().then(setDoc => {
       setSettings(setDoc.data());
       setDoUpdate(true);
     });
@@ -56,7 +56,7 @@ const Settings: React.FC<any> = () => {
             <IonItem button>
               <IonLabel class="ion-text-wrap">
                 <h2>Public Favourite</h2>
-                <p text-warp>Allow other users to search and like your list of favourites</p>
+                <p>Allow other users to search and like your list of favourites</p>
                 </IonLabel>
               <IonToggle value="publicFav" checked={settings.publicFav} onIonChange={saveSettings} />
             </IonItem>
