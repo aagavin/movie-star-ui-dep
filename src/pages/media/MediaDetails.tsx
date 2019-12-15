@@ -36,7 +36,7 @@ const { Modals, Share } = Plugins;
 // tslint:disable: no-string-literal
 // tslint:disable: no-console
 // tslint:disable: jsx-no-lambda
-const MidiaDetails: React.FC<any> = () => {
+const MediaDetails: React.FC<any> = () => {
 
   const { history, match } = useReactRouter();
   const [result, setResult] = useState<MediaDetail>({});
@@ -239,4 +239,4 @@ const MidiaDetails: React.FC<any> = () => {
   );
 };
 
-export default MidiaDetails;
+export default MediaDetails;
