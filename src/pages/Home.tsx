@@ -12,6 +12,7 @@ import {
   IonToolbar
 } from '@ionic/react';
 import React, { useEffect, useState } from 'react';
+import Helmet from 'react-helmet';
 import ResultsList from '../components/ResultsList';
 import { BASE_URL } from '../declarations';
 
@@ -47,6 +48,9 @@ const HomePage: React.FunctionComponent = () => {
 
   return (
     <IonPage>
+      <Helmet>
+        <title>Movie Star</title>
+      </Helmet>
       <IonHeader>
         <IonToolbar color="primary">
           <IonButtons slot="start">
