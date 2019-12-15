@@ -23,7 +23,7 @@ describe('Signup Page', () => {
   }
 
   test('render page', async () => {
-    const { container, debug } = getUi();
+    const { container } = getUi();
     expect(container.querySelectorAll('ion-item').length).toBe(5);
   });
 
