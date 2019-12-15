@@ -9,7 +9,12 @@ import UserContext, { getFavourites, init, setContext } from './context'
 import { AppPage } from './declarations';
 import { firebaseAppAuth } from './firebaseConfig';
 
-import { Plugins, PushNotification, PushNotificationActionPerformed, PushNotificationToken } from '@capacitor/core';
+import {
+  Plugins,
+  PushNotification,
+  PushNotificationActionPerformed,
+  PushNotificationToken
+} from '@capacitor/core';
 
 
 import Menu from './components/Menu';
