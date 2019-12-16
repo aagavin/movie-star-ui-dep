@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "@capacitor/cli": "1.4.0",
-    "@testing-library/react": "^9.3.2",
+    "@testing-library/react": "^9.4.0",
     "@testing-library/user-event": "^7.1.2",
     "@types/fetch-mock": "^7.3.2",
     "@types/jest": "^24.0.23",
