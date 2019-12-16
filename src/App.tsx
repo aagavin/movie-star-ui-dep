@@ -1,6 +1,6 @@
 import { IonApp, IonProgressBar, IonRouterOutlet, IonSplitPane } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { home, logIn, logOut, search, starOutline } from 'ionicons/icons';
+import { home, logIn, logOut, search, settings, star } from 'ionicons/icons';
 import React, { FunctionComponent, Suspense, useEffect, useState } from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import withFirebaseAuth from 'react-with-firebase-auth';
@@ -9,7 +9,12 @@ import UserContext, { getFavourites, init, setContext } from './context'
 import { AppPage } from './declarations';
 import { firebaseAppAuth } from './firebaseConfig';
 
-import { Plugins, PushNotification, PushNotificationActionPerformed, PushNotificationToken } from '@capacitor/core';
+import {
+  Plugins,
+  PushNotification,
+  PushNotificationActionPerformed,
+  PushNotificationToken
+} from '@capacitor/core';
 
 
 import Menu from './components/Menu';
@@ -20,6 +25,7 @@ const Home = React.lazy(() => import('./pages/Home'))
 const Search = React.lazy(() => import('./pages/media/Search'));
 const Media = React.lazy(() => import('./pages/media/MediaDetails'));
 const Favourite = React.lazy(() => import('./pages/Favourite'));
+const Settings = React.lazy(() => import('./pages/account/Settings'));
 const SignUp = React.lazy(() => import('./pages/account/Signup'));
 const Episodes = React.lazy(() => import('./pages/media/Episodes'));
 const Login = React.lazy(() => import('./pages/account/Login'));
@@ -55,9 +61,14 @@ const commonPages: AppPage[] = [
 
 const loggedInPages: AppPage[] = [
   {
-    icon: starOutline,
+    icon: star,
     title: 'Favourites',
     url: '/favourite'
+  },
+  {
+    icon: settings,
+    title: 'Settings',
+    url: '/settings'
   },
   {
     icon: logOut,
@@ -150,6 +161,7 @@ const App: FunctionComponent = (props: any) => {
                 <Route path="/home/media/:catogery/:mediaId/season/:seasonNumber/episodes/:numOfEpisodes" component={Episodes} exact />
                 <Route path="/search" component={Search} exact />
                 <Route path="/favourite" component={Favourite} exact />
+                <Route path="/settings" component={Settings} extct />
                 <Route path="/account/login" component={Login} exact />
                 <Route path="/account/logout" render={Logout} exact />
                 <Route path="/account/signup" component={SignUp} exact />

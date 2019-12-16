@@ -36,7 +36,7 @@ const { Modals, Share } = Plugins;
 // tslint:disable: no-string-literal
 // tslint:disable: no-console
 // tslint:disable: jsx-no-lambda
-const MidiaDetails: React.FC<any> = () => {
+const MediaDetails: React.FC<any> = () => {
 
   const { history, match } = useReactRouter();
   const [result, setResult] = useState<MediaDetail>({});
@@ -133,7 +133,7 @@ const MidiaDetails: React.FC<any> = () => {
 
   }
 
-  const getSeaons = () => (
+  const getSeasons = () => (
     result.seasons && result.seasons.map((season: Season) => (
       <IonCard key={season.id} id={`card-season-${season.id}`}>
         <IonCardHeader>
@@ -145,7 +145,7 @@ const MidiaDetails: React.FC<any> = () => {
           {season.overview}
           <br />
           <IonBadge color="light">{season.episode_count} episodes</IonBadge>
-          <IonItem button detail onClick={e => history.push(`/home/media/${catogery}/${match.params['mediaId']}/season/${season.season_number}/episodes/${season.episode_count}`)}>
+          <IonItem data-testid="viewEpBtn" button detail onClick={e => history.push(`/home/media/${catogery}/${match.params['mediaId']}/season/${season.season_number}/episodes/${season.episode_count}`)}>
             <IonLabel>
               View Episodes
             </IonLabel>
@@ -233,10 +233,10 @@ const MidiaDetails: React.FC<any> = () => {
       </IonHeader>
       <IonContent>
         {res && res.title ? getCard() : <IonProgressBar type="indeterminate" />}
-        {showSeasons && getSeaons()}
+        {showSeasons && getSeasons()}
       </IonContent>
     </IonPage>
   );
 };
 
-export default MidiaDetails;
+export default MediaDetails;

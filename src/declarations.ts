@@ -1,13 +1,19 @@
 export const BASE_URL = 'https://watch-tv-list.herokuapp.com';
 export const BASE_IMG = 'https://image.tmdb.org/t/p';
 
+/***** AppPage *****/ 
 export interface AppPage {
   url: string;
   icon: object;
   title: string;
 }
 
+/***** Settings *****/ 
+export interface UserSettings {
+  publicFav?: boolean
+}
 
+/***** MediaDetail *****/ 
 interface BelongsToCollection {
   id: number;
   name: string;

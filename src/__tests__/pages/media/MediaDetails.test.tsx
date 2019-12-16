@@ -324,17 +324,28 @@ describe('Media Details Page', () => {
   test('happy path tv render', async () => {
     const url = '/home/media/tv/1403';
     fetchMock.get('end:tv/1403', tvResponse);
-    const { container, getByText, queryAllByText } = getUi(url);
+    const { container, getByText } = getUi(url);
     await waitForElement(() => container.querySelector('#card-1403'));
     expect(container.querySelector('ion-card-title').textContent).toBe(tvResponse.name);
     expect(container.querySelector('ion-card-content').childNodes[0].textContent).toBe(tvResponse.overview);
     expect(container.querySelectorAll('ion-badge').length).not.toBe(0);
+
+  });
+
+  test('test view episodes button', async () => {
+    const url = '/home/media/tv/1403';
+    fetchMock.get('end:tv/1403', tvResponse);
+    const { container, getByText, getAllByText } = getUi(url);
+    await waitForElement(() => container.querySelector('#card-1403'));
     expect(getByText(/Add to favourite/)).not.toBeNull();
     fireEvent.click(getByText(/Show Seasons/));
     const seasonsCards = container.querySelectorAll('[id^="card-season-"]');
     expect(seasonsCards).toHaveLength(tvResponse.seasons.length);
-  });
+    const btn = getAllByText(/View Episodes/)[1];
+    fireEvent.click(btn);
+  })
 
+  // skipped because of custom elements
   test.skip('test remove item from favourite', async () => {
     const url = '/home/media/movie/458156';
     const favourites = [
