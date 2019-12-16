@@ -46,7 +46,7 @@ const SignupPage: React.FC<any> = () => {
   const submitSignUpForm = async () => {
     try{
       await context.createUserWithEmailAndPassword(signup.email, signup.password);
-      firebase.auth().currentUser.sendEmailVerification();
+      firebase.auth().currentUser.sendEmailVerification();   
       history.replace('/home');
     }
     catch(err){
@@ -74,7 +74,7 @@ const SignupPage: React.FC<any> = () => {
       </IonHeader>
       <IonContent>
         <IonCardContent>
-          <p>* is required {JSON.stringify(signup)}</p>
+          <p>* is required</p>
           {getItem('Name', 'name')}
           {getItem('Email', 'email', 'email')}
           {getItem('Password', 'password', 'password')}
