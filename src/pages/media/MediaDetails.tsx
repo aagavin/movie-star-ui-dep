@@ -145,7 +145,7 @@ const MediaDetails: React.FC<any> = () => {
           {season.overview}
           <br />
           <IonBadge color="light">{season.episode_count} episodes</IonBadge>
-          <IonItem button detail onClick={e => history.push(`/home/media/${catogery}/${match.params['mediaId']}/season/${season.season_number}/episodes/${season.episode_count}`)}>
+          <IonItem data-testid="viewEpBtn" button detail onClick={e => history.push(`/home/media/${catogery}/${match.params['mediaId']}/season/${season.season_number}/episodes/${season.episode_count}`)}>
             <IonLabel>
               View Episodes
             </IonLabel>
