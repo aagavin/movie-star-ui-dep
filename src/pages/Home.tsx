@@ -25,16 +25,17 @@ const HomePage: React.FunctionComponent = () => {
 
   useEffect(() => {
     Promise.all([
-      getResults('movie'),
-      getResults('tv', 'popular')
+      getResults('movies'),
+      getResults('tv')
     ]);
   }, []);
 
-  const getResults = async (resultCatogery: string, filter: string = 'upcoming') => {
+  const getResults = async (resultCatogery: string, filter: string = 'popular') => {
     fetch(`${BASE_URL}/media/${resultCatogery}/${filter}`)
       .then(res => res.json())
+      .then(res => res.ranks)
       .then(res => {
-        if (resultCatogery === 'movie') {
+        if (resultCatogery === 'movies') {
           setMovieResults(<ResultsList results={res} catogery={resultCatogery} />);
         }
         else {

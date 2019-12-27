@@ -12,7 +12,18 @@ const SearchPage: React.FC<any> = () => {
     // tslint:disable-next-line: no-string-literal
     const query = queryEvent.target['value'];
     if (query !== '' && query.length > 3) {
-      const response = await fetch(`${BASE_URL}/search/?q=${query}`).then(r => r.json())
+      const response = await fetch(`${BASE_URL}/search/?q=${query}`)
+        .then(res => res.json())
+        .then(res => res.filter(r => r.q === 'TV series' || r.q === 'TV mini-series' || r.q === 'feature'))
+        .then(res => res.map(r => ({
+          ...r,
+          image: {
+            url: r.i.imageUrl
+          },
+          title: r.l,
+
+        })));
+
       setResults(response);
     }
     else if (query === '') {
@@ -31,7 +42,7 @@ const SearchPage: React.FC<any> = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <IonSearchbar onIonChange={handleSearch}/>
+        <IonSearchbar onIonChange={handleSearch} />
         <ResultsList results={results} />
       </IonContent>
     </IonPage>
