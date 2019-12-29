@@ -33,7 +33,13 @@ const HomePage: React.FunctionComponent = () => {
   const getResults = async (resultCatogery: string, filter: string = 'popular') => {
     fetch(`${BASE_URL}/media/${resultCatogery}/${filter}`)
       .then(res => res.json())
-      .then(res => res.ranks)
+      .then(res => res.map(r => (
+        {...r,
+          image: {
+            ...r.image,
+            url: r.image.url.replace('_V1_', '_SX100_')
+          }
+        })))
       .then(res => {
         if (resultCatogery === 'movies') {
           setMovieResults(<ResultsList results={res} catogery={resultCatogery} />);
