@@ -39,16 +39,19 @@ const MediaDetails: React.FC<any> = () => {
   const { match } = useReactRouter();
   const [result, setResult] = useState<MediaDetail>({});
   const [isFav, setIsFav] = useState<boolean>(false);
+  const [tvReleaseDate, setTvReleaseDate] = useState<string>();
   const [showToast, setShowToast] = useState<boolean>(false);
 
   const catogery = match.params['catogery'];
   const mediaId = match.params['mediaId'];
   const context = useContext<any>(UserContext);
 
-  // eslint-disable-next-line
+  const getMediaById = (id: string) => fetch(`${BASE_URL}/media/${catogery}/${id}`)
+    .then(async r => await r.json())
+    .catch(console.error);
+
   useEffect(() => {
-    const url = `${BASE_URL}/media/${catogery}/${mediaId}`;
-    fetch(url).then(async r => await r.json()).then(setResult).catch(console.error);
+    getMediaById(mediaId).then(setResult);
     return () => setResult({});
   }, [mediaId, catogery])
 
@@ -58,6 +61,14 @@ const MediaDetails: React.FC<any> = () => {
     }
     return () => setIsFav(false);
   }, [context.user, context.favourites, result, result.id]);
+
+  useEffect(() => {
+    if (catogery && catogery !== 'movie' && Object.entries(result).length !== 0) {
+      const id = result.nextEpisode.split('/')[2];
+      getMediaById(id).then((r: MediaDetail) => setTvReleaseDate(parseDate(r.releaseDetails.date)));
+    }
+  }, [result, catogery])
+
 
   const parseDate = (dateString: string): string => {
     const monthName = {
@@ -74,7 +85,7 @@ const MediaDetails: React.FC<any> = () => {
     const minutes = (hours - rhours) * 60;
     const rminutes = Math.round(minutes);
     return rhours + 'h ' + rminutes + 'min';
-    }
+  }
 
   // TODO: 
   const shareBtnclick = e => {
@@ -130,13 +141,7 @@ const MediaDetails: React.FC<any> = () => {
   else {
     result['badge1'] = `imdb rating: ${result?.rating}`;
     result['badge2'] = `~${result.runningTimes[0].timeMinutes}min`;
-    // TODO TV STUFF
-    // res['badge2'] = res.next_episode_to_air ? `next episode: ${parseDate(res.next_episode_to_air.air_date)}` : '';
-    // if (typeof res.networks !== 'undefined') {
-    //   const networkNames = res.networks.map(n => n.name);
-    //   res['badge3'] = `Airs on: ${networkNames.join(', ')}`;
-    // }
-
+    result['badge3'] = `next episode: ${tvReleaseDate}`
   }
 
 
@@ -186,7 +191,7 @@ const MediaDetails: React.FC<any> = () => {
         <meta property="og:title" content={result.title} />
         <meta property="og:description" content={result.plot.outline.text} />
         <meta property="og:image" content={`${BASE_IMG}/w780${result.image.url}`} />
-      
+
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content={window.location.href} />
         <meta name="twitter:title" content={result.title} />

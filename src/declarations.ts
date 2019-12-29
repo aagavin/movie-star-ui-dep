@@ -373,6 +373,10 @@ export interface Image12 {
   width: number;
 }
 
+export interface SeasonsInfo {
+  season: number;
+}
+
 export interface MediaDetail {
   badge1?: string,
   badge2?: string | number,
@@ -417,6 +421,9 @@ export interface MediaDetail {
   id?: string;
   image?: Image12;
   runningTimeInMinutes?: number;
+  nextEpisode?: string;
+  numberOfEpisodes?: number;
+  seriesStartYear?: number;
   title?: string;
   titleType?: string;
   year?: number;
