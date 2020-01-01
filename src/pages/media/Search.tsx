@@ -14,14 +14,13 @@ const SearchPage: React.FC<any> = () => {
     if (query !== '' && query.length > 3) {
       const response = await fetch(`${BASE_URL}/search/?q=${query}`)
         .then(res => res.json())
-        .then(res => res.filter(r => r.q === 'TV series' || r.q === 'TV mini-series' || r.q === 'feature'))
         .then(res => res.map(r => ({
           ...r,
           image: {
-            url: r.i.imageUrl
+            url: r.i.imageUrl.replace('_V1_', '_SX100_')
           },
           title: r.l,
-
+          titleType: r.q,
         })));
 
       setResults(response);
