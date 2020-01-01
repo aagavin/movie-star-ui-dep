@@ -42,10 +42,10 @@ const HomePage: React.FunctionComponent = () => {
         })))
       .then(res => {
         if (resultCatogery === 'movies') {
-          setMovieResults(<ResultsList results={res} catogery={resultCatogery} />);
+          setMovieResults(<ResultsList results={res} catogery="feature" />);
         }
         else {
-          setTvResults(<ResultsList results={res} catogery={resultCatogery} />);
+          setTvResults(<ResultsList results={res} catogery="tvSeries" />);
         }
         setIsLoading(false);
       });
