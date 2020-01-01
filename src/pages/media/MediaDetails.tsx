@@ -46,14 +46,18 @@ const MediaDetails: React.FC<any> = () => {
   const mediaId = match.params['mediaId'];
   const context = useContext<any>(UserContext);
 
+  
   const getMediaById = (id: string) => fetch(`${BASE_URL}/media/${catogery}/${id}`)
     .then(async r => await r.json())
     .catch(console.error);
 
+  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     getMediaById(mediaId).then(setResult);
     return () => setResult({});
-  }, [mediaId, catogery])
+
+  }, [mediaId])
+/* eslint-enable react-hooks/exhaustive-deps */
 
   useEffect(() => {
     if (context.user && result && result.id) {
@@ -62,12 +66,14 @@ const MediaDetails: React.FC<any> = () => {
     return () => setIsFav(false);
   }, [context.user, context.favourites, result, result.id]);
 
+  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
-    if (catogery && catogery !== 'movie' && Object.entries(result).length !== 0) {
+    if (catogery && catogery !== 'feature' && catogery !== 'movie' && Object.entries(result).length !== 0) {
       const id = result.nextEpisode.split('/')[2];
       getMediaById(id).then((r: MediaDetail) => setTvReleaseDate(parseDate(r.releaseDetails.date)));
     }
   }, [result, catogery])
+  /* eslint-enable react-hooks/exhaustive-deps */
 
 
   const parseDate = (dateString: string): string => {
@@ -111,9 +117,11 @@ const MediaDetails: React.FC<any> = () => {
     const fav = {};
     fav[id] = {
       id: result.id,
-      title: result.title ? result.title : null,
-      poster_url: result.image.url,
-      media_type: catogery
+      title: result.title,
+      image: {
+        url: result.image.url
+      },
+      titleType: catogery
     };
     await context.addFavourite(context.user.uid, fav);
     context.favourites.push(fav[id]);
@@ -129,11 +137,18 @@ const MediaDetails: React.FC<any> = () => {
   }
 
   if (Object.entries(result).length === 0) {
-    return <IonProgressBar type="indeterminate" />
+    return (
+      <IonPage>
+        <IonHeader />
+        <IonContent>
+          <IonProgressBar type="indeterminate" />
+        </IonContent>
+      </IonPage>
+    )
   }
 
 
-  if (result && catogery === 'movie') {
+  if (result && (catogery === 'feature' || catogery === 'movie')) {
     result['badge1'] = `rating: ${result?.metacriticInfo?.metaScore}%`;
     result['badge2'] = timeConvert(result.runningTimeInMinutes);
     result['badge3'] = parseDate(result.releaseDetails.date);
