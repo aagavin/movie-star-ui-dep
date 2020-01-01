@@ -27,7 +27,6 @@ const Media = React.lazy(() => import('./pages/media/MediaDetails'));
 const Favourite = React.lazy(() => import('./pages/Favourite'));
 const Settings = React.lazy(() => import('./pages/account/Settings'));
 const SignUp = React.lazy(() => import('./pages/account/Signup'));
-const Episodes = React.lazy(() => import('./pages/media/Episodes'));
 const Login = React.lazy(() => import('./pages/account/Login'));
 
 /* Core CSS required for Ionic components to work properly */
@@ -158,7 +157,6 @@ const App: FunctionComponent = (props: any) => {
               <IonRouterOutlet id="main">
                 <Route path="/home" component={Home} exact />
                 <Route path="/home/media/:catogery/:mediaId" component={Media} exact />
-                <Route path="/home/media/:catogery/:mediaId/season/:seasonNumber/episodes/:numOfEpisodes" component={Episodes} exact />
                 <Route path="/search" component={Search} exact />
                 <Route path="/favourite" component={Favourite} exact />
                 <Route path="/settings" component={Settings} extct />
