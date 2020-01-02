@@ -25,20 +25,27 @@ const HomePage: React.FunctionComponent = () => {
 
   useEffect(() => {
     Promise.all([
-      getResults('movie'),
-      getResults('tv', 'popular')
+      getResults('movies'),
+      getResults('tv')
     ]);
   }, []);
 
-  const getResults = async (resultCatogery: string, filter: string = 'upcoming') => {
+  const getResults = async (resultCatogery: string, filter: string = 'popular') => {
     fetch(`${BASE_URL}/media/${resultCatogery}/${filter}`)
       .then(res => res.json())
+      .then(res => res.map(r => (
+        {...r,
+          image: {
+            ...r.image,
+            url: r.image.url.replace('_V1_', '_SX100_')
+          }
+        })))
       .then(res => {
-        if (resultCatogery === 'movie') {
-          setMovieResults(<ResultsList results={res} catogery={resultCatogery} />);
+        if (resultCatogery === 'movies') {
+          setMovieResults(<ResultsList results={res} catogery="feature" />);
         }
         else {
-          setTvResults(<ResultsList results={res} catogery={resultCatogery} />);
+          setTvResults(<ResultsList results={res} catogery="tvSeries" />);
         }
         setIsLoading(false);
       });

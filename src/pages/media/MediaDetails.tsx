@@ -15,8 +15,6 @@ import {
   IonHeader,
   IonIcon,
   IonImg,
-  IonItem,
-  IonLabel,
   IonPage,
   IonProgressBar,
   IonRow,
@@ -29,7 +27,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import useReactRouter from 'use-react-router';
 import UserContext from '../../context';
-import { BASE_IMG, BASE_URL, MediaDetail, Season } from '../../declarations';
+import { BASE_IMG, BASE_URL, MediaDetail } from '../../declarations';
 
 const { Modals, Share } = Plugins;
 
@@ -38,22 +36,28 @@ const { Modals, Share } = Plugins;
 // tslint:disable: jsx-no-lambda
 const MediaDetails: React.FC<any> = () => {
 
-  const { history, match } = useReactRouter();
+  const { match } = useReactRouter();
   const [result, setResult] = useState<MediaDetail>({});
   const [isFav, setIsFav] = useState<boolean>(false);
+  const [tvReleaseDate, setTvReleaseDate] = useState<string>();
   const [showToast, setShowToast] = useState<boolean>(false);
-  const [showSeasons, setShowSeasons] = useState(false);
 
   const catogery = match.params['catogery'];
   const mediaId = match.params['mediaId'];
   const context = useContext<any>(UserContext);
 
-  // eslint-disable-next-line
+  
+  const getMediaById = (id: string) => fetch(`${BASE_URL}/media/${catogery}/${id}`)
+    .then(async r => await r.json())
+    .catch(console.error);
+
+  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
-    const url = `${BASE_URL}/media/${catogery}/${mediaId}`;
-    fetch(url).then(r => r.json()).then(setResult).catch(console.error);
+    getMediaById(mediaId).then(setResult);
     return () => setResult({});
-  }, [mediaId, catogery])
+
+  }, [mediaId])
+/* eslint-enable react-hooks/exhaustive-deps */
 
   useEffect(() => {
     if (context.user && result && result.id) {
@@ -61,6 +65,16 @@ const MediaDetails: React.FC<any> = () => {
     }
     return () => setIsFav(false);
   }, [context.user, context.favourites, result, result.id]);
+
+  /* eslint-disable react-hooks/exhaustive-deps */
+  useEffect(() => {
+    if (catogery && catogery !== 'feature' && catogery !== 'movie' && Object.entries(result).length !== 0) {
+      const id = result.nextEpisode.split('/')[2];
+      getMediaById(id).then((r: MediaDetail) => setTvReleaseDate(parseDate(r.releaseDetails.date)));
+    }
+  }, [result, catogery])
+  /* eslint-enable react-hooks/exhaustive-deps */
+
 
   const parseDate = (dateString: string): string => {
     const monthName = {
@@ -71,12 +85,20 @@ const MediaDetails: React.FC<any> = () => {
     return `${monthName[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
   }
 
+  const timeConvert = (n: any) => {
+    const hours = (n / 60);
+    const rhours = Math.floor(hours);
+    const minutes = (hours - rhours) * 60;
+    const rminutes = Math.round(minutes);
+    return rhours + 'h ' + rminutes + 'min';
+  }
+
   // TODO: 
   const shareBtnclick = e => {
     try {
       Share.share({
-        title: res.title,
-        text: res.title,
+        title: result.title,
+        text: result.title,
         url: window.location.href,
         dialogTitle: 'share item'
       }).then(console.log).catch(console.error);
@@ -91,14 +113,15 @@ const MediaDetails: React.FC<any> = () => {
 
   }
 
-  const addToFavourite = async (id: number) => {
+  const addToFavourite = async (id: string) => {
     const fav = {};
     fav[id] = {
       id: result.id,
-      name: result.name ? result.name : null,
-      title: result.title ? result.title : null,
-      poster_path: result.poster_path,
-      media_type: catogery
+      title: result.title,
+      image: {
+        url: result.image.url
+      },
+      titleType: catogery
     };
     await context.addFavourite(context.user.uid, fav);
     context.favourites.push(fav[id]);
@@ -106,79 +129,60 @@ const MediaDetails: React.FC<any> = () => {
     setShowToast(true);
   }
 
-  const removeFromFavourite = async (id: number) => {
+  const removeFromFavourite = async (id: string) => {
     await context.removeFavourite(context.user.uid, id);
     context.favourites = context.favourites.filter(f => f.id !== id);
     setIsFav(false);
     setShowToast(true);
   }
 
-  const res = {
-    ...result,
-    title: result && result.title ? result.title : result.name,
-    badge1: `raiting: ${result.vote_average}`
-  };
+  if (Object.entries(result).length === 0) {
+    return (
+      <IonPage>
+        <IonHeader />
+        <IonContent>
+          <IonProgressBar type="indeterminate" />
+        </IonContent>
+      </IonPage>
+    )
+  }
 
-  if (result && catogery === 'movie') {
-    res['badge2'] = `runtime: ${res.runtime}`;
-    res['badge3'] = parseDate(res.release_date);
+
+  if (result && (catogery === 'feature' || catogery === 'movie')) {
+    result['badge1'] = `rating: ${result?.metacriticInfo?.metaScore}%`;
+    result['badge2'] = timeConvert(result.runningTimeInMinutes);
+    result['badge3'] = parseDate(result.releaseDetails.date);
   }
   else {
-
-    res['badge2'] = res.next_episode_to_air ? `next episode: ${parseDate(res.next_episode_to_air.air_date)}` : '';
-    if (typeof res.networks !== 'undefined') {
-      const networkNames = res.networks.map(n => n.name);
-      res['badge3'] = `Airs on: ${networkNames.join(', ')}`;
-    }
-
+    result['badge1'] = `imdb rating: ${result?.rating}`;
+    result['badge2'] = `~${result.runningTimes[0].timeMinutes}min`;
+    result['badge3'] = `next episode: ${tvReleaseDate}`
   }
 
-  const getSeasons = () => (
-    result.seasons && result.seasons.map((season: Season) => (
-      <IonCard key={season.id} id={`card-season-${season.id}`}>
-        <IonCardHeader>
-          <IonCardSubtitle><IonImg src={`${BASE_IMG}/w780${season.poster_path}`} /></IonCardSubtitle>
-          <IonCardTitle>{season.name}</IonCardTitle>
-        </IonCardHeader>
-
-        <IonCardContent>
-          {season.overview}
-          <br />
-          <IonBadge color="light">{season.episode_count} episodes</IonBadge>
-          <IonItem data-testid="viewEpBtn" button detail onClick={e => history.push(`/home/media/${catogery}/${match.params['mediaId']}/season/${season.season_number}/episodes/${season.episode_count}`)}>
-            <IonLabel>
-              View Episodes
-            </IonLabel>
-          </IonItem>
-        </IonCardContent>
-      </IonCard>
-    ))
-  );
 
   const getCard = () => {
-    const removeFavClickHandler = () => removeFromFavourite(res.id);
-    const addFavClickHandler = () => addToFavourite(res.id);
-    const showSeasonsClickHandler = () => setShowSeasons(!showSeasons)
+    const removeFavClickHandler = () => removeFromFavourite(result.id);
+    const addFavClickHandler = () => addToFavourite(result.id);
     return (
-      <IonCard id={`card-${res.id}`}>
+      <IonCard id={`card-${result.id}`}>
         <IonCardHeader>
           <IonCardSubtitle>
-            <IonImg src={`${BASE_IMG}/w780${res.poster_path}`} alt={`poster for ${res.title}`} />
+            <IonImg src={result.image.url} alt={`poster for ${result.title}`} />
           </IonCardSubtitle>
-          <IonCardTitle><b>{res.title}</b></IonCardTitle>
+          <IonCardTitle><b>{result.title}</b></IonCardTitle>
         </IonCardHeader>
         <IonCardContent>
-          {res.overview}
+          {result.plot.outline.text}
           <IonGrid align-items-start>
             <IonRow>
               <IonCol size="auto">
-                <IonBadge color="light">{res.badge1}</IonBadge>
+                <IonBadge color="light">{result.badge1}</IonBadge>
               </IonCol>
               <IonCol size="auto">
-                <IonBadge color="light">{res.badge2}</IonBadge>
+                <IonBadge color="light">{result.badge2}</IonBadge>
               </IonCol>
               <IonCol size="auto">
-                <IonBadge color="light">{res.badge3}</IonBadge>
+                <IonBadge color="light">{result?.badge3}</IonBadge>
               </IonCol>
             </IonRow>
           </IonGrid>
@@ -188,7 +192,6 @@ const MediaDetails: React.FC<any> = () => {
               <IonButton expand="block" color="danger" onClick={removeFavClickHandler} >Remove as favourite</IonButton> :
               (context.user && <IonButton expand="block" color="primary" onClick={addFavClickHandler}>Add to favourite</IonButton>)
             }
-            {catogery === 'tv' && <IonButton expand="block" fill="clear" onClick={showSeasonsClickHandler}>{showSeasons ? 'Hide Seasons' : 'Show Seasons'}</IonButton>}
           </IonGrid>
         </IonCardContent>
       </IonCard>
@@ -198,18 +201,18 @@ const MediaDetails: React.FC<any> = () => {
   return (
     <IonPage>
       <Helmet>
-        <meta name="Description" content={res.overview} />
+        <meta name="Description" content={result.plot.outline.text} />
         <meta property="og:url" content={window.location.href} />
-        <meta property="og:title" content={res.title} />
-        <meta property="og:description" content={res.overview} />
-        <meta property="og:image" content={`${BASE_IMG}/w780${res.poster_path}`} />
-      
+        <meta property="og:title" content={result.title} />
+        <meta property="og:description" content={result.plot.outline.text} />
+        <meta property="og:image" content={`${BASE_IMG}/w780${result.image.url}`} />
+
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content={window.location.href} />
-        <meta name="twitter:title" content={res.title} />
-        <meta name="twitter:description" content={res.overview} />
-        <meta name="twitter:image" content={`${BASE_IMG}/w780${res.poster_path}`} />
-        <title>{`Movie Star - ${res.title}`}</title>
+        <meta name="twitter:title" content={result.title} />
+        <meta name="twitter:description" content={result.plot.outline.text} />
+        <meta name="twitter:image" content={`${BASE_IMG}/w780${result.image.url}`} />
+        <title>{`Movie Star - ${result.title}`}</title>
       </Helmet>
       <IonToast
         isOpen={showToast}
@@ -232,8 +235,7 @@ const MediaDetails: React.FC<any> = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        {res && res.title ? getCard() : <IonProgressBar type="indeterminate" />}
-        {showSeasons && getSeasons()}
+        {result && result.title ? getCard() : <IonProgressBar type="indeterminate" />}
       </IonContent>
     </IonPage>
   );
