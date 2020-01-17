@@ -37,7 +37,7 @@ const HomePage: React.FunctionComponent = () => {
         {...r,
           image: {
             ...r.image,
-            url: r.image.url.replace('_V1_', '_SX100_')
+            url: r.image?.url.replace('_V1_', '_SX100_')
           }
         })))
       .then(res => {
