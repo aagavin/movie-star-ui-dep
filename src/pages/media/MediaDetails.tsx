@@ -28,6 +28,7 @@ import { Helmet } from 'react-helmet';
 import useReactRouter from 'use-react-router';
 import UserContext from '../../context';
 import { BASE_IMG, BASE_URL, MediaDetail } from '../../declarations';
+import useWindowSize from '../../hooks/useWindowSize';
 
 const { Modals, Share } = Plugins;
 
@@ -45,6 +46,7 @@ const MediaDetails: React.FC<any> = () => {
   const catogery = match.params['catogery'];
   const mediaId = match.params['mediaId'];
   const context = useContext<any>(UserContext);
+  const screenSize = useWindowSize();
 
   
   const getMediaById = (id: string) => fetch(`${BASE_URL}/media/${catogery}/${id}`)
@@ -55,7 +57,6 @@ const MediaDetails: React.FC<any> = () => {
   useEffect(() => {
     getMediaById(mediaId).then(setResult);
     return () => setResult({});
-
   }, [mediaId])
 /* eslint-enable react-hooks/exhaustive-deps */
 
@@ -167,7 +168,7 @@ const MediaDetails: React.FC<any> = () => {
       <IonCard id={`card-${result.id}`}>
         <IonCardHeader>
           <IonCardSubtitle>
-            <IonImg src={result.image.url} alt={`poster for ${result.title}`} />
+            <IonImg src={result.image.url.replace('_V1_', `_SX${Math.floor(screenSize.width*.9)}_`)} alt={`poster for ${result.title}`} />
           </IonCardSubtitle>
           <IonCardTitle><b>{result.title}</b></IonCardTitle>
         </IonCardHeader>
