@@ -7,6 +7,7 @@ import { BASE_URL } from '../../declarations';
 const SearchPage: React.FC<any> = () => {
 
   const [results, setResults] = useState([]);
+  const [noResults, setNoResults] = useState(false);
 
   const handleSearch = async (queryEvent: CustomEvent<SearchbarChangeEventDetail>) => {
     // tslint:disable-next-line: no-string-literal
@@ -24,6 +25,7 @@ const SearchPage: React.FC<any> = () => {
         })));
 
       setResults(response);
+      setNoResults(query.length !== 0 && response.length === 0);
     }
     else if (query === '') {
       setResults([]);
@@ -42,7 +44,7 @@ const SearchPage: React.FC<any> = () => {
       </IonHeader>
       <IonContent>
         <IonSearchbar onIonChange={handleSearch} />
-        <ResultsList results={results} />
+        { noResults ? <>NO RESULTS</> : <ResultsList results={results} />}
       </IonContent>
     </IonPage>
   );
