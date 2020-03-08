@@ -1,5 +1,5 @@
+import { ionFireEvent as fireEvent } from '@ionic/react-test-utils';
 import { cleanup, render } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import fetchMock from 'fetch-mock';
 import React from 'react';
 import { MemoryRouter } from 'react-router';
@@ -441,9 +441,7 @@ describe('Search Page', () => {
     fetchMock.get('end:/search/?q=aveng', response);
     const { container, debug } = renderUi();
     const searchBar = container.querySelector('ion-searchbar');
-    userEvent.type(searchBar, 'Hello, World!')
-    // userEvent.type(searchBar, 'aveng')
-    debug();
+    fireEvent.ionChange(searchBar, 'aveng');
     expect(container.querySelector('#result-list-undefined')).not.toBeNull();
   });
 });
