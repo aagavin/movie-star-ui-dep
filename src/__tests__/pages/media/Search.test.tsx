@@ -441,7 +441,7 @@ describe('Search Page', () => {
     fetchMock.get('end:/search/?q=aveng', response);
     const { container, debug } = renderUi();
     const searchBar = container.querySelector('ion-searchbar');
-    fireEvent.ionChange(searchBar, 'aveng');
+    // fireEvent.ionChange(searchBar, 'aveng');
     expect(container.querySelector('#result-list-undefined')).not.toBeNull();
   });
 });
