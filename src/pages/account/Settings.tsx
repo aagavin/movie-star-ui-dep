@@ -37,7 +37,7 @@ const Settings: React.FC<any> = () => {
       });
     }
 
-  }, [context.user]);
+  }, [context, context.user]);
 
   const saveSettings = (e: CustomEvent<ToggleChangeEventDetail>) => {
     settings[e.detail.value] = e.detail.checked;
