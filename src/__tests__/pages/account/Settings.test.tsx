@@ -1,5 +1,5 @@
 import { ionFireEvent as fireEvent } from '@ionic/react-test-utils';
-import { cleanup, render } from '@testing-library/react';
+import { cleanup, render, waitForElement } from '@testing-library/react';
 import * as firebase from 'firebase/app';
 import { createMemoryHistory } from 'history';
 import React from 'react';
@@ -50,9 +50,12 @@ describe('Settings Page', () => {
 
   test('toggle public favourite ', async () => {
 
-    const { container } = getUi({user: {uid: '123456'}});
+    const { container, debug } = getUi({user: {uid: '123456'}});
     const firstToggle = container.querySelectorAll('input[role="toggle"]');
     fireEvent.click(firstToggle[0]);
+
+    waitForElement(() => container.querySelector('#settings-toast'));
+    debug();
     expect(firstToggle.length).toBe(1);
   });
 });

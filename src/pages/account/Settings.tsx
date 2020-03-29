@@ -30,11 +30,13 @@ const Settings: React.FC<any> = () => {
   const context = useContext<any>(UserContext);
 
   useEffect(() => {
-    // tslint:disable-next-line: no-unused-expression
-    context.user && firestore().collection('settings').doc(context.user.uid).get().then(setDoc => {
-      setSettings(setDoc.data());
-      setDoUpdate(true);
-    });
+    if (typeof context === 'object' && context.user !== null) {
+      firestore().collection('settings').doc(context.user.uid).get().then(setDoc => {
+        setSettings(setDoc.data());
+        setDoUpdate(true);
+      });
+    }
+
   }, [context.user]);
 
   const saveSettings = (e: CustomEvent<ToggleChangeEventDetail>) => {
@@ -51,6 +53,7 @@ const Settings: React.FC<any> = () => {
   return (
     <IonPage>
       <IonToast
+        id="settings-toast"
         isOpen={showToggle}
         message={toogleMessage}
         duration={300}
