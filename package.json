@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@capacitor/android": "^1.5.1",
-    "@capacitor/core": "1.5.1",
+    "@capacitor/core": "1.5.2",
     "@ionic/react": "^4.11.0",
     "@ionic/react-router": "^4.11.0",
     "firebase": "^7.13.0",
