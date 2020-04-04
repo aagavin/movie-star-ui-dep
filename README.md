@@ -1,6 +1,6 @@
 
 
-[![CircleCI](https://circleci.com/gh/aagavin/movie-star-ui.svg?style=svg)](https://circleci.com/gh/aagavin/movie-star-ui) [![CodeFactor](https://www.codefactor.io/repository/github/aagavin/movie-star-ui/badge)](https://www.codefactor.io/repository/github/aagavin/movie-star-ui) [![codecov](https://codecov.io/gh/aagavin/movie-star-ui/branch/master/graph/badge.svg)](https://codecov.io/gh/aagavin/movie-star-ui)
+[![CircleCI](https://circleci.com/gh/aagavin/movie-star-ui.svg?style=svg)](https://circleci.com/gh/aagavin/movie-star-ui) [![CodeFactor](https://www.codefactor.io/repository/github/aagavin/movie-star-ui/badge)](https://www.codefactor.io/repository/github/aagavin/movie-star-ui)
 
 
 MOVIE STAR UI

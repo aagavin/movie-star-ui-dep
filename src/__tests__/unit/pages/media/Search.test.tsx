@@ -3,7 +3,7 @@ import { cleanup, render } from '@testing-library/react';
 import fetchMock from 'fetch-mock';
 import React from 'react';
 import { MemoryRouter } from 'react-router';
-import Search from '../../../pages/media/Search';
+import Search from '../../../../pages/media/Search';
 
 
 const response = [
@@ -442,6 +442,7 @@ describe('Search Page', () => {
     const { container, debug } = renderUi();
     const searchBar = container.querySelector('ion-searchbar');
     // fireEvent.ionChange(searchBar, 'aveng');
+    debug();
     expect(container.querySelector('#result-list-undefined')).not.toBeNull();
   });
 });

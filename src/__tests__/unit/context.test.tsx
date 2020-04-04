@@ -1,6 +1,6 @@
 import { cleanup } from '@testing-library/react';
 import * as firebase from 'firebase/app';
-import { init } from '../context';
+import { init } from '../../context';
 
 describe('Context', () => {
   afterEach(cleanup);

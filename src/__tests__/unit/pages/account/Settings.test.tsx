@@ -4,8 +4,8 @@ import * as firebase from 'firebase/app';
 import { createMemoryHistory } from 'history';
 import React from 'react';
 import { MemoryRouter, Router } from 'react-router';
-import UserContext, { init } from '../../../context';
-import Settings from '../../../pages/account/Settings';
+import UserContext, { init } from '../../../../context';
+import Settings from '../../../../pages/account/Settings';
 
 describe('Settings Page', () => {
 
@@ -50,12 +50,11 @@ describe('Settings Page', () => {
 
   test('toggle public favourite ', async () => {
 
-    const { container, debug } = getUi({user: {uid: '123456'}});
+    const { container } = getUi({user: {uid: '123456'}});
     const firstToggle = container.querySelectorAll('input[role="toggle"]');
     fireEvent.click(firstToggle[0]);
 
     waitForElement(() => container.querySelector('#settings-toast'));
-    debug();
     expect(firstToggle.length).toBe(1);
   });
 });
