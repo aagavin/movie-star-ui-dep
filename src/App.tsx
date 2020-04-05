@@ -47,12 +47,14 @@ import '@ionic/core/css/typography.css';
 
 const commonPages: AppPage[] = [
   {
-    icon: home,
+    mdIcon: home,
+    iosIcon: home,
     title: 'Home',
     url: '/home'
   },
   {
-    icon: search,
+    mdIcon: search,
+    iosIcon: search,
     title: 'Search',
     url: '/search'
   },
@@ -60,17 +62,20 @@ const commonPages: AppPage[] = [
 
 const loggedInPages: AppPage[] = [
   {
-    icon: star,
+    mdIcon: star,
+    iosIcon: star,
     title: 'Favourites',
     url: '/favourite'
   },
   {
-    icon: settings,
+    mdIcon: settings,
+    iosIcon: settings,
     title: 'Settings',
     url: '/settings'
   },
   {
-    icon: logOut,
+    mdIcon: logOut,
+    iosIcon: logOut,
     title: 'Logout',
     url: '/account/logout'
   }
@@ -78,7 +83,8 @@ const loggedInPages: AppPage[] = [
 
 const loggedOutPages: AppPage[] = [
   {
-    icon: logIn,
+    mdIcon: logIn,
+    iosIcon: logIn,
     title: 'Login',
     url: '/account/login'
   }
