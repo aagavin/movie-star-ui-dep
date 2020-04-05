@@ -24,8 +24,6 @@ jobs:
       - attach_workspace:
           at: .
       - run: npm test -- --ci --coverage --detectOpenHandles --runInBand --forceExit
-      - run: curl https://codecov.io/bash -o codecov.sh
-      - run: bash codecov.sh -t "$CODECOV_TOKEN"
   build:
     docker:
       - image: circleci/node:11.0.0

@@ -57,18 +57,6 @@
       "./src/**/*.tsx",
       "!./src/index.tsx",
       "!<rootDir>/node_modules/"
-    ],
-    "coverageThreshold": {
-      "global": {
-        "statements": 65,
-        "branches": 60,
-        "functions": 55,
-        "lines": 65
-      }
-    },
-    "coverageReporters": [
-      "text",
-      "json"
     ]
   },
   "browserslist": [

@@ -2,8 +2,8 @@ import { cleanup, fireEvent, render, waitForElement, waitForElementToBeRemoved }
 import fetchMock from 'fetch-mock';
 import React from 'react';
 import { MemoryRouter, Route } from 'react-router';
-import UserContext, { init } from '../../../context';
-import MediaDetailsPage from '../../../pages/media/MediaDetails';
+import UserContext, { init } from '../../../../context';
+import MediaDetailsPage from '../../../../pages/media/MediaDetails';
 
 const movieResponse = {
   'certificate': {
