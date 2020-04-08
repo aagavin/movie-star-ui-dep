@@ -5,7 +5,7 @@
   "dependencies": {
     "@capacitor/android": "^2.0.0",
     "@capacitor/core": "2.0.0",
-    "@ionic/cli": "^6.4.3",
+    "@ionic/cli": "^6.5.0",
     "@ionic/react": "^5.0.7",
     "@ionic/react-router": "^5.0.7",
     "firebase": "^7.13.2",
