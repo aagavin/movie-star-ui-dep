@@ -32,8 +32,10 @@ jobs:
     steps:
       - attach_workspace:
           at: .
-      - run: npx ionic build --prod
+      - run: sudo npm install -g @ionic/cli
+      - run: ionic build --prod
       - run: ls -la
+      - run: du -h build
       - persist_to_workspace:
           root: .
           paths:
