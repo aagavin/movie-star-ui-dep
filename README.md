@@ -26,4 +26,4 @@ _note: this is only needed once_
 
 `cd ./android`
 
-`gradle app:assemble`
+`./gradlew assembleDebug`
