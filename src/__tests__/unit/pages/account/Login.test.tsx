@@ -5,7 +5,7 @@ import { MemoryRouter, Router } from 'react-router';
 import UserContext, { init } from '../../../../context';
 import LoginPage from '../../../../pages/account/Login';
 
-describe('Login Page', () => {
+describe.skip('Login Page', () => {
   afterEach(cleanup);
 
   const getUi = (rest = {}, history = createMemoryHistory()) => {

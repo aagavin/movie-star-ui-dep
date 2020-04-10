@@ -23,15 +23,19 @@ jobs:
     steps:
       - attach_workspace:
           at: .
-      - run: npm test -- --ci --coverage --detectOpenHandles --runInBand --forceExit
+      - run: 'sh .circleci/setup_puppeteer.sh'
+      - run: sudo npm install -g @ionic/cli
+      - run: npm run test:integration -- --ci --runInBand --forceExit
   build:
     docker:
       - image: circleci/node:11.0.0
     steps:
       - attach_workspace:
           at: .
-      - run: npx ionic build --prod
+      - run: sudo npm install -g @ionic/cli
+      - run: ionic build --prod
       - run: ls -la
+      - run: du -h build
       - persist_to_workspace:
           root: .
           paths:
@@ -49,7 +53,7 @@ jobs:
       - run: npm --version
       - run: npx cap sync
       - run: npx cap copy
-      - run: cd ./android; ./gradlew app:assemble
+      - run: cd ./android; ./gradlew assembleDebug
       - run: ls -la
       - run: bash ./sendAPKfile.sh
       - store_artifacts:

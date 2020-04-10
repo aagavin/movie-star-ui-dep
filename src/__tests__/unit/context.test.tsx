@@ -2,7 +2,7 @@ import { cleanup } from '@testing-library/react';
 import * as firebase from 'firebase/app';
 import { init } from '../../context';
 
-describe('Context', () => {
+describe.skip('Context', () => {
   afterEach(cleanup);
 
   beforeAll(() => {

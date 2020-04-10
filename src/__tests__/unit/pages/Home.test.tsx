@@ -104,7 +104,7 @@ const tvResponse = [
     'year': 2018
   }];
 
-describe('Home page', () => {
+describe.skip('Home page', () => {
 
   afterEach(cleanup);
 
