@@ -7,7 +7,7 @@ import { MemoryRouter, Router } from 'react-router';
 import UserContext, { init } from '../../../../context';
 import Settings from '../../../../pages/account/Settings';
 
-describe('Settings Page', () => {
+describe.skip('Settings Page', () => {
 
   beforeAll(() => {
     jest.mock('firebase/app', () => ({

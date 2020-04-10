@@ -2401,7 +2401,7 @@ const tvResponse = {
   'year': 2019
 }
 
-describe('Media Details Page', () => {
+describe.skip('Media Details Page', () => {
   beforeEach(fetchMock.reset);
   afterEach(cleanup);
 

@@ -35,7 +35,7 @@ const initTests = async (props = {}) => {
   return ui;
 }
 
-describe('Favourite Page', () => {
+describe.skip('Favourite Page', () => {
   afterEach(cleanup);
 
   test('happy path render', async () => {
