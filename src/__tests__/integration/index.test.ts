@@ -5,7 +5,7 @@ describe('App hello world test', () => {
   });
 
   test('Should go to home page', async () => {
-    await expect(await page.title()).toBe('Movie Star');
+    await expect(page.title()).resolves.toMatch('Movie Star');
   });
 
 });
