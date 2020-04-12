@@ -4,12 +4,12 @@ import { withRouter } from 'react-router';
 import VisibilitySensor from 'react-visibility-sensor';
 
 interface ResultsListProps {
-  catogery?: string,
-  history?: any,
-  location?: any,
-  match?: any,
-  results: [],
-  staticContext?: any
+  catogery?: string;
+  history?: any;
+  location?: any;
+  match?: any;
+  results: [];
+  staticContext?: any;
 }
 
 const ResultsList: React.FC<any> = (props: ResultsListProps) => {

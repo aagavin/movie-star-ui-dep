@@ -111,7 +111,7 @@ const App: FunctionComponent = (props: any) => {
         // Register with Apple / Google to receive push via APNS/FCM
         PushNotifications.register();
 
-        PushNotifications.addListener('registration', (token: PushNotificationToken) => { });
+        PushNotifications.addListener('registration', (token: PushNotificationToken) => ({}));
 
         // Some issue with our setup and push will not work
         PushNotifications.addListener('registrationError', (error: any) => { alert('Error on registration: ' + JSON.stringify(error)); });

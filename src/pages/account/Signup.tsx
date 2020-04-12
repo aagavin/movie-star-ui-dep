@@ -8,11 +8,11 @@ import UserContext from '../../context';
 
 
 interface SignupForm {
-  name?: string,
-  email?: string,
-  password?: string,
-  passwordConfirm?: string,
-  phone?: string
+  name?: string;
+  email?: string;
+  password?: string;
+  passwordConfirm?: string;
+  phone?: string;
 }
 
 const SignupPage: React.FC<any> = () => {

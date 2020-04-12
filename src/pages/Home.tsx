@@ -30,7 +30,7 @@ const HomePage: React.FunctionComponent = () => {
     ]);
   }, []);
 
-  const getResults = async (resultCatogery: string, filter: string = 'popular') => {
+  const getResults = async (resultCatogery: string, filter = 'popular') => {
     fetch(`${BASE_URL}/media/${resultCatogery}/${filter}`)
       .then(res => res.json())
       .then(res => res.map(r => (

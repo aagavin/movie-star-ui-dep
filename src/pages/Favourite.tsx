@@ -14,11 +14,11 @@ import UserContext from '../context';
 const ResultsList = React.lazy(() => import('../components/ResultsList'));
 
 interface FavResults {
-  catogery?: string,
-  id?: number,
-  name?: string,
-  poster_path?: string,
-  title?: string,
+  catogery?: string;
+  id?: number;
+  name?: string;
+  poster_path?: string;
+  title?: string;
 }
 
 const Favourite: React.FC<any> = () => {
