@@ -41,16 +41,15 @@
     "fetch-mock": "^9.3.1",
     "jest-puppeteer": "^4.4.0",
     "puppeteer": "^2.1.1",
-    "tslint": "^5.20.1",
-    "tslint-config-prettier": "^1.18.0",
-    "tslint-react": "^4.2.0"
+    "ts-jest": "^25.3.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "build-android": "npm run build; npx cap copy; cd ./android; gradle app:assemble",
     "deploy": "ionic build; firebase deploy",
-    "test": "react-scripts test",
+    "test": "npm run test:integration",
+    "test:unit": "react-scripts test",
     "test-local": "npm run test -- --coverage --watchAll=true",
     "test:integration": "jest -c ./src/__tests__/integration/jest.config.js",
     "eject": "react-scripts eject"
