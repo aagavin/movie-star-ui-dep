@@ -4,12 +4,12 @@ import { withRouter } from 'react-router';
 import VisibilitySensor from 'react-visibility-sensor';
 
 interface ResultsListProps {
-  catogery?: string,
-  history?: any,
-  location?: any,
-  match?: any,
-  results: [],
-  staticContext?: any
+  catogery?: string;
+  history?: any;
+  location?: any;
+  match?: any;
+  results: [];
+  staticContext?: any;
 }
 
 const ResultsList: React.FC<any> = (props: ResultsListProps) => {
@@ -48,7 +48,6 @@ const ResultsList: React.FC<any> = (props: ResultsListProps) => {
     <>
       <IonList id={`result-list-${props.catogery}`}>
         {results.map((result: any) => (
-          // tslint:disable-next-line: jsx-no-lambda
           <IonItem detail button key={result.id} onClick={e => props.history.push(`/home/media/${result.titleType}/${result.id}`)}>
             <IonThumbnail slot="start">
               <IonImg src={result.image.url} alt={`poster icon for ${result.title}`} />

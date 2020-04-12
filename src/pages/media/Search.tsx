@@ -10,7 +10,6 @@ const SearchPage: React.FC<any> = () => {
   const [noResults, setNoResults] = useState(false);
 
   const handleSearch = async (queryEvent: CustomEvent<SearchbarChangeEventDetail>) => {
-    // tslint:disable-next-line: no-string-literal
     const query = queryEvent.target['value'];
     if (query.length > 3) {
       const response = await fetch(`${BASE_URL}/search/?q=${query}`)

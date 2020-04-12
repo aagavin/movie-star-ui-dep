@@ -7,7 +7,6 @@ const config = {
   databaseURL: 'https://movie-star-py.firebaseio.com',
   projectId: 'movie-star-py',
   storageBucket: 'movie-star-py.appspot.com',
-  // tslint:disable-next-line: object-literal-sort-keys
   messagingSenderId: '587247640415',
   appId: '1:587247640415:web:db8136284066efab'
 };

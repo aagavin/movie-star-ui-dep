@@ -10,14 +10,12 @@ const LoginPage: React.FC<any> = () => {
   const { history } = useReactRouter();
   const context = useContext<any>(UserContext);
 
-  // tslint:disable-next-line: no-unused-expression
   useEffect(() => { context.user && history.replace('/') }, [context.user, history]);
 
   const handleLogin = async () => {
     await context.signInWithEmailAndPassword(username, password);
   }
 
-  // tslint:disable: jsx-no-lambda
   return (
     <IonPage>
       <IonHeader>
@@ -49,7 +47,6 @@ const LoginPage: React.FC<any> = () => {
       </IonContent>
     </IonPage>
   );
-  // tslint:enable: jsx-no-lambda
 }
 
 export default LoginPage;

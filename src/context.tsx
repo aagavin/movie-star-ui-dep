@@ -43,7 +43,6 @@ export const setContext = (contextFx: React.Dispatch<any>, context: any, propert
 
 export const init = {
   user: {},
-  // tslint:disable-next-line: object-literal-sort-keys
   signInWithEmailAndPassword: null,
   createUserWithEmailAndPassword: null,
   favourites: [],

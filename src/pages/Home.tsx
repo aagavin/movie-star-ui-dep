@@ -30,7 +30,7 @@ const HomePage: React.FunctionComponent = () => {
     ]);
   }, []);
 
-  const getResults = async (resultCatogery: string, filter: string = 'popular') => {
+  const getResults = async (resultCatogery: string, filter = 'popular') => {
     fetch(`${BASE_URL}/media/${resultCatogery}/${filter}`)
       .then(res => res.json())
       .then(res => res.map(r => (
@@ -67,7 +67,6 @@ const HomePage: React.FunctionComponent = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        {/* tslint:disable-next-line: jsx-no-lambda */}
         <IonSegment onIonChange={e => setCatogery(`${e.detail.value}`)} value={catogery}>
           <IonSegmentButton value="movie">
             <IonLabel>Movie</IonLabel>
