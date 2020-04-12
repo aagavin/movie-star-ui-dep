@@ -12,7 +12,7 @@ import {
   IonToolbar
 } from '@ionic/react';
 import React, { useEffect, useState } from 'react';
-import Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet';
 import ResultsList from '../components/ResultsList';
 import { BASE_URL } from '../declarations';
 
@@ -34,7 +34,8 @@ const HomePage: React.FunctionComponent = () => {
     fetch(`${BASE_URL}/media/${resultCatogery}/${filter}`)
       .then(res => res.json())
       .then(res => res.map(r => (
-        {...r,
+        {
+          ...r,
           image: {
             ...r.image,
             url: r.image?.url.replace('_V1_', '_SX100_')

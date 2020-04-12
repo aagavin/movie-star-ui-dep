@@ -45,7 +45,7 @@ const MediaDetails: React.FC<any> = () => {
   const context = useContext<any>(UserContext);
   const screenSize = useWindowSize();
 
-  
+
   const getMediaById = (id: string) => fetch(`${BASE_URL}/media/${catogery}/${id}`)
     .then(async r => await r.json())
     .catch(console.error);
@@ -55,7 +55,7 @@ const MediaDetails: React.FC<any> = () => {
     getMediaById(mediaId).then(setResult);
     return () => setResult({});
   }, [mediaId])
-/* eslint-enable react-hooks/exhaustive-deps */
+  /* eslint-enable react-hooks/exhaustive-deps */
 
   useEffect(() => {
     if (context.user && result && result.id) {
@@ -165,7 +165,7 @@ const MediaDetails: React.FC<any> = () => {
       <IonCard id={`card-${result.id}`}>
         <IonCardHeader>
           <IonCardSubtitle>
-            <IonImg src={result.image.url.replace('_V1_', `_SX${Math.floor(screenSize.width*.9)}_`)} alt={`poster for ${result.title}`} />
+            <IonImg src={result.image.url.replace('_V1_', `_SX${Math.floor(screenSize.width * .9)}_`)} alt={`poster for ${result.title}`} />
           </IonCardSubtitle>
           <IonCardTitle><b>{result.title}</b></IonCardTitle>
         </IonCardHeader>
