@@ -55,7 +55,6 @@ jobs:
       - run: npx cap copy
       - run: cd ./android; ./gradlew assembleDebug
       - run: ls -la
-      - run: bash ./sendAPKfile.sh
       - store_artifacts:
           path: ./android/app/build/outputs/apk/debug/app-debug.apk
   deploy:
