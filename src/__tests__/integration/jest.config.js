@@ -1,6 +1,9 @@
 
 module.exports = {
   preset: 'jest-puppeteer',
-  testRegex: './*\\.test\\.ts$',
-  testTimeout: 35000
-}
+  testTimeout: 35000,
+  testMatch: ['**/*.test.ts'],
+  transform: {
+    "^.+\\.ts?$": "ts-jest"
+  }
+};
