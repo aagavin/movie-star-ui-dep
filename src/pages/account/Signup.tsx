@@ -50,12 +50,11 @@ const SignupPage: React.FC<any> = () => {
       history.replace('/home');
     }
     catch(err){
-      // tslint:disable-next-line: no-console
       console.error(err);
     }
   }
 
-  const getItem = (text: string, name: string, type: TextFieldTypes = 'text', required: boolean = true) => (
+  const getItem = (text: string, name: string, type: TextFieldTypes = 'text', required = true) => (
     <IonItem>
       <IonLabel position="floating">{text} {required && '*'}</IonLabel>
       <IonInput type={type} name={name} required={required} onIonChange={setItem}/>

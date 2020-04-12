@@ -32,9 +32,6 @@ import useWindowSize from '../../hooks/useWindowSize';
 
 const { Modals, Share } = Plugins;
 
-// tslint:disable: no-string-literal
-// tslint:disable: no-console
-// tslint:disable: jsx-no-lambda
 const MediaDetails: React.FC<any> = () => {
 
   const { match } = useReactRouter();

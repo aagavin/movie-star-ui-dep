@@ -67,7 +67,6 @@ const HomePage: React.FunctionComponent = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        {/* tslint:disable-next-line: jsx-no-lambda */}
         <IonSegment onIonChange={e => setCatogery(`${e.detail.value}`)} value={catogery}>
           <IonSegmentButton value="movie">
             <IonLabel>Movie</IonLabel>

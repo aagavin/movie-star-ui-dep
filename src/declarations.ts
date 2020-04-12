@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export const BASE_URL = 'https://watch-tv-list.herokuapp.com';
 export const BASE_IMG = 'https://image.tmdb.org/t/p';
 
@@ -11,7 +12,7 @@ export interface AppPage {
 
 /***** Settings *****/ 
 export interface UserSettings {
-  publicFav?: boolean
+  publicFav?: boolean;
 }
 
 /***** MediaDetail *****/ 
@@ -379,9 +380,9 @@ export interface SeasonsInfo {
 }
 
 export interface MediaDetail {
-  badge1?: string,
-  badge2?: string | number,
-  badge3?: string,
+  badge1?: string;
+  badge2?: string | number;
+  badge3?: string;
   certificate?: Certificate;
   filmingLocations?: FilmingLocation[];
   metacriticInfo?: MetacriticInfo;
