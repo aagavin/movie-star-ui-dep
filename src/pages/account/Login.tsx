@@ -10,7 +10,14 @@ const LoginPage: React.FC<any> = () => {
   const { history } = useReactRouter();
   const context = useContext<any>(UserContext);
 
-  useEffect(() => { context.user && history.replace('/') }, [context.user, history]);
+  useEffect(() => {
+    if (context.user) {
+      setUsername('');
+      setPassword('');
+      history.replace('/home');
+    } 
+
+  }, [context.user, history]);
 
   const handleLogin = async () => {
     await context.signInWithEmailAndPassword(username, password);
@@ -28,20 +35,16 @@ const LoginPage: React.FC<any> = () => {
       </IonHeader>
       <IonContent>
         <IonCardContent>
-          {!context.user && (
-            <>
-              <IonItem id="imput-email">
-                <IonLabel position="floating">Email</IonLabel>
-                <IonInput required onIonChange={(e: any) => setUsername(e.target.value)} />
-              </IonItem>
-              <IonItem id="imput-password">
-                <IonLabel position="floating">Password</IonLabel>
-                <IonInput type="password" required onIonChange={(e: any) => setPassword(e.target.value)} />
-              </IonItem>
-              <IonButton expand="full" onClick={handleLogin}>Sign In</IonButton>
-            </>)}
+          <IonItem id="imput-email">
+            <IonLabel position="floating">Email</IonLabel>
+            <IonInput required onIonChange={(e: any) => setUsername(e.target.value)} value={username} />
+          </IonItem>
+          <IonItem id="imput-password">
+            <IonLabel position="floating">Password</IonLabel>
+            <IonInput type="password" required onIonChange={(e: any) => setPassword(e.target.value)} value={password} />
+          </IonItem>
+          <IonButton expand="full" onClick={handleLogin}>Sign In</IonButton>
           {context.error && <p style={{ color: '#ff0000', fontWeight: 'bold', paddingLeft: '1em' }}>{context.error}</p>}
-
           <p>Don't have an account? <IonButton onClick={() => history.replace('/account/signup')}>Create one</IonButton></p>
         </IonCardContent>
       </IonContent>

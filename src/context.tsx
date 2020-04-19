@@ -34,6 +34,7 @@ export const setContext = (contextFx: React.Dispatch<any>, context: any, propert
     ...init,
     ...context,
     user: properties.user,
+    signOut: properties.signOut,
     signInWithEmailAndPassword: properties.signInWithEmailAndPassword,
     createUserWithEmailAndPassword: properties.createUserWithEmailAndPassword,
     favourites,
