@@ -1,23 +1,13 @@
 import { Plugins, DeviceInfo } from '@capacitor/core';
 import {
   IonBackButton,
-  IonBadge,
   IonButton,
   IonButtons,
-  IonCard,
-  IonCardContent,
-  IonCardHeader,
-  IonCardSubtitle,
-  IonCardTitle,
-  IonCol,
   IonContent,
-  IonGrid,
   IonHeader,
   IonIcon,
-  IonImg,
   IonPage,
   IonProgressBar,
-  IonRow,
   IonTitle,
   IonToast,
   IonToolbar,
@@ -26,6 +16,7 @@ import { share } from 'ionicons/icons';
 import React, { useContext, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import useReactRouter from 'use-react-router';
+import MediaDetailsCard from "../../components/MediaDetailsCard";
 import UserContext from '../../context';
 import { BASE_IMG, BASE_URL, MediaDetail } from '../../declarations';
 import useWindowSize from '../../hooks/useWindowSize';
@@ -37,7 +28,7 @@ const MediaDetails: React.FC<any> = () => {
   const { match } = useReactRouter();
   const [result, setResult] = useState<MediaDetail>({});
   const [isFav, setIsFav] = useState<boolean>(false);
-  const [tvReleaseDate, setTvReleaseDate] = useState<string>();
+  const [tvReleaseDate] = useState<string>('');
   const [showToast, setShowToast] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -71,16 +62,6 @@ const MediaDetails: React.FC<any> = () => {
     return () => setIsFav(false);
   }, [context.user, context.favourites, result, result.id]);
 
-  /* eslint-disable react-hooks/exhaustive-deps */
-  useEffect(() => {
-    if (catogery && catogery !== 'feature' && catogery !== 'movie' && Object.entries(result).length !== 0) {
-      const id = result.nextEpisode.split('/')[2];
-      getMediaById(id).then((r: MediaDetail) => setTvReleaseDate(parseDate(r.releaseDetails.date)));
-    }
-  }, [result, catogery])
-  /* eslint-enable react-hooks/exhaustive-deps */
-
-
   const parseDate = (dateString: string): string => {
     const monthName = {
       0: 'Jan', 1: 'Feb', 2: 'Mar', 3: 'Apr', 4: 'May', 5: 'Jun',
@@ -98,8 +79,7 @@ const MediaDetails: React.FC<any> = () => {
     return rhours + 'h ' + rminutes + 'min';
   }
 
-  // TODO: 
-  const shareBtnclick = e => {
+  const shareBtnclick = () => {
     Share.share({
       title: result.title,
       text: result.title,
@@ -156,44 +136,6 @@ const MediaDetails: React.FC<any> = () => {
 
   const summary = Object.keys(result.plot).includes('outline') ? result.plot.outline.text : result.plot.summaries[0].text;
 
-  const getCard = () => {
-    const removeFavClickHandler = () => removeFromFavourite(result.id);
-    const addFavClickHandler = () => addToFavourite(result.id);
-    return (
-      <IonCard id={`card-${result.id}`}>
-        <IonCardHeader>
-          <IonCardSubtitle>
-            <IonImg src={result.image.url.replace('_V1_', `_SX${Math.floor(screenSize.width * .9)}_`)} alt={`poster for ${result.title}`} />
-          </IonCardSubtitle>
-          <IonCardTitle><b>{result.title}</b></IonCardTitle>
-        </IonCardHeader>
-        <IonCardContent>
-          {summary}
-          <IonGrid align-items-start>
-            <IonRow>
-              <IonCol size="auto">
-                <IonBadge color="light">{result.badge1}</IonBadge>
-              </IonCol>
-              <IonCol size="auto">
-                <IonBadge color="light">{result.badge2}</IonBadge>
-              </IonCol>
-              <IonCol size="auto">
-                <IonBadge color="light">{result?.badge3}</IonBadge>
-              </IonCol>
-            </IonRow>
-          </IonGrid>
-
-          <IonGrid>
-            {isFav ?
-              <IonButton expand="block" color="danger" onClick={removeFavClickHandler} >Remove as favourite</IonButton> :
-              (context.user && <IonButton expand="block" color="primary" onClick={addFavClickHandler}>Add to favourite</IonButton>)
-            }
-          </IonGrid>
-        </IonCardContent>
-      </IonCard>
-    )
-  };
-
   return (
     <IonPage>
       <Helmet>
@@ -236,7 +178,7 @@ const MediaDetails: React.FC<any> = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        {result && result.title ? getCard() : <IonProgressBar type="indeterminate" />}
+        {result && result.title ? <MediaDetailsCard removeFromFavourite={removeFromFavourite} addToFavourite={addToFavourite} result={result} screenSize={screenSize} summary={summary} isFav={isFav} context={context} /> : <IonProgressBar type="indeterminate" />}
       </IonContent>
     </IonPage>
   );
