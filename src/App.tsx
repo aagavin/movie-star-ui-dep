@@ -22,6 +22,9 @@ const SignUp = React.lazy(() => import('./pages/account/Signup'));
 const Login = React.lazy(() => import('./pages/account/Login'));
 const Logout = React.lazy(() => import('./pages/account/Logout'));
 
+import { Plugins, PushNotification, PushNotificationToken, PushNotificationActionPerformed } from '@capacitor/core';
+const { PushNotifications } = Plugins;
+
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/core/css/core.css';
 
@@ -89,8 +92,28 @@ const App: FunctionComponent = (props: any) => {
 
   const [pages, setPages] = useState<AppPage[]>(commonPages);
   const [ctx, setCtx] = useState<any>({});
-  
-  useEffect(() => { setCtx(init) }, []);
+
+  useEffect(() => {
+    setCtx(init);
+
+    PushNotifications.register();
+
+    PushNotifications.addListener('registration', (token: PushNotificationToken) => console.info('successfully registered'));
+    PushNotifications.addListener('registrationError', (err: any) => alert('Error on registration: ' + JSON.stringify(err)));
+    PushNotifications.addListener('pushNotificationReceived',
+      (notification: PushNotification) => {
+        console.log('pushNotificationReceived');
+        alert('pushNotificationReceived')
+        alert(JSON.stringify({ id: notification.id, title: notification.title, body: notification.body }));
+        console.log();
+      });
+
+    PushNotifications.addListener('pushNotificationActionPerformed',
+      (notification: PushNotificationActionPerformed) => {
+        console.log('pushNotificationActionPerformed')
+        console.log({ id: notification.notification.data.id, title: notification.notification.data.title, body: notification.notification.data.body })
+      });
+  }, []);
 
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
