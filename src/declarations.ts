@@ -50,8 +50,14 @@ export interface Outline {
   text: string;
 }
 
+export interface Summary {
+  id: string;
+  text: string;
+}
+
 export interface Plot {
-  outline: Outline;
+  outline?: Outline;
+  summaries?: [Summary];
   totalSummaries: number;
 }
 

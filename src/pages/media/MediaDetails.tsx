@@ -1,4 +1,4 @@
-import { Plugins } from '@capacitor/core';
+import { Plugins, DeviceInfo } from '@capacitor/core';
 import {
   IonBackButton,
   IonBadge,
@@ -30,7 +30,7 @@ import UserContext from '../../context';
 import { BASE_IMG, BASE_URL, MediaDetail } from '../../declarations';
 import useWindowSize from '../../hooks/useWindowSize';
 
-const { Modals, Share } = Plugins;
+const { Device, Share } = Plugins;
 
 const MediaDetails: React.FC<any> = () => {
 
@@ -38,7 +38,8 @@ const MediaDetails: React.FC<any> = () => {
   const [result, setResult] = useState<MediaDetail>({});
   const [isFav, setIsFav] = useState<boolean>(false);
   const [tvReleaseDate, setTvReleaseDate] = useState<string>();
-  const [showToast, setShowToast] = useState<boolean>(false);
+  const [showToast, setShowToast] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   const catogery = match.params['catogery'];
   const mediaId = match.params['mediaId'];
@@ -49,6 +50,12 @@ const MediaDetails: React.FC<any> = () => {
   const getMediaById = (id: string) => fetch(`${BASE_URL}/media/${catogery}/${id}`)
     .then(async r => await r.json())
     .catch(console.error);
+
+  useEffect(() => {
+    Device.getInfo().then((info: DeviceInfo) => {
+      setIsMobile(info.platform !== 'web')
+    });
+  }, []);
 
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
@@ -93,22 +100,12 @@ const MediaDetails: React.FC<any> = () => {
 
   // TODO: 
   const shareBtnclick = e => {
-    try {
-      Share.share({
-        title: result.title,
-        text: result.title,
-        url: window.location.href,
-        dialogTitle: 'share item'
-      }).then(console.log).catch(console.error);
-    }
-    catch (err) {
-      Modals.alert({
-        title: 'error',
-        message: err
-      }).then(console.log).catch(console.error);;
-    }
-
-
+    Share.share({
+      title: result.title,
+      text: result.title,
+      url: `https://movie.aagavin.ca${window.location.pathname}/`,
+      dialogTitle: 'share item'
+    }).then(console.log).catch(console.error);
   }
 
   const addToFavourite = async (id: string) => {
@@ -157,6 +154,7 @@ const MediaDetails: React.FC<any> = () => {
     result['badge3'] = `next episode: ${tvReleaseDate}`
   }
 
+  const summary = Object.keys(result.plot).includes('outline') ? result.plot.outline.text : result.plot.summaries[0].text;
 
   const getCard = () => {
     const removeFavClickHandler = () => removeFromFavourite(result.id);
@@ -170,7 +168,7 @@ const MediaDetails: React.FC<any> = () => {
           <IonCardTitle><b>{result.title}</b></IonCardTitle>
         </IonCardHeader>
         <IonCardContent>
-          {result.plot.outline.text}
+          {summary}
           <IonGrid align-items-start>
             <IonRow>
               <IonCol size="auto">
@@ -199,16 +197,16 @@ const MediaDetails: React.FC<any> = () => {
   return (
     <IonPage>
       <Helmet>
-        <meta name="Description" content={result.plot.outline.text} />
+        <meta name="Description" content={summary} />
         <meta property="og:url" content={window.location.href} />
         <meta property="og:title" content={result.title} />
-        <meta property="og:description" content={result.plot.outline.text} />
+        <meta property="og:description" content={summary} />
         <meta property="og:image" content={`${BASE_IMG}/w780${result.image.url}`} />
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content={window.location.href} />
         <meta name="twitter:title" content={result.title} />
-        <meta name="twitter:description" content={result.plot.outline.text} />
+        <meta name="twitter:description" content={summary} />
         <meta name="twitter:image" content={`${BASE_IMG}/w780${result.image.url}`} />
         <title>{`Movie Star - ${result.title}`}</title>
       </Helmet>
@@ -224,11 +222,16 @@ const MediaDetails: React.FC<any> = () => {
             <IonBackButton defaultHref="/home" />
           </IonButtons>
           <IonTitle>{catogery}</IonTitle>
-          <IonButtons slot="end">
-            <IonButton size="small" slot="end" onClick={shareBtnclick}>
-              <IonIcon slot="icon-only" icon={share} />
-            </IonButton>
-          </IonButtons>
+
+          {
+            isMobile && (
+              <IonButtons slot="end">
+                <IonButton size="small" slot="end" onClick={shareBtnclick}>
+                  <IonIcon slot="icon-only" icon={share} />
+                </IonButton>
+              </IonButtons>)
+          }
+
 
         </IonToolbar>
       </IonHeader>
