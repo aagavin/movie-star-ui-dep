@@ -27,7 +27,7 @@ const Favourite: React.FC<any> = () => {
   const context = useContext<any>(UserContext);
 
   useEffect(() => {
-    setResults(context.favourites);
+    setResults(context.favourites.map(r => ({...r, image: {...r.image, url: r.image?.url.replace('_V1_', '_SX100_')}})));
     return () => setResults([]);
   }, [context.favourites]);
 
