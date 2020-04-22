@@ -28,7 +28,7 @@ const MediaDetails: React.FC<any> = () => {
   const { match } = useReactRouter();
   const [result, setResult] = useState<MediaDetail>({});
   const [isFav, setIsFav] = useState<boolean>(false);
-  const [tvReleaseDate] = useState<string>('');
+  const [tvReleaseDate, setTvReleaseDate] = useState<string>('');
   const [showToast, setShowToast] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -38,22 +38,20 @@ const MediaDetails: React.FC<any> = () => {
   const screenSize = useWindowSize();
 
 
-  const getMediaById = (id: string) => fetch(`${BASE_URL}/media/${catogery}/${id}`)
-    .then(async r => await r.json())
-    .catch(console.error);
-
   useEffect(() => {
     Device.getInfo().then((info: DeviceInfo) => {
       setIsMobile(info.platform !== 'web')
     });
   }, []);
 
-  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
+    const getMediaById = (id: string) => fetch(`${BASE_URL}/media/${catogery}/${id}`)
+      .then(async r => await r.json())
+      .catch(console.error);
+
     getMediaById(mediaId).then(setResult);
     return () => setResult({});
-  }, [mediaId])
-  /* eslint-enable react-hooks/exhaustive-deps */
+  }, [catogery, mediaId])
 
   useEffect(() => {
     if (context.user && result && result.id) {
@@ -61,6 +59,17 @@ const MediaDetails: React.FC<any> = () => {
     }
     return () => setIsFav(false);
   }, [context.user, context.favourites, result, result.id]);
+
+  useEffect(() => {
+    if (result && ['tvSeries', 'tvMiniSeries'].includes(result.titleType)) {
+      fetch(`${BASE_URL}/media/tv/${result.id}/next_episode`)
+        .then(async res => {
+          if (res.status !== 404) {
+            setTvReleaseDate((await res.json()).next_episode)
+          }
+        });
+    }
+  }, [result])
 
   const parseDate = (dateString: string): string => {
     const monthName = {
@@ -111,6 +120,7 @@ const MediaDetails: React.FC<any> = () => {
     setShowToast(true);
   }
 
+  // show loading bar if no details yet
   if (Object.entries(result).length === 0) {
     return (
       <IonPage>
@@ -164,7 +174,6 @@ const MediaDetails: React.FC<any> = () => {
             <IonBackButton defaultHref="/home" />
           </IonButtons>
           <IonTitle>{catogery}</IonTitle>
-
           {
             isMobile && (
               <IonButtons slot="end">
@@ -173,8 +182,6 @@ const MediaDetails: React.FC<any> = () => {
                 </IonButton>
               </IonButtons>)
           }
-
-
         </IonToolbar>
       </IonHeader>
       <IonContent>
