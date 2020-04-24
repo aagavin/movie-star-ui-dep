@@ -11,6 +11,9 @@ import {
   IonTitle,
   IonToast,
   IonToolbar,
+  IonList,
+  IonItem,
+  IonCard,
 } from '@ionic/react';
 import { share } from 'ionicons/icons';
 import React, { useContext, useEffect, useState } from 'react';
@@ -27,6 +30,7 @@ const MediaDetails: React.FC<any> = () => {
 
   const { match } = useReactRouter();
   const [result, setResult] = useState<MediaDetail>({});
+  const [seasons, setSeasons] = useState([]);
   const [isFav, setIsFav] = useState<boolean>(false);
   const [tvReleaseDate, setTvReleaseDate] = useState<string>('');
   const [showToast, setShowToast] = useState(false);
@@ -62,11 +66,10 @@ const MediaDetails: React.FC<any> = () => {
 
   useEffect(() => {
     if (result && ['tvSeries', 'tvMiniSeries'].includes(result.titleType)) {
-      fetch(`${BASE_URL}/media/tv/${result.id}/next_episode`)
+      fetch(`${BASE_URL}/media/tv/${result.id}/episodes`)
         .then(async res => {
-          if (res.status !== 404) {
-            setTvReleaseDate((await res.json()).next_episode)
-          }
+          const seasonInfo = await res.json();
+          setSeasons(seasonInfo.seasons);
         });
     }
   }, [result])
@@ -185,7 +188,20 @@ const MediaDetails: React.FC<any> = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        {result && result.title ? <MediaDetailsCard removeFromFavourite={removeFromFavourite} addToFavourite={addToFavourite} result={result} screenSize={screenSize} summary={summary} isFav={isFav} context={context} /> : <IonProgressBar type="indeterminate" />}
+        {
+        result && result.title ? 
+        <MediaDetailsCard
+          removeFromFavourite={removeFromFavourite}
+          addToFavourite={addToFavourite}
+          result={result}
+          screenSize={screenSize}
+          summary={summary}
+          isFav={isFav}
+          context={context}
+          seasons={seasons}
+        /> : 
+        <IonProgressBar type="indeterminate" />
+        }
       </IonContent>
     </IonPage>
   );
