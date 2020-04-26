@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   IonCard,
   IonCardHeader,
@@ -16,8 +16,12 @@ import {
   IonList,
   IonItem
 } from '@ionic/react';
+import { withRouter } from 'react-router';
 
-const MediaDetailsCard: React.FC<any> = (props: any) => { 
+
+const MediaDetailsCard: React.FC<any> = (props: any) => {
+
+  const [selectedSeason, setSelectedSeason] = useState('0');
   
   // TODO
   const getSeasonsCard = () => {
@@ -25,16 +29,26 @@ const MediaDetailsCard: React.FC<any> = (props: any) => {
 
       return (
         <IonCard>
-        <IonSegment scrollable value="heart">
+        <IonSegment scrollable value="heart" onIonChange={e => {
+          const s = e.detail.value.split('ion-sb-')[1];
+          if (s !== undefined) {
+            console.log(s);
+            setSelectedSeason(s)   
+          }
+       
+        } }>
           {props.seasons.map(season => (
             <IonSegmentButton>{season.season}</IonSegmentButton>
           ))}
 
         </IonSegment>
         <IonList>
-        <IonItem detail button>
-          {props.seasons[1].episodes.map(ep => ep.title)}
+        {(selectedSeason !== undefined) && props.seasons[parseInt(selectedSeason)].episodes.map(ep => (
+          <IonItem key={ep.id} id={ep.id} onClick={() => props.history.push(`/home/media/tvEpisode/${ep.id.split('/')[2]}`)} detail button>
+          {ep.title}
         </IonItem>
+        ))}
+        
         </IonList>
         </IonCard>
       )
@@ -81,4 +95,4 @@ const MediaDetailsCard: React.FC<any> = (props: any) => {
 
 };
 
-export default MediaDetailsCard;
+export default withRouter(MediaDetailsCard);

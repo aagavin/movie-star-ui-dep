@@ -11,9 +11,6 @@ import {
   IonTitle,
   IonToast,
   IonToolbar,
-  IonList,
-  IonItem,
-  IonCard,
 } from '@ionic/react';
 import { share } from 'ionicons/icons';
 import React, { useContext, useEffect, useState } from 'react';
@@ -32,7 +29,7 @@ const MediaDetails: React.FC<any> = () => {
   const [result, setResult] = useState<MediaDetail>({});
   const [seasons, setSeasons] = useState([]);
   const [isFav, setIsFav] = useState<boolean>(false);
-  const [tvReleaseDate, setTvReleaseDate] = useState<string>('');
+  const [tvReleaseDate] = useState<string>('');
   const [showToast, setShowToast] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
