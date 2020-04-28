@@ -195,7 +195,7 @@ const MediaDetails: React.FC<any> = () => {
           summary={summary}
           isFav={isFav}
           context={context}
-          seasons={seasons}
+          seasons={catogery !== 'tvEpisode' ? seasons : {}}
         /> : 
         <IonProgressBar type="indeterminate" />
         }
