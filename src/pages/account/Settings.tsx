@@ -15,7 +15,7 @@ import {
 } from '@ionic/react';
 import { firestore } from 'firebase/app';
 import 'firebase/database';
-import 'firebase/firestore';
+import 'firebase/firestore/memory';
 import React, { useContext, useEffect, useState } from 'react';
 import UserContext from '../../context';
 import { UserSettings } from '../../declarations';
