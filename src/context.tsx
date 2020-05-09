@@ -1,11 +1,10 @@
-import * as firebase from 'firebase/app';
+import { firestore } from 'firebase/app';
 import 'firebase/database';
-import 'firebase/firestore';
+import 'firebase/firestore/memory';
 import { createContext } from 'react';
 
 const addFavourite = async (uid: string, fav: {}) => {
-  return firebase
-    .firestore()
+  return firestore()
     .collection('favs')
     .doc(uid)
     .set(fav, { merge: true });
@@ -13,17 +12,15 @@ const addFavourite = async (uid: string, fav: {}) => {
 
 const removeFavourite = async (uid: string, delId) => {
   const delFav = {};
-  delFav[delId] = firebase.firestore.FieldValue.delete();
-  return firebase
-    .firestore()
+  delFav[delId] = firestore.FieldValue.delete();
+  return firestore()
     .collection('favs')
     .doc(uid)
     .update(delFav);
 };
 
 export const getFavourites = async (uid: string) => {
-  return firebase
-    .firestore()
+  return firestore()
     .collection('favs')
     .doc(uid)
     .get();
