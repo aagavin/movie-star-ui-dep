@@ -140,11 +140,15 @@ const MediaDetails: React.FC<any> = () => {
   }
   else {
     result['badge1'] = `imdb rating: ${result?.rating}`;
-    result['badge2'] = `~${result.runningTimes[0].timeMinutes}min`;
+    result['badge2'] = result.runningTimes[0] ? `~${result.runningTimes[0].timeMinutes}min` : '';
     result['badge3'] = `next episode: ${tvReleaseDate}`
   }
 
-  const summary = Object.keys(result.plot).includes('outline') ? result.plot.outline.text : result.plot.summaries[0].text;
+  let summary = '';
+  if (result.plot !==null && Object.keys(result.plot).includes('outline')) {
+    summary = Object.keys(result.plot).includes('outline') ? result.plot.outline.text : result?.plot?.summaries[0].text;
+  }
+
 
   return (
     <IonPage>
@@ -153,13 +157,13 @@ const MediaDetails: React.FC<any> = () => {
         <meta property="og:url" content={window.location.href} />
         <meta property="og:title" content={result.title} />
         <meta property="og:description" content={summary} />
-        <meta property="og:image" content={`${BASE_IMG}/w780${result.image.url}`} />
+        <meta property="og:image" content={result.image && `${BASE_IMG}/w780${result.image.url}`} />
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content={window.location.href} />
         <meta name="twitter:title" content={result.title} />
         <meta name="twitter:description" content={summary} />
-        <meta name="twitter:image" content={`${BASE_IMG}/w780${result.image.url}`} />
+        <meta name="twitter:image" content={result.image && `${BASE_IMG}/w780${result.image.url}`} />
         <title>{`Movie Star - ${result.title}`}</title>
       </Helmet>
       <IonToast
@@ -186,18 +190,18 @@ const MediaDetails: React.FC<any> = () => {
       </IonHeader>
       <IonContent>
         {
-        result && result.title ? 
-        <MediaDetailsCard
-          removeFromFavourite={removeFromFavourite}
-          addToFavourite={addToFavourite}
-          result={result}
-          screenSize={screenSize}
-          summary={summary}
-          isFav={isFav}
-          context={context}
-          seasons={catogery !== 'tvEpisode' ? seasons : {}}
-        /> : 
-        <IonProgressBar type="indeterminate" />
+          result && result.title ?
+            <MediaDetailsCard
+              removeFromFavourite={removeFromFavourite}
+              addToFavourite={addToFavourite}
+              result={result}
+              screenSize={screenSize}
+              summary={summary}
+              isFav={isFav}
+              context={context}
+              seasons={catogery !== 'tvEpisode' ? seasons : {}}
+            /> :
+            <IonProgressBar type="indeterminate" />
         }
       </IonContent>
     </IonPage>
