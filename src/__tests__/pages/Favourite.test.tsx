@@ -1,8 +1,8 @@
 import { cleanup, render, waitForElement } from '@testing-library/react'
 import React, { Suspense } from 'react';
 import { MemoryRouter } from 'react-router-dom';
-import UserContext, { init } from '../../../context';
-import FavouritePage from '../../../pages/Favourite';
+import UserContext, { init } from '../../context';
+import FavouritePage from '../../pages/Favourite';
 
 const favs = [
   {
@@ -35,7 +35,7 @@ const initTests = async (props = {}) => {
   return ui;
 }
 
-describe.skip('Favourite Page', () => {
+describe('Favourite Page', () => {
   afterEach(cleanup);
 
   test('happy path render', async () => {

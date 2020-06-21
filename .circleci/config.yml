@@ -23,9 +23,9 @@ jobs:
     steps:
       - attach_workspace:
           at: .
-      - run: 'sh .circleci/setup_puppeteer.sh'
+      # - run: 'sh .circleci/setup_puppeteer.sh'
       - run: sudo npm install -g @ionic/cli
-      - run: npm run test:integration -- --ci --runInBand --forceExit
+      - run: npm run test
   build:
     docker:
       - image: circleci/node:11.0.0

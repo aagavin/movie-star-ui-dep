@@ -3,7 +3,7 @@ import { cleanup, render } from '@testing-library/react';
 import fetchMock from 'fetch-mock';
 import React from 'react';
 import { MemoryRouter } from 'react-router';
-import Search from '../../../../pages/media/Search';
+import Search from '../../../pages/media/Search';
 
 
 const response = [
@@ -431,7 +431,7 @@ const response = [
   }
 ]
 
-describe.skip('Search Page', () => {
+describe('Search Page', () => {
   afterEach(() => { cleanup(); fetchMock.reset(); });
 
   const renderUi = () => 

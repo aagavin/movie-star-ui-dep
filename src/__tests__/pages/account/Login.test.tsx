@@ -2,10 +2,10 @@ import { cleanup, fireEvent, render } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import React from 'react';
 import { MemoryRouter, Router } from 'react-router';
-import UserContext, { init } from '../../../../context';
-import LoginPage from '../../../../pages/account/Login';
+import UserContext, { init } from '../../../context';
+import LoginPage from '../../../pages/account/Login';
 
-describe.skip('Login Page', () => {
+describe('Login Page', () => {
   afterEach(cleanup);
 
   const getUi = (rest = {}, history = createMemoryHistory()) => {
