@@ -4,8 +4,8 @@ import * as firebase from 'firebase/app';
 import { createMemoryHistory } from 'history';
 import React from 'react';
 import { MemoryRouter, Router } from 'react-router';
-import UserContext, { init } from '../../../../context';
-import Settings from '../../../../pages/account/Settings';
+import UserContext, { init } from '../../../context';
+import Settings from '../../../pages/account/Settings';
 
 describe.skip('Settings Page', () => {
 

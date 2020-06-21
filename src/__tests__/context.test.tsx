@@ -1,8 +1,8 @@
 import { cleanup } from '@testing-library/react';
 import * as firebase from 'firebase/app';
-import { init } from '../../context';
+import { init } from '../context';
 
-describe.skip('Context', () => {
+describe('Context', () => {
   afterEach(cleanup);
 
   beforeAll(() => {
