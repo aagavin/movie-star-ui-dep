@@ -1,0 +1,29 @@
+{
+  "name": "movie-star-ui-tests",
+  "version": "1.0.0",
+  "description": "integration tests for the ui",
+  "main": "index.ts",
+  "scripts": {
+    "build": "cd ..;ionic build;",
+    "server-setup": "./e2e/node_modules/http-server/bin/http-server build &",
+    "test:local": "HEADLESS=false SLOWMO=500 jest . --detectOpenHandles",
+    "test": "jest ."
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "http-server": "^0.12.3",
+    "jest": "^26.0.1",
+    "jest-puppeteer": "^4.4.0",
+    "puppeteer": "^4.0.0",
+    "shelljs": "^0.8.4",
+    "typescript": "^3.9.5"
+  },
+  "jest": {
+    "verbose": true,
+    "preset": "jest-puppeteer",
+    "testMatch": [
+      "*/**/*.test.ts"
+    ]
+  }
+}
