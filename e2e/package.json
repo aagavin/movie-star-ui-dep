@@ -6,18 +6,13 @@
   "scripts": {
     "build": "cd ..;ionic build;",
     "server-setup": "./e2e/node_modules/http-server/bin/http-server build &",
-    "test:local": "HEADLESS=false SLOWMO=500 jest . --detectOpenHandles",
+    "test:local": "cross-env HEADLESS=false SLOWMO=500 jest . --detectOpenHandles",
     "test": "jest ."
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "http-server": "^0.12.3",
-    "jest": "^26.0.1",
-    "jest-puppeteer": "^4.4.0",
-    "puppeteer": "^4.0.0",
-    "shelljs": "^0.8.4",
-    "typescript": "^3.9.5"
+    "cross-env": "^7.0.2"
   },
   "jest": {
     "verbose": true,
@@ -25,5 +20,12 @@
     "testMatch": [
       "*/**/*.test.ts"
     ]
+  },
+  "devDependencies": {
+    "jest": "^26.1.0",
+    "jest-puppeteer": "^4.4.0",
+    "puppeteer": "^4.0.0",
+    "shelljs": "^0.8.4",
+    "typescript": "^3.9.5"
   }
 }
