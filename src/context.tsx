@@ -3,14 +3,14 @@ import 'firebase/database';
 import 'firebase/firestore/memory';
 import { createContext } from 'react';
 
-const addFavourite = async (uid: string, fav: {}) => {
+const addFavourite = async (uid: string, fav: object) => {
   return firestore()
     .collection('favs')
     .doc(uid)
     .set(fav, { merge: true });
 };
 
-const removeFavourite = async (uid: string, delId) => {
+const removeFavourite = async (uid: string, delId): Promise<void> => {
   const delFav = {};
   delFav[delId] = firestore.FieldValue.delete();
   return firestore()
@@ -19,14 +19,9 @@ const removeFavourite = async (uid: string, delId) => {
     .update(delFav);
 };
 
-export const getFavourites = async (uid: string) => {
-  return firestore()
-    .collection('favs')
-    .doc(uid)
-    .get();
-};
+export const getFavourites = async (uid: string): Promise<firestore.DocumentSnapshot<firestore.DocumentData>> => (firestore().collection('favs').doc(uid).get());
 
-export const setContext = (contextFx: React.Dispatch<any>, context: any, properties: any, favourites: any = []) => {
+export const setContext = (contextFx: React.Dispatch<any>, context: any, properties: any, favourites: any = []): void => {
   contextFx({
     ...init,
     ...context,
