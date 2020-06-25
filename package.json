@@ -24,7 +24,7 @@
   "devDependencies": {
     "@capacitor/cli": "2.2.0",
     "@ionic/react-test-utils": "0.0.3",
-    "@testing-library/jest-dom": "^5.9.0",
+    "@testing-library/jest-dom": "^5.11.0",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^10.1.0",
     "@types/fetch-mock": "^7.3.2",
