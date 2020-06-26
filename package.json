@@ -7,7 +7,7 @@
     "@capacitor/core": "2.1.2",
     "@ionic/react": "^5.0.7",
     "@ionic/react-router": "^5.0.7",
-    "firebase": "^7.15.4",
+    "firebase": "^7.15.5",
     "ionicons": "^5.1.0",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",
