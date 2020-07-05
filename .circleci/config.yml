@@ -2,7 +2,7 @@ version: 2
 jobs:
   install-packages:
     docker:
-      - image: circleci/node:14.4
+      - image: cimg/node:14.4
     steps:
       - checkout
       - restore_cache:
@@ -19,7 +19,7 @@ jobs:
             - .
   tests:
     docker:
-      - image: circleci/node:14.4
+      - image: cimg/node:14.4
     steps:
       - attach_workspace:
           at: .
@@ -28,7 +28,7 @@ jobs:
       - run: npm run test
   integration-tests:
     docker:
-      - image: circleci/node:14.4
+      - image: cimg/node:14.4
     steps:
       - attach_workspace:
           at: .
@@ -39,7 +39,7 @@ jobs:
       - run: npm run test
   build:
     docker:
-      - image: circleci/node:14.4
+      - image: cimg/node:14.4
     steps:
       - attach_workspace:
           at: .
@@ -55,7 +55,7 @@ jobs:
             - ".firebaserc"
   build-android:
     docker:
-      - image: circleci/android:api-29
+      - image: cimg/android:29.0.0
     steps:
       - attach_workspace:
           at: .
@@ -70,7 +70,7 @@ jobs:
           path: ./android/app/build/outputs/apk/debug/app-debug.apk
   deploy:
     docker:
-      - image: circleci/node:14.4
+      - image: cimg/node:14.4
     steps:
       - attach_workspace:
           at: .
