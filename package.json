@@ -22,7 +22,7 @@
     "use-react-router": "^1.0.7"
   },
   "devDependencies": {
-    "@capacitor/cli": "2.4.0",
+    "@capacitor/cli": "2.4.1",
     "@ionic/react-test-utils": "0.0.3",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^9.5.0",
