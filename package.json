@@ -10,7 +10,7 @@
     "firebase": "^7.22.1",
     "ionicons": "^5.2.3",
     "node-sass": "^4.14.1",
-    "react": "^16.13.1",
+    "react": "^16.14.0",
     "react-dom": "^16.13.1",
     "react-helmet": "^6.1.0",
     "react-router": "^5.0.1",
