@@ -45,6 +45,7 @@
     "tslint": "^6.1.3"
 =======
     "@types/react-router-dom": "^5.1.5",
+    "@typescript-eslint/parser": "^4.5.0",
     "fetch-mock": "^9.10.7"
 >>>>>>> c26e8cc... removed some uneeded deps
   },
