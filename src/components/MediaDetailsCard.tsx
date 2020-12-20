@@ -59,7 +59,7 @@ const MediaDetailsCard: React.FC<any> = (props: any) => {
       <IonCard id={`card-${props.result.id}`}>
         <IonCardHeader>
           <IonCardSubtitle>
-            <IonImg src={props.result.image?.url.replace('_V1_', `_SX${Math.floor(props.screenSize.width * .9)}_`)} alt={`poster for ${props.result.title}`} />
+            <IonImg src={props.result.image?.url.replace('_V1_', `_V1_UX${Math.floor(props.screenSize.width * .9)}_,268_AL`)} alt={`poster for ${props.result.title}`} />
           </IonCardSubtitle>
           <IonCardTitle><b>{props.result.title}</b></IonCardTitle>
         </IonCardHeader>

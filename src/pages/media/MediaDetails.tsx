@@ -15,7 +15,7 @@ import {
 import { share } from 'ionicons/icons';
 import React, { useContext, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import useReactRouter from 'use-react-router';
+import { useParams } from 'react-router';
 import MediaDetailsCard from "../../components/MediaDetailsCard";
 import UserContext from '../../context';
 import { BASE_IMG, BASE_URL, MediaDetail } from '../../declarations';
@@ -25,7 +25,7 @@ const { Device, Share } = Plugins;
 
 const MediaDetails: React.FC<any> = () => {
 
-  const { match } = useReactRouter();
+  const params = useParams();
   const [result, setResult] = useState<MediaDetail>({});
   const [seasons, setSeasons] = useState([]);
   const [isFav, setIsFav] = useState<boolean>(false);
@@ -33,8 +33,8 @@ const MediaDetails: React.FC<any> = () => {
   const [showToast, setShowToast] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
-  const catogery = match.params['catogery'];
-  const mediaId = match.params['mediaId'];
+  const catogery = params['catogery'];
+  const mediaId = params['mediaId'];
   const context = useContext<any>(UserContext);
   const screenSize = useWindowSize();
 
