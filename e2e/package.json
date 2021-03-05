@@ -26,6 +26,6 @@
     "jest-puppeteer": "^4.4.0",
     "puppeteer": "^8.0.0",
     "shelljs": "^0.8.4",
-    "typescript": "^4.2.2"
+    "typescript": "^4.2.3"
   }
 }
