@@ -8,7 +8,7 @@
     "@ionic/react": "^5.0.7",
     "@ionic/react-router": "^5.0.7",
     "firebase": "^7.24.0",
-    "ionicons": "^5.5.0",
+    "ionicons": "^5.5.1",
     "node-sass": "^5.0.0",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
