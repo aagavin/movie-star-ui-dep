@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "@capacitor/cli": "2.4.7",
-    "@ionic/react-test-utils": "0.0.3",
+    "@ionic/react-test-utils": "0.1.1",
     "@testing-library/jest-dom": "^5.11.10",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^10.1.0",
