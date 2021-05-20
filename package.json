@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@capacitor/android": "^2.4.7",
-    "@capacitor/core": "2.4.7",
+    "@capacitor/android": "^3.0.0",
+    "@capacitor/core": "3.0.0",
     "@ionic/react": "^5.0.7",
     "@ionic/react-router": "^5.0.7",
     "firebase": "^7.24.0",
