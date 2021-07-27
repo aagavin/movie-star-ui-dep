@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@capacitor/android": "^2.4.7",
+    "@capacitor/android": "^2.4.8",
     "@capacitor/core": "2.4.7",
     "@ionic/react": "^5.0.7",
     "@ionic/react-router": "^5.0.7",
@@ -22,7 +22,7 @@
     "use-react-router": "^1.0.7"
   },
   "devDependencies": {
-    "@capacitor/cli": "3.1.1",
+    "@capacitor/cli": "3.1.2",
     "@ionic/react-test-utils": "0.2.0",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^9.5.0",
