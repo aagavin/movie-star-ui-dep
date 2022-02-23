@@ -22,7 +22,7 @@
     ]
   },
   "devDependencies": {
-    "jest": "^27.4.7",
+    "jest": "^27.5.1",
     "jest-puppeteer": "^6.1.0",
     "puppeteer": "^13.4.0",
     "shelljs": "^0.8.4",
